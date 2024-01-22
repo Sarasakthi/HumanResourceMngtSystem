@@ -1,10 +1,9 @@
 package org.tjss.humanresourcemanagementsystem.service;
 
-
-import org.tjss.humanresourcemanagementsystem.dto.addEmployeeRequest;
+import org.tjss.humanresourcemanagementsystem.entity.Employee;
 
 public interface EmployeeService {
 
-    public  String addingEmployee(addEmployeeRequest addemployeerequest);
+	public Employee addingEmployee(Employee employee);
 
 }

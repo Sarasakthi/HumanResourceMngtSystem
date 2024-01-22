@@ -6,4 +6,6 @@ import org.tjss.humanresourcemanagementsystem.entity.Employee;
 
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
+	
+	
 }

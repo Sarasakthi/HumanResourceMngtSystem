@@ -29,6 +29,21 @@ public class Employee {
     public String email;
     
     //@JsonFormat(pattern = "yyyy-MM-dd")
-    @Column(name = "Date_of_joining")
+    @Column(name = "DATE_OF_JOINING")
     public Date dateofjoining;
+    
+    @Column(name = "DATE_OF_BIRTH")
+    public Date dateofbirth;
+    
+    @Column(name = "DEPARTMENT")
+    public String department;
+    
+    @Column(name = "POSITION")
+    public String position;
+    
+    @Column(name = "REPORTING_TO")
+    public String reportingto;
+    
+    @Column(name = "ACTIVE")
+    public boolean active; 
 }

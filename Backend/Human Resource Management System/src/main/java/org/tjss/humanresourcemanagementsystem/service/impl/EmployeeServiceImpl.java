@@ -2,9 +2,13 @@ package org.tjss.humanresourcemanagementsystem.service.impl;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.tjss.humanresourcemanagementsystem.entity.Department;
 import org.tjss.humanresourcemanagementsystem.entity.Employee;
+import org.tjss.humanresourcemanagementsystem.repository.DepartmentsRepository;
 import org.tjss.humanresourcemanagementsystem.repository.EmployeeRepository;
 import org.tjss.humanresourcemanagementsystem.service.EmployeeService;
 
@@ -15,6 +19,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Autowired
 	public EmployeeRepository employeeRepository;
 
+	@Autowired
+	public DepartmentsRepository departmentsRepository;
+
 	@Override
 	public Employee addingEmployee(Employee employee) {
 		Employee emp = new Employee();
@@ -22,6 +29,23 @@ public class EmployeeServiceImpl implements EmployeeService {
 		emp.setLastname(employee.getLastname());
 		emp.setEmail(employee.getEmail());
 		emp.setDateofjoining(employee.getDateofjoining());
+		emp.setDateofbirth(employee.getDateofbirth());
+		emp.setDepartment(employee.getDepartment());
+		emp.setPosition(employee.getPosition());
+		emp.setReportingto(employee.getReportingto());
+		emp.setActive(true);
 		return employeeRepository.save(emp);
+	}
+
+	@Override
+	public List<Employee> getAllManagers(String position) {
+		List<Employee> emp = employeeRepository.getAllManagers(position);
+		return emp;
+	}
+
+	@Override
+	public List<Department> getAllDepartments() {
+		List<Department> depts = departmentsRepository.findAll();
+		return depts;
 	}
 }

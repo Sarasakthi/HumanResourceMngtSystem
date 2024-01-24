@@ -6,6 +6,13 @@ class EmployeeDataService {
     return http.post("/add",data);
   }
 
+  get(position){
+    return http.get(`/managers/${position}`);
+  }
+
+  getAll() {
+    return http.get("/departments");
+  }
 }
 
 export default new EmployeeDataService();

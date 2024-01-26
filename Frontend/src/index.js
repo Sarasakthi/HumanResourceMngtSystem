@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import './index.css';
 import reportWebVitals from './reportWebVitals';
+import 'bootstrap/dist/css/bootstrap.css';
 
 import Home from "./components/home"
 import EmployeeDetail from './components/employeeDetails';

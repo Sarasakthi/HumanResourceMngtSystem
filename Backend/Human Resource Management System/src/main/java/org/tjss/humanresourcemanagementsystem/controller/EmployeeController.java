@@ -3,6 +3,7 @@ package org.tjss.humanresourcemanagementsystem.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -57,6 +58,31 @@ public class EmployeeController {
 			List<Department> depts = new ArrayList<>();
 			depts = employeeService.getAllDepartments();
 			return new ResponseEntity<>(depts,HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+	}
+	
+	@GetMapping("/employees")
+	public ResponseEntity<List<Employee>> getAllEmployees() {
+		try {
+			List<Employee> employees = new ArrayList<>();
+			employees = employeeService.getAllEmployees();
+			return new ResponseEntity<>(employees,HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+	}
+	
+	
+	@GetMapping("/search/{searchword}")
+	public ResponseEntity<List<Employee>> getEmployees(@PathVariable("searchword") String searchword ) {
+		try {
+			List<Employee> employees = new ArrayList<>();
+			employees = employeeService.getEmployees(searchword);
+			return new ResponseEntity<>(employees,HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}

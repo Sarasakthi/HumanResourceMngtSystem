@@ -13,6 +13,14 @@ class EmployeeDataService {
   getAll() {
     return http.get("/departments");
   }
+
+  getAllEmployees() {
+    return http.get("/employees");
+  }
+
+  getSelectedEmployee(searchword){
+    return http.get(`/search/${searchword}`)
+  }
 }
 
 export default new EmployeeDataService();

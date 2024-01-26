@@ -7,7 +7,7 @@ import EmployeeDataService from "../services/employee.service";
 const id = useId;
 let d = new Date();
 
-export default function EmployeeDetail() {
+export default function EmployeeDetail(props) {
     const [showManagersDropDown, setManagersShowDropDown] = useState(false);
     const [showDepartmentDropDown, setShowDepartmentDropDown] = useState(false);
     const [managersList, setManagersList] = useState([]);
@@ -84,6 +84,7 @@ export default function EmployeeDetail() {
             active: employeeDetails.active
         };
 
+        props.onSubmit(employeeDetails);
         /* Inserting data into database*/
 
         EmployeeDataService.create(inData)

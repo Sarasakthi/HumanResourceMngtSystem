@@ -20,6 +20,10 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 			+ " OR LAST_NAME LIKE %?1% OR email LIKE %?1% OR DEPARTMENT LIKE %?1% "
 			+ "OR POSITION LIKE %?1% OR REPORTING_TO LIKE %?1%", nativeQuery = true)
 	public  List<Employee> getEmployees(String searchword);
+
+	
+	@Query(value = "SELECT * FROM EMPLOYEES_DETAILS WHERE ID_EMPLOYEE IN ?1", nativeQuery = true)
+	public List<Employee> getSelectedEmployees(Integer[] idEmployees);
 	
 	
 }//@Query(value = "SELECT * FROM EMPLOYEES_DETAILS WHERE FIRST_NAME =?1 OR LAST_NAME = ?1 OR EMAIL = ?1  OR DEPARTMENT =?1 OR POSITION = ?1 OR REPORTING_TO=?1", nativeQuery = true)

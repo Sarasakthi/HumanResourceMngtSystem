@@ -89,6 +89,18 @@ public class EmployeeController {
 
 	}
 
+	
+	@GetMapping("/searchid/{idEmployees}")
+	public ResponseEntity<List<Employee>> getSelectedEmployees(@PathVariable Integer[] idEmployees) {
+		try {
+			List<Employee> employees = new ArrayList<>();
+			employees = employeeService.getSelectedEmployees(idEmployees);
+			return new ResponseEntity<>(employees,HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+	}
 
 }
 

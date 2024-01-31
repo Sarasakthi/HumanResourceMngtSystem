@@ -21,6 +21,10 @@ class EmployeeDataService {
   getSelectedEmployee(searchword){
     return http.get(`/search/${searchword}`)
   }
+
+  getSelectedEmployeeArray(value){
+    return http.get(`/searchid/${value}`)
+  }
 }
 
 export default new EmployeeDataService();

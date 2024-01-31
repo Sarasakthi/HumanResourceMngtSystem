@@ -1,25 +1,17 @@
 
-import React, { useState } from 'react';
+import * as React from 'react'
+import { useState } from 'react';
 import './home.css';
 import EmployeeDetails from './employeeDetails'
 import SearchEmployee from './searchEmployee'
+import SearchEmployeeForm from './searchEmployeeform'
 
 let d= new Date();
 let data;
 export default function Home() {
   const [isShowEmployeeDetails, setIsShowEmployeeDetails] = useState(false);
   const [isShowSerchDetails, setIsShowSerchDetails] = useState(false);
- /* const [employeeDetails, setEmployeeDetails] = useState({
-    firstname: "",
-    lastname: "",
-    email: "",
-    dateofjoining: d,
-    dateofbirth: d,
-    department: "",
-    position: "",
-    reportingto: "",
-    active: true
-});*/
+
 
   function showEmployeeDetails() {
     setIsShowEmployeeDetails(true);
@@ -55,7 +47,7 @@ export default function Home() {
         </div>
         <div>
           {isShowSerchDetails &&
-            <SearchEmployee
+            <SearchEmployeeForm
             details = {data}/>}
         </div>
 

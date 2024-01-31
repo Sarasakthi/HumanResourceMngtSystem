@@ -61,4 +61,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 		
 		return  employeeRepository.getEmployees(searchword);
 	}
+
+	@Override
+	public List<Employee> getSelectedEmployees(Integer[] idEmployees) {
+		
+		return employeeRepository.getSelectedEmployees(idEmployees);
+	}
 }

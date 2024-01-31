@@ -18,4 +18,6 @@ public interface EmployeeService {
 
 	public List<Employee> getEmployees(String searchword);
 
+	public List<Employee> getSelectedEmployees(Integer[] idEmployees);
+
 }

@@ -8,7 +8,7 @@ import EmployeeDataService from "../services/employee.service";
 const id = useId;
 let d = new Date();
 
-export const EmployeeDetails =  ({onSubmit}) => {
+export const EmployeeDetails = ({ onSubmit, managers, departments }) => {
     const [showManagersDropDown, setManagersShowDropDown] = useState(false);
     const [showDepartmentDropDown, setShowDepartmentDropDown] = useState(false);
     const [managersList, setManagersList] = useState([]);
@@ -27,13 +27,13 @@ export const EmployeeDetails =  ({onSubmit}) => {
     });
 
 
+    console.log("MANAGERS LIST", managers)
+    console.log("DEPARTMENTS LIST", departments)
+    
     useEffect(() => {
-        fetchInfo()
-
-    }, []);
-    console.log("MANAGERS LIST", managersList)
-    console.log("DEPARTMENTS LIST", departmentsList)
-
+        setDepartmentsList(departments)
+        setManagersList(managers)
+    }, [])
 
     function getmanagersdatafromdb() {
         setManagersShowDropDown(true);
@@ -54,20 +54,7 @@ export const EmployeeDetails =  ({onSubmit}) => {
         })
     }
 
-    const fetchInfo = () => {
-        EmployeeDataService.get("manager")
-            .then(response => {
-                console.log("Response", response)
-                setManagersList(response.data)
-            })
-            .catch(error => console.error('data not loaded', error))
-        EmployeeDataService.getAll()
-            .then(response => {
-                console.log("Response", response)
-                setDepartmentsList(response.data)
-            })
-            .catch(error => console.error('data not loaded', error))
-    }
+
 
 
 

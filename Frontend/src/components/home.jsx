@@ -1,9 +1,10 @@
 
 import * as React from 'react'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './home.css';
-import {EmployeeDetails} from "./EmployeeDetails"
+import { EmployeeDetails } from "./EmployeeDetails"
 import SearchEmployee from './searchEmployee'
+import EmployeeDataService from "../services/employee.service";
 
 
 let d = new Date();
@@ -11,6 +12,8 @@ let data;
 export default function Home() {
   const [isShowEmployeeDetails, setIsShowEmployeeDetails] = useState(false);
   const [isShowSerchDetails, setIsShowSerchDetails] = useState(false);
+  const [managersList, setManagersList] = useState([]);
+  const [departmentsList, setDepartmentsList] = useState([])
 
 
   function showEmployeeDetails() {
@@ -24,9 +27,32 @@ export default function Home() {
   }
 
   //getting data from employee details - child component
-  const  getData = (data) => {
-    console.log("Displaying from home page", data);
+  const getData = (data) => {
+    console.log("Displaying from home page - Add employee", data);
+    
   }
+
+
+  const fetchInfo = () => {
+    EmployeeDataService.get("manager")
+        .then(response => {
+            console.log("Response", response)
+            setManagersList(response.data)
+        })
+        .catch(error => console.error('data not loaded', error))
+    EmployeeDataService.getAll()
+        .then(response => {
+            console.log("Response", response)
+            setDepartmentsList(response.data)
+        })
+        .catch(error => console.error('data not loaded', error))
+}
+
+
+useEffect(() => {
+  fetchInfo()
+
+}, []);
   return (
     <div className="App">
       <h1>Human Resource Management System</h1>
@@ -43,13 +69,16 @@ export default function Home() {
         <div>
           {isShowEmployeeDetails &&
             <EmployeeDetails
+            managers = {managersList}
+            departments = {departmentsList}
               onSubmit={getData}
             />}
         </div>
         <div>
           {isShowSerchDetails &&
             <SearchEmployee
-              details={data} />}
+              managers={managersList}
+              departments = {departmentsList} />}
         </div>
 
       </div>

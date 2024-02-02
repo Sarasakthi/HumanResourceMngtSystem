@@ -1,28 +1,42 @@
 import React from 'react'
-import { useId, useState } from 'react'
+import { useId, useState,useEffect } from 'react'
 import "./Modal.css"
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 let d = new Date();
-export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
+export const Modal = ({ closeModal, onSubmit, defaultValue, managers, departments }) => {
+
     console.log("RowToEdit in Modal", defaultValue)
+    console.log("Listing Managers in modal", managers)
+    console.log("Listing departments in modal", departments)
+
     const [updateEmployees, setUpdateEmployees] = useState(defaultValue || {
         idEmployee: "",
         firstname: "",
         lastname: "",
         email: "",
         dateofjoining: d,
-        dateofbirth: d
+        dateofbirth: d,
+        department : "",
+        position:"",
+        reportingto : ""
     })
 
-    
+    const [errors, setErrors] = useState("")
+
+    const [managersList, setManagersList] = useState([]);
+    const [departmentsList, setDepartmentsList] = useState([])
+    const [showManagersDropDown, setManagersShowDropDown] = useState(false);
+    const [showDepartmentDropDown, setShowDepartmentDropDown] = useState(false);
+
+    useEffect(() => {
+        setDepartmentsList(departments)
+        setManagersList(managers)
+    }, [])
+
     let joiningDate = new Date(updateEmployees.dateofjoining)
     let birthDate = new Date(updateEmployees.dateofbirth)
-
-
-
-    const [errors, setErrors] = useState("")
 
     const id = useId;
 
@@ -63,9 +77,18 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
         closeModal();
     }
 
+    function getmanagersdatafromdb() {
+        setManagersShowDropDown(true);
+    }
+
+    function getdepartmentsdatafromdb() {
+        setShowDepartmentDropDown(true);
+
+    }
 
     return (
-        <div className='modal-container'
+        <>
+        <div className='modal-container'>
             onClick={(e) => {
                 if (e.target.className === "modal-container")
                     closeModal();
@@ -77,7 +100,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
                         <input id="{id + 'ID'}"
                             name="idEmployee"
                             value={updateEmployees.idEmployee}
-                            onChange={handleChange} />
+                            onChange={handleChange} readOnly />
 
                     </div>
 
@@ -141,9 +164,61 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
                                     dateofjoining: date
                                 }
                             })}
+                            readOnly
                         />
 
                     </div>
+
+                    <div className='form-group'>
+                    <label htmlFor={id + 'department'}>Department :</label>
+                    <select id={id + 'department'}
+                        value={updateEmployees.department}
+                        name="department"
+                        onClick={getdepartmentsdatafromdb}
+                        onChange={handleChange}
+                        required>
+                        {showDepartmentDropDown === true ? (departmentsList.map((myDepartmentList) =>
+
+                            <option value={`${myDepartmentList.departmentName}`}>
+                                {myDepartmentList.departmentName}
+                            </option>
+
+                        )) : <option> {updateEmployees.department}</option>
+                        }
+                    </select>
+                </div>
+
+                <div className='form-group'>
+                    <label htmlFor={id + 'position'}>Position :</label>
+                    <input id={id + 'position'}
+                        type="text"
+                        placeholder=" Enter the position"
+                        name="position"
+                        value={updateEmployees.position}
+                        onChange={handleChange}
+                        required />
+                </div>
+
+                <div className='form-group'>
+                    <label htmlFor={id + 'reportingto'}>Reporting To :</label>
+                    <select id={id + 'reportingto'}
+                        value={updateEmployees.reportingto}
+                        name="reportingto"
+                        onClick={getmanagersdatafromdb}
+                        onChange={handleChange}
+                        required
+                    >
+                        {showManagersDropDown === true ? (managersList.map((myManagerList) =>
+
+                            <option value={`${myManagerList.firstname} - ${myManagerList.department}`}>
+                                {myManagerList.firstname} - {myManagerList.department}
+                            </option>
+
+                        )) : <option> {updateEmployees.reportingto}</option>
+                        }
+
+                    </select>
+                </div>
 
 
                     {errors && <div className="error">
@@ -157,6 +232,9 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
                 </form>
             </div>
         </div>
+        
+        </>
+      
     )
 }
 

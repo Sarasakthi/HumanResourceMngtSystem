@@ -8,6 +8,11 @@ import { Modal } from "./Modal";
 
 let d = new Date();
 export default function SearchEmployee(props) {
+console.log("Listing Managers in Search Employee",props.managers)
+console.log("Listing Departments in search employee",props.departments);
+
+const[managersList,setManagersList] = useState([]);
+const[departmentsList,setDepartmentsList] = useState([]);
 
     const [formData, setFormData] = useState({
         searchingtext: "",
@@ -25,7 +30,13 @@ export default function SearchEmployee(props) {
 
     const [rowToEdit, setRowToEdit] = useState(null);
 
+    useEffect(() => {
+        setDepartmentsList(props.departments)
+        setManagersList(props.managers)
+    }, [])
 
+    console.log("displaying departments list after useeffect",departmentsList);
+    console.log("displaying managers list after useeffect",managersList)
     const fetchInfo = () => {
 
         if ((formData.searchingtext == "") && (formData.radiobutton !== 'all')) {
@@ -261,6 +272,8 @@ export default function SearchEmployee(props) {
                         setRowToEdit(null)
                     }}
                     onSubmit={handleUpdate}
+                    managers={managersList}
+                    departments ={departmentsList}
 
                 />}
 

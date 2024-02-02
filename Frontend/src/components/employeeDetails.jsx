@@ -1,4 +1,5 @@
-import React, { useId, useState, useEffect } from 'react'
+import React from "react"
+import { useId, useState, useEffect } from 'react'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -7,7 +8,7 @@ import EmployeeDataService from "../services/employee.service";
 const id = useId;
 let d = new Date();
 
-export default function EmployeeDetail(props) {
+export const EmployeeDetails =  ({onSubmit}) => {
     const [showManagersDropDown, setManagersShowDropDown] = useState(false);
     const [showDepartmentDropDown, setShowDepartmentDropDown] = useState(false);
     const [managersList, setManagersList] = useState([]);
@@ -83,8 +84,10 @@ export default function EmployeeDetail(props) {
             reportingto: employeeDetails.reportingto,
             active: employeeDetails.active
         };
+        /* sending employee Details value to home.jsx*/
+        onSubmit(employeeDetails);
 
-        props.onSubmit(employeeDetails);
+
         /* Inserting data into database*/
 
         EmployeeDataService.create(inData)

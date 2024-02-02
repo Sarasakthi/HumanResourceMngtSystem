@@ -2,11 +2,11 @@
 import * as React from 'react'
 import { useState } from 'react';
 import './home.css';
-import EmployeeDetails from './employeeDetails'
+import {EmployeeDetails} from "./EmployeeDetails"
 import SearchEmployee from './searchEmployee'
-import SearchEmployeeForm from './searchEmployeeform'
 
-let d= new Date();
+
+let d = new Date();
 let data;
 export default function Home() {
   const [isShowEmployeeDetails, setIsShowEmployeeDetails] = useState(false);
@@ -24,7 +24,7 @@ export default function Home() {
   }
 
   //getting data from employee details - child component
-  function getData(data) {
+  const  getData = (data) => {
     console.log("Displaying from home page", data);
   }
   return (
@@ -43,12 +43,13 @@ export default function Home() {
         <div>
           {isShowEmployeeDetails &&
             <EmployeeDetails
-              onSubmit={getData} />}
+              onSubmit={getData}
+            />}
         </div>
         <div>
           {isShowSerchDetails &&
-            <SearchEmployeeForm
-            details = {data}/>}
+            <SearchEmployee
+              details={data} />}
         </div>
 
       </div>

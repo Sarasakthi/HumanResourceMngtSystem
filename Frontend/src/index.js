@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.css';
 
 import Home from "./components/home"
-import EmployeeDetail from './components/employeeDetails';
+import {EmployeeDetails} from './components/EmployeeDetails';
 //import ErrorPage from "./components/Error/errorPage"
 
 const router = createBrowserRouter([
@@ -22,7 +22,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/employeeDetails",
-    element: <EmployeeDetail />,
+    element: <EmployeeDetails />,
     //errorElement: <ErrorPage />,
   }
 ])

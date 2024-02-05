@@ -50,7 +50,9 @@ export const Modal = ({ closeModal, onSubmit, defaultValue, managers, department
 
     }
     const validateForm = () => {
-        if (updateEmployees.idEmployee && updateEmployees.firstname && updateEmployees.lastname) {
+        if (updateEmployees.idEmployee && updateEmployees.firstname && updateEmployees.lastname
+            && updateEmployees.email && updateEmployees.dateofjoining && updateEmployees.dateofbirth 
+            && updateEmployees.department && updateEmployees.position && updateEmployees.reportingto) {
             setErrors("");
             return true;
         }
@@ -92,7 +94,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue, managers, department
             onClick={(e) => {
                 if (e.target.className === "modal-container")
                     closeModal();
-            }}>
+            }}
             <div className='modal-body'>
                 <form>
                     <div className='form-group'>
@@ -109,7 +111,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue, managers, department
                         <input id="{id + 'FIRSTNAME'}"
                             name="firstname"
                             value={updateEmployees.firstname}
-                            onChange={handleChange} />
+                            onChange={handleChange}  readOnly/>
 
                     </div>
 
@@ -118,7 +120,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue, managers, department
                         <input id="{id + 'LASTNAME'}"
                             name="lastname"
                             value={updateEmployees.lastname}
-                            onChange={handleChange} />
+                            onChange={handleChange} readOnly/>
 
                     </div>
 
@@ -127,7 +129,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue, managers, department
                         <input id="{id + 'email'}"
                             name="email"
                             value={updateEmployees.email}
-                            onChange={handleChange} />
+                            onChange={handleChange} readOnly />
 
                     </div>
 
@@ -146,6 +148,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue, managers, department
                                     dateofjoining: date
                                 }
                             })}
+                            readOnly
                         />
 
                     </div>

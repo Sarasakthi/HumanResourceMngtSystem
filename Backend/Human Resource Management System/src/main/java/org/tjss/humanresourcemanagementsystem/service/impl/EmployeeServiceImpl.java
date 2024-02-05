@@ -58,13 +58,27 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public List<Employee> getEmployees(String searchword) {
-		
-		return  employeeRepository.getEmployees(searchword);
+
+		return employeeRepository.getEmployees(searchword);
 	}
 
 	@Override
 	public List<Employee> getSelectedEmployees(Integer[] idEmployees) {
-		
+
 		return employeeRepository.getSelectedEmployees(idEmployees);
+	}
+
+	@Override
+	public Employee updateEmployee(String department, String position, String reporting_to, Integer idEmployee) {
+		employeeRepository.updateEmployee(department, position, reporting_to, idEmployee);
+		Employee emp = employeeRepository.findEmployee(idEmployee);
+		return emp;
+	}
+
+	@Override
+	public Employee deleteEmployee(Integer idEmployee) {
+		employeeRepository.deleteEmployee(idEmployee);
+		Employee emp = employeeRepository.findEmployee(idEmployee);
+		return emp;
 	}
 }

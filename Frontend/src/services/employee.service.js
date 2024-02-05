@@ -25,6 +25,14 @@ class EmployeeDataService {
   getSelectedEmployeeArray(value){
     return http.get(`/searchid/${value}`)
   }
+
+  update(idEmployee,data){
+    return http.post(`/updateEmployee/${idEmployee}`,data)
+  }
+
+  delete(idEmployee){
+    return http.post(`/deleteEmployee/${idEmployee}`)
+  }
 }
 
 export default new EmployeeDataService();

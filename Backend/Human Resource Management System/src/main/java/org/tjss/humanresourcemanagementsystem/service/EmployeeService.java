@@ -20,4 +20,8 @@ public interface EmployeeService {
 
 	public List<Employee> getSelectedEmployees(Integer[] idEmployees);
 
+	public  Employee updateEmployee(String department, String position, String reporting_to, Integer idEmployee);
+
+	public Employee deleteEmployee(Integer idEmployee);
+
 }

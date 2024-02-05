@@ -2,7 +2,7 @@ package org.tjss.humanresourcemanagementsystem.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -100,6 +100,30 @@ public class EmployeeController {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
+	}
+
+	/*updating employee details */
+	@PostMapping("/updateEmployee/{idEmployee}")
+	public ResponseEntity <Employee> updateEmployee(@PathVariable("idEmployee") Integer idEmployee, @RequestBody Employee employee ) 
+		 {
+		try {
+			Employee emp = employeeService.updateEmployee(employee.department,employee.position,employee.reportingto,idEmployee);
+			return new ResponseEntity<>(emp, HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	/* soft delete employee*/
+	@PostMapping("/deleteEmployee/{idEmployee}")
+	public ResponseEntity <Employee> deleteEmployee(@PathVariable("idEmployee") Integer idEmployee) 
+		 {
+		try {
+			Employee emp = employeeService.deleteEmployee(idEmployee);
+			return new ResponseEntity<>(emp, HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 }

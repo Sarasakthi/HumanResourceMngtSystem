@@ -27,8 +27,7 @@ export const EmployeeDetails = ({ onSubmit, managers, departments }) => {
     });
 
 
-    console.log("MANAGERS LIST", managers)
-    console.log("DEPARTMENTS LIST", departments)
+   
     
     useEffect(() => {
         setDepartmentsList(departments)
@@ -78,11 +77,11 @@ export const EmployeeDetails = ({ onSubmit, managers, departments }) => {
         /* Inserting data into database*/
 
         EmployeeDataService.create(inData)
-            .then(response => console.log("ID:", response.data.idEmployee, "FIRSTNAME:", response.data.firstname, "ACTIVE:", response.data.active))
-            .catch(error => console.log(error));
+            .then(response => console.log(response.data))
+            .catch(error => console.log(error))
 
         alert("completed")
-        console.log("Completed")
+        
 
     }
 

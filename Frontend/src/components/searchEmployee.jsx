@@ -8,11 +8,9 @@ import { Modal } from "./Modal";
 
 let d = new Date();
 export default function SearchEmployee(props) {
-console.log("Listing Managers in Search Employee",props.managers)
-console.log("Listing Departments in search employee",props.departments);
-
-const[managersList,setManagersList] = useState([]);
-const[departmentsList,setDepartmentsList] = useState([]);
+    
+    const [managersList, setManagersList] = useState([]);
+    const [departmentsList, setDepartmentsList] = useState([]);
 
     const [formData, setFormData] = useState({
         searchingtext: "",
@@ -35,8 +33,13 @@ const[departmentsList,setDepartmentsList] = useState([]);
         setManagersList(props.managers)
     }, [])
 
-    console.log("displaying departments list after useeffect",departmentsList);
-    console.log("displaying managers list after useeffect",managersList)
+
+
+    
+  //console.log("joining Date : ", joiningDate)
+//let joinDate = joiningDate.toLocaleDateString();
+//console.log("joining date new format", joinDate)
+
     const fetchInfo = () => {
 
         if ((formData.searchingtext == "") && (formData.radiobutton !== 'all')) {
@@ -82,7 +85,7 @@ const[departmentsList,setDepartmentsList] = useState([]);
 
         }
     }
-    console.log("New Array - id Employee ", value)
+   
 
     /*  function handleUpdate() {
           EmployeeDataService.getSelectedEmployeeArray(value)
@@ -135,8 +138,12 @@ const[departmentsList,setDepartmentsList] = useState([]);
       console.log("Update employees before submitting", employees)*/
 
     const handleDeleteRows = (targetIndex) => {
-        setEmployees(employees.filter((_, idx) => idx !== targetIndex)); // we are not focussing about the data of the array, just need only the index
-    };                                                                      // so we are using _ here
+        console.log("delete selected employee",employees[targetIndex].idEmployee)
+
+        EmployeeDataService.delete(employees[targetIndex].idEmployee)
+        .then(setEmployees(employees.filter((_, idx) => idx !== targetIndex)))  // we are not focussing about the data of the array, just need only the index
+        .catch(error => console.log(error))                                    // so we are using _ here
+    };                                                                      
 
     const handleModal = (index) => {
         setRowToEdit(index);
@@ -145,17 +152,24 @@ const[departmentsList,setDepartmentsList] = useState([]);
 
     const handleUpdate = (newRecord) => {
         console.log("New Record", newRecord);
+        console.log("idEmployee", employees[rowToEdit].idEmployee)
+
+        EmployeeDataService.update(employees[rowToEdit].idEmployee, newRecord)
+            .then(
+                setEmployees(employees.map((updatedEmployeeList, index) => {
+                    if (index !== rowToEdit) {
+                        return updatedEmployeeList;
+                    }
+                    else {
+                        return newRecord;
+                    }
+                }))
+            )
+            .catch(error => console.log(error))
         /*rowToEdit === null
         setEmployees([...employees,
                         newRecord])*/
-        setEmployees(employees.map((updatedEmployeeList, index) => {
-            if (index !== rowToEdit) {
-                return updatedEmployeeList;
-            }
-            else {
-                return newRecord;
-            }
-        }))
+
 
     }
 
@@ -199,45 +213,72 @@ const[departmentsList,setDepartmentsList] = useState([]);
                             <table className="table table-bordered">
                                 <thead className="table thead-dark">
                                     <tr>
-                                        <th>#</th>
+
                                         <th>idEmployee</th>
                                         <th>Firstname</th>
                                         <th>Lastname</th>
+                                        <th>Email</th>
+                                        <th>Date of joining</th>
+                                        <th>Date of birth</th>
+                                        <th>Department</th>
+                                        <th>Position</th>
+                                        <th>Reporting to</th>
                                         <th>Actions</th>
 
                                     </tr>
                                 </thead>
                                 <tbody className=" table table-stripped  table-hover">
                                     {employees.map((myEmployeeList, index) =>
-
-
                                         <tr key={index}>
-                                            <td>
-
-                                                <input type="checkbox"
-                                                    id={myEmployeeList.idEmployee}
-                                                    name={myEmployeeList.idEmployee}
-                                                    value={myEmployeeList.idEmployee}
-                                                    onChange={handleOnChange} />
-                                            </td>
-
-
 
                                             <td>
-                                                <label htmlFor={myEmployeeList.idEmployee}>
-                                                    {myEmployeeList.idEmployee}
-                                                </label>
+
+                                                {myEmployeeList.idEmployee}
+
                                             </td>
                                             <td>
-                                                <label htmlFor={myEmployeeList.idEmployee}>
-                                                    {myEmployeeList.firstname}
-                                                </label>
+
+                                                {myEmployeeList.firstname}
+
                                             </td>
                                             <td>
-                                                <label htmlFor={myEmployeeList.idEmployee}>
-                                                    {myEmployeeList.lastname}
-                                                </label>
+
+                                                {myEmployeeList.lastname}
+
                                             </td>
+                                            <td>
+
+                                                {myEmployeeList.email}
+
+                                            </td>
+                                            <td>
+
+                                                {new Date(myEmployeeList.dateofjoining).toLocaleDateString()}
+
+                                            </td>
+                                            <td>
+
+                                                {new Date(myEmployeeList.dateofbirth).toLocaleDateString()}
+
+                                            </td>
+                                            <td>
+
+                                                {myEmployeeList.department}
+
+                                            </td>
+                                            <td>
+
+                                                {myEmployeeList.position}
+
+                                            </td>
+                                            <td>
+
+                                                {myEmployeeList.reportingto}
+
+                                            </td>
+                                            
+
+
                                             <td>
                                                 <span className="actions">
                                                     <BsFillTrashFill className="delete-btn"
@@ -273,7 +314,7 @@ const[departmentsList,setDepartmentsList] = useState([]);
                     }}
                     onSubmit={handleUpdate}
                     managers={managersList}
-                    departments ={departmentsList}
+                    departments={departmentsList}
 
                 />}
 

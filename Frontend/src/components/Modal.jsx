@@ -1,15 +1,12 @@
 import React from 'react'
-import { useId, useState,useEffect } from 'react'
+import { useId, useState, useEffect } from 'react'
 import "./Modal.css"
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { DateTime } from 'luxon';
 
 let d = new Date();
 export const Modal = ({ closeModal, onSubmit, defaultValue, managers, departments }) => {
-
-    console.log("RowToEdit in Modal", defaultValue)
-    console.log("Listing Managers in modal", managers)
-    console.log("Listing departments in modal", departments)
 
     const [updateEmployees, setUpdateEmployees] = useState(defaultValue || {
         idEmployee: "",
@@ -18,9 +15,9 @@ export const Modal = ({ closeModal, onSubmit, defaultValue, managers, department
         email: "",
         dateofjoining: d,
         dateofbirth: d,
-        department : "",
-        position:"",
-        reportingto : ""
+        department: "",
+        position: "",
+        reportingto: ""
     })
 
     const [errors, setErrors] = useState("")
@@ -36,6 +33,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue, managers, department
     }, [])
 
     let joiningDate = new Date(updateEmployees.dateofjoining)
+
     let birthDate = new Date(updateEmployees.dateofbirth)
 
     const id = useId;
@@ -51,7 +49,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue, managers, department
     }
     const validateForm = () => {
         if (updateEmployees.idEmployee && updateEmployees.firstname && updateEmployees.lastname
-            && updateEmployees.email && updateEmployees.dateofjoining && updateEmployees.dateofbirth 
+            && updateEmployees.email && updateEmployees.dateofjoining && updateEmployees.dateofbirth
             && updateEmployees.department && updateEmployees.position && updateEmployees.reportingto) {
             setErrors("");
             return true;
@@ -90,154 +88,154 @@ export const Modal = ({ closeModal, onSubmit, defaultValue, managers, department
 
     return (
         <>
-        <div className='modal-container'>
-            onClick={(e) => {
-                if (e.target.className === "modal-container")
-                    closeModal();
-            }}
-            <div className='modal-body'>
-                <form>
-                    <div className='form-group'>
-                        <label htmlFor="{id + 'ID'}">ID</label>
-                        <input id="{id + 'ID'}"
-                            name="idEmployee"
-                            value={updateEmployees.idEmployee}
-                            onChange={handleChange} readOnly />
+            <div className='modal-container'>
+                onClick={(e) => {
+                    if (e.target.className === "modal-container")
+                        closeModal();
+                }}
+                <div className='modal-body'>
+                    <form>
+                        <div className='form-group'>
+                            <label htmlFor="{id + 'ID'}">ID</label>
+                            <input id="{id + 'ID'}"
+                                name="idEmployee"
+                                value={updateEmployees.idEmployee}
+                                onChange={handleChange} readOnly disabled />
 
-                    </div>
+                        </div>
 
-                    <div className='form-group'>
-                        <label htmlFor="{id + 'FIRSTNAME'}">Firstname</label>
-                        <input id="{id + 'FIRSTNAME'}"
-                            name="firstname"
-                            value={updateEmployees.firstname}
-                            onChange={handleChange}  readOnly/>
+                        <div className='form-group'>
+                            <label htmlFor="{id + 'FIRSTNAME'}">Firstname</label>
+                            <input id="{id + 'FIRSTNAME'}"
+                                name="firstname"
+                                value={updateEmployees.firstname}
+                                onChange={handleChange} readOnly disabled/>
 
-                    </div>
+                        </div>
 
-                    <div className='form-group'>
-                        <label htmlFor="{id + 'LASTNAME'}">Lastname</label>
-                        <input id="{id + 'LASTNAME'}"
-                            name="lastname"
-                            value={updateEmployees.lastname}
-                            onChange={handleChange} readOnly/>
+                        <div className='form-group'>
+                            <label htmlFor="{id + 'LASTNAME'}">Lastname</label>
+                            <input id="{id + 'LASTNAME'}"
+                                name="lastname"
+                                value={updateEmployees.lastname}
+                                onChange={handleChange} readOnly disabled/>
 
-                    </div>
+                        </div>
 
-                    <div className='form-group'>
-                        <label htmlFor="{id + 'email'}">Email</label>
-                        <input id="{id + 'email'}"
-                            name="email"
-                            value={updateEmployees.email}
-                            onChange={handleChange} readOnly />
+                        <div className='form-group'>
+                            <label htmlFor="{id + 'email'}">Email</label>
+                            <input id="{id + 'email'}"
+                                name="email"
+                                value={updateEmployees.email}
+                                onChange={handleChange} readOnly disabled />
 
-                    </div>
+                        </div>
 
 
-                    <div className='form-group'>
-                        <label htmlFor={id + 'dateofjoining'}>Date of joining :</label>
-                        <DatePicker
-                            placeholderText="Date of joining"
-                            id={id + 'dateofjoining'}
-                            type="Date"
-                            dateFormat={"yyyy-MM-dd"}
-                            selected={joiningDate}
-                            onChange={(date) => setUpdateEmployees((prevData) => {
-                                return {
-                                    ...prevData,
-                                    dateofjoining: date
+                        <div className='form-group'>
+                            <label htmlFor={id + 'dateofjoining'}>Date of joining :</label>
+                            <DatePicker
+                                placeholderText="Date of joining"
+                                id={id + 'dateofjoining'}
+                                type="Date"
+                                dateFormat={"yyyy-MMM-dd"}
+                                selected={joiningDate}
+                                onChange={(date) => setUpdateEmployees((prevData) => {
+                                    return {
+                                        ...prevData,
+                                        dateofjoining: date
+                                    }
+                                })}
+                                readOnly disabled
+                            />
+
+                        </div>
+
+                        <div className='form-group'>
+                            <label htmlFor={id + 'dateofbirth'}>Date of Birth :</label>
+                            <DatePicker
+                                placeholderText="Date of birth"
+                                id={id + 'dateofbirth'}
+                                type="Date"
+                                dateFormat={"yyyy-MM-dd"}
+                                selected={birthDate}
+                                onChange={(date) => setUpdateEmployees((prevData) => {
+                                    return {
+                                        ...prevData,
+                                        dateofjoining: date
+                                    }
+                                })}
+                                readOnly disabled
+                            />
+
+                        </div>
+
+                        <div className='form-group'>
+                            <label htmlFor={id + 'department'}>Department :</label>
+                            <select id={id + 'department'}
+                                value={updateEmployees.department}
+                                name="department"
+                                onClick={getdepartmentsdatafromdb}
+                                onChange={handleChange}
+                                required>
+                                {showDepartmentDropDown === true ? (departmentsList.map((myDepartmentList) =>
+
+                                    <option value={`${myDepartmentList.departmentName}`}>
+                                        {myDepartmentList.departmentName}
+                                    </option>
+
+                                )) : <option> {updateEmployees.department}</option>
                                 }
-                            })}
-                            readOnly
-                        />
+                            </select>
+                        </div>
 
-                    </div>
+                        <div className='form-group'>
+                            <label htmlFor={id + 'position'}>Position :</label>
+                            <input id={id + 'position'}
+                                type="text"
+                                placeholder=" Enter the position"
+                                name="position"
+                                value={updateEmployees.position}
+                                onChange={handleChange}
+                                required />
+                        </div>
 
-                    <div className='form-group'>
-                        <label htmlFor={id + 'dateofbirth'}>Date of Birth :</label>
-                        <DatePicker
-                            placeholderText="Date of birth"
-                            id={id + 'dateofbirth'}
-                            type="Date"
-                            dateFormat={"yyyy-MM-dd"}
-                            selected={birthDate}
-                            onChange={(date) => setUpdateEmployees((prevData) => {
-                                return {
-                                    ...prevData,
-                                    dateofjoining: date
+                        <div className='form-group'>
+                            <label htmlFor={id + 'reportingto'}>Reporting To :</label>
+                            <select id={id + 'reportingto'}
+                                value={updateEmployees.reportingto}
+                                name="reportingto"
+                                onClick={getmanagersdatafromdb}
+                                onChange={handleChange}
+                                required
+                            >
+                                {showManagersDropDown === true ? (managersList.map((myManagerList) =>
+
+                                    <option value={`${myManagerList.firstname} - ${myManagerList.department}`}>
+                                        {myManagerList.firstname} - {myManagerList.department}
+                                    </option>
+
+                                )) : <option> {updateEmployees.reportingto}</option>
                                 }
-                            })}
-                            readOnly
-                        />
 
-                    </div>
+                            </select>
+                        </div>
 
-                    <div className='form-group'>
-                    <label htmlFor={id + 'department'}>Department :</label>
-                    <select id={id + 'department'}
-                        value={updateEmployees.department}
-                        name="department"
-                        onClick={getdepartmentsdatafromdb}
-                        onChange={handleChange}
-                        required>
-                        {showDepartmentDropDown === true ? (departmentsList.map((myDepartmentList) =>
 
-                            <option value={`${myDepartmentList.departmentName}`}>
-                                {myDepartmentList.departmentName}
-                            </option>
-
-                        )) : <option> {updateEmployees.department}</option>
+                        {errors && <div className="error">
+                            {`Please include: ${errors}`}
+                        </div>
                         }
-                    </select>
+                        <button type="submit" className='btn-modal'
+                            onClick={handleSubmit}>
+                            Submit
+                        </button>
+                    </form>
                 </div>
-
-                <div className='form-group'>
-                    <label htmlFor={id + 'position'}>Position :</label>
-                    <input id={id + 'position'}
-                        type="text"
-                        placeholder=" Enter the position"
-                        name="position"
-                        value={updateEmployees.position}
-                        onChange={handleChange}
-                        required />
-                </div>
-
-                <div className='form-group'>
-                    <label htmlFor={id + 'reportingto'}>Reporting To :</label>
-                    <select id={id + 'reportingto'}
-                        value={updateEmployees.reportingto}
-                        name="reportingto"
-                        onClick={getmanagersdatafromdb}
-                        onChange={handleChange}
-                        required
-                    >
-                        {showManagersDropDown === true ? (managersList.map((myManagerList) =>
-
-                            <option value={`${myManagerList.firstname} - ${myManagerList.department}`}>
-                                {myManagerList.firstname} - {myManagerList.department}
-                            </option>
-
-                        )) : <option> {updateEmployees.reportingto}</option>
-                        }
-
-                    </select>
-                </div>
-
-
-                    {errors && <div className="error">
-                        {`Please include: ${errors}`}
-                    </div>
-                    }
-                    <button type="submit" className='btn-modal'
-                        onClick={handleSubmit}>
-                        Submit
-                    </button>
-                </form>
             </div>
-        </div>
-        
+
         </>
-      
+
     )
 }
 

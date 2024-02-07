@@ -89,7 +89,7 @@ public class EmployeeController {
 
 	}
 
-	
+	/*Using check box to find array of employees */
 	@GetMapping("/searchid/{idEmployees}")
 	public ResponseEntity<List<Employee>> getSelectedEmployees(@PathVariable Integer[] idEmployees) {
 		try {

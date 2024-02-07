@@ -5,6 +5,7 @@ import './home.css';
 import { EmployeeDetails } from "./EmployeeDetails"
 import SearchEmployee from './searchEmployee'
 import EmployeeDataService from "../services/employee.service";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 
 let d = new Date();

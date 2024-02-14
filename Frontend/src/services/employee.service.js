@@ -2,7 +2,7 @@ import http from "../http-common";
 
 class EmployeeDataService {
 
-  create(data) {
+ /* create(data) {
     return http.post("/add",data);
   }
 
@@ -20,7 +20,7 @@ class EmployeeDataService {
 
   getSelectedEmployee(searchword){
     return http.get(`/search/${searchword}`)
-  }
+  }*/
 
   getSelectedEmployeeArray(value){
     return http.get(`/searchid/${value}`)

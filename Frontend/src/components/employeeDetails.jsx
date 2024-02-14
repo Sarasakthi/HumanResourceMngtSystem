@@ -4,6 +4,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 import EmployeeDataService from "../services/employee.service";
+import userService from "../services/user.service";
 
 const id = useId;
 let d = new Date();
@@ -76,7 +77,7 @@ export const EmployeeDetails = ({ onSubmit, managers, departments }) => {
 
         /* Inserting data into database*/
 
-        EmployeeDataService.create(inData)
+        userService.create(inData)
             .then(response => console.log(response.data))
             .catch(error => console.log(error))
 

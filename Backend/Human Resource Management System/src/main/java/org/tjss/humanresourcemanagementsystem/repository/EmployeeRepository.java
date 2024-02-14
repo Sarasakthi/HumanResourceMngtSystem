@@ -48,7 +48,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 	public void deleteEmployee(@Param("idEmployee")Integer idEmployee);
 	
 	
-}//@Query(value = "SELECT * FROM EMPLOYEES_DETAILS WHERE FIRST_NAME =?1 OR LAST_NAME = ?1 OR EMAIL = ?1  OR DEPARTMENT =?1 OR POSITION = ?1 OR REPORTING_TO=?1", nativeQuery = true)
+}
 
 	
 	

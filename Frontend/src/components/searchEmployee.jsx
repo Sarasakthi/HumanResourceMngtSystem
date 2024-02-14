@@ -4,11 +4,11 @@ import { BsFillPencilFill, BsFillTrashFill } from "react-icons/bs"
 
 import { searchEmployee } from "./searchEmployee.css"
 import { Modal } from "./Modal";
-
+import userService from "../services/user.service";
 
 let d = new Date();
 export default function SearchEmployee(props) {
-    
+
     const [managersList, setManagersList] = useState([]);
     const [departmentsList, setDepartmentsList] = useState([]);
 
@@ -35,10 +35,10 @@ export default function SearchEmployee(props) {
 
 
 
-    
-  //console.log("joining Date : ", joiningDate)
-//let joinDate = joiningDate.toLocaleDateString();
-//console.log("joining date new format", joinDate)
+
+    //console.log("joining Date : ", joiningDate)
+    //let joinDate = joiningDate.toLocaleDateString();
+    //console.log("joining date new format", joinDate)
 
     const fetchInfo = () => {
 
@@ -48,7 +48,7 @@ export default function SearchEmployee(props) {
         }
 
         else if (formData.searchingtext != "") {
-            EmployeeDataService.getSelectedEmployee(formData.searchingtext)
+            userService.getSelectedEmployee(formData.searchingtext)
                 .then(response => {
                     console.log("Response from search box", response)
                     setEmployees(response.data)
@@ -59,7 +59,7 @@ export default function SearchEmployee(props) {
         }
 
         else {
-            EmployeeDataService.getAllEmployees()
+            userService.getAllEmployees()
                 .then(response => {
                     console.log("Response get all employees", response)
                     setEmployees(response.data)
@@ -85,7 +85,7 @@ export default function SearchEmployee(props) {
 
         }
     }
-   
+
 
     /*  function handleUpdate() {
           EmployeeDataService.getSelectedEmployeeArray(value)
@@ -138,12 +138,16 @@ export default function SearchEmployee(props) {
       console.log("Update employees before submitting", employees)*/
 
     const handleDeleteRows = (targetIndex) => {
-        console.log("delete selected employee",employees[targetIndex].idEmployee)
+        console.log("delete selected employee", employees[targetIndex].idEmployee)
 
-        EmployeeDataService.delete(employees[targetIndex].idEmployee)
-        .then(setEmployees(employees.filter((_, idx) => idx !== targetIndex)))  // we are not focussing about the data of the array, just need only the index
-        .catch(error => console.log(error))                                    // so we are using _ here
-    };                                                                      
+        userService.delete(employees[targetIndex].idEmployee)
+            .then(response => {
+                console.log("deleted employee",response)
+                setEmployees(employees.filter((_, idx) => idx !== targetIndex))
+            })
+            // .then(setEmployees(employees.filter((_, idx) => idx !== targetIndex)))  // we are not focussing about the data of the array, just need only the index
+           .catch(error => console.log("Error while deleting", error))                                    // so we are using _ here
+    };
 
     const handleModal = (index) => {
         setRowToEdit(index);
@@ -154,7 +158,7 @@ export default function SearchEmployee(props) {
         console.log("New Record", newRecord);
         console.log("idEmployee", employees[rowToEdit].idEmployee)
 
-        EmployeeDataService.update(employees[rowToEdit].idEmployee, newRecord)
+        userService.update(employees[rowToEdit].idEmployee, newRecord)
             .then(
                 setEmployees(employees.map((updatedEmployeeList, index) => {
                     if (index !== rowToEdit) {
@@ -276,7 +280,7 @@ export default function SearchEmployee(props) {
                                                 {myEmployeeList.reportingto}
 
                                             </td>
-                                            
+
 
 
                                             <td>

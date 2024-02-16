@@ -3,7 +3,8 @@ import { Input } from './Input'
 import { FormProvider, useForm } from 'react-hook-form'
 import AuthService from "../services/auth.service";
 import {
-  username_validation,
+  firstname_validation,
+  lastname_validation,
   desc_validation,
   email_validation,
   num_validation,
@@ -67,7 +68,7 @@ export default function Register() {
             autoComplete="off"
 
           >
-            <Input {...username_validation} />
+            <Input {...firstname_validation} />
             <Input {...email_validation} />
             <Input {...password_validation} />
 

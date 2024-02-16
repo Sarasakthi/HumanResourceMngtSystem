@@ -5,7 +5,7 @@ import "./App.css";
 
 import AuthService from "./services/auth.service";
 
-import Login from "./components/login.component";
+import { Login } from "./components/login.component";
 import Register from "./components/register.component";
 import Home from "./components/home.component";
 import Profile from "./components/profile.component";
@@ -18,40 +18,53 @@ import EventBus from "./common/EventBus";
 
 export default function App() {
 
-const [state,setState] = useState({
-    showAdminBoard : false,
-    showModeratorBoard : false,
-    showUserBoard : false,
-    currentUser : undefined
-})
-const user = AuthService.getCurrentUser();
+    /* const [state, setState] = useState({
+         showAdminBoard: false,
+         showModeratorBoard: false,
+         showUserBoard: false,
+         currentUser: undefined
+     })*/
+
+    const [showAdminBoard, setShowAdminBoard] = useState(false)
+    const [showModeratorBoard, setShowModeratorBoard] = useState(false)
+    const [showUserBoard, setShowUserBoard] = useState(false)
+    const [currentUser, setCurrentUser] = useState(undefined)
     useEffect(() => {
-
+        const user = AuthService.getCurrentUser();
         if (user) {
-            setState({
-                currentUser : user,
-                showUserBoard : user.roles.includes("ROLE_USER"),
-                showAdminBoard : user.roles.includes("ROLE_ADMIN"),
-                showModeratorBoard : user.roles.includes("ROLE_MODERATOR")
-            })
+            setCurrentUser(user)
+            setShowAdminBoard(user.roles.includes("ROLE_ADMIN"))
+            setShowModeratorBoard(user.roles.includes("ROLE_MODERATOR"))
+            setShowUserBoard(user.roles.includes("ROLE_USER"))
+            /* setState({
+                 currentUser: user,
+                 showUserBoard: user.roles.includes("ROLE_USER"),
+                 showAdminBoard: user.roles.includes("ROLE_ADMIN"),
+                 showModeratorBoard: user.roles.includes("ROLE_MODERATOR")
+             })*/
         }
-        EventBus.on("logout", () => { logOut() })
-        return () => { EventBus.remove("logout") }
 
-    })
+        //  EventBus.on("logout", () => { logOut() })
+        // return () => { EventBus.remove("logout") }
+
+    }, [])
     //console.log("user from App.js",user)
     const logOut = () => {
         AuthService.logout()
-        setState({
-            showModeratorBoard :false,
-            showAdminBoard : false,
-            currentUser : undefined
-        })
-        
+        setCurrentUser(undefined)
+        setShowAdminBoard(false)
+        setShowModeratorBoard(false)
+        setShowUserBoard(false)
     }
 
-
-
+    const handleNavBar = (data) => {
+       
+        setCurrentUser(data)
+        setShowAdminBoard(data.roles.includes("ROLE_ADMIN"))
+        setShowModeratorBoard(data.roles.includes("ROLE_MODERATOR"))
+        setShowUserBoard(data.roles.includes("ROLE_USER"))
+    }
+ 
     return (
         <div>
             <nav className="navbar navbar-expand navbar-dark bg-dark">
@@ -65,7 +78,7 @@ const user = AuthService.getCurrentUser();
                         </Link>
                     </li>
 
-                    {state.showModeratorBoard && (
+                    {showModeratorBoard && (
                         <li className="nav-item">
                             <Link to={"/mod"} className="nav-link">
                                 Moderator Board
@@ -73,7 +86,7 @@ const user = AuthService.getCurrentUser();
                         </li>
                     )}
 
-                    {state.showAdminBoard && (
+                    {showAdminBoard && (
                         <li className="nav-item">
                             <Link to={"/admin"} className="nav-link">
                                 Admin Board
@@ -81,7 +94,7 @@ const user = AuthService.getCurrentUser();
                         </li>
                     )}
 
-                    {state.showUserBoard && (
+                    {showUserBoard && (
                         <li className="nav-item">
                             <Link to={"/user"} className="nav-link">
                                 User
@@ -90,11 +103,11 @@ const user = AuthService.getCurrentUser();
                     )}
                 </div>
 
-                {state.currentUser ? (
-                    <div className="navbar-nav ml-auto">
+                {currentUser ?
+                    (<div className="navbar-nav ml-auto">
                         <li className="nav-item">
                             <Link to={"/profile"} className="nav-link">
-                                {state.currentUser.username}
+                                {currentUser.username}
                             </Link>
                         </li>
                         <li className="nav-item">
@@ -102,29 +115,28 @@ const user = AuthService.getCurrentUser();
                                 LogOut
                             </a>
                         </li>
-                    </div>
-                ) : (
-                    <div className="navbar-nav ml-auto">
+                    </div>)
+                    :
+
+                    (<div className="navbar-nav ml-auto">
                         <li className="nav-item">
                             <Link to={"/login"} className="nav-link">
+
                                 Login
                             </Link>
                         </li>
 
-                        <li className="nav-item">
-                            <Link to={"/register"} className="nav-link">
-                                Sign Up
-                            </Link>
-                        </li>
-                    </div>
-                )}
+                    </div>)
+                }
+
+
 
             </nav>
             <div className="container mt-3">
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/home" element={<Home />} />
-                    <Route path="/login" element={<Login />} />
+                    <Route path="/login" element={<Login getuserData={handleNavBar} />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/user" element={<BoardUser />} />
@@ -159,3 +171,8 @@ export default function App() {
     )
 }
 */
+/*  <li className="nav-item">
+                            <Link to={"/register"} className="nav-link">
+                                Sign Up
+                            </Link>
+                        </li>*/

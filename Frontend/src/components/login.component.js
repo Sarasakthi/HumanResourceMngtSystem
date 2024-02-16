@@ -16,7 +16,7 @@ import { withRouter } from '../common/with-router';
 
 
 
-export default function Login() {
+export const Login = ({getuserData}) =>{
 
   const methods = useForm()
 
@@ -25,21 +25,22 @@ export default function Login() {
     message: "",
     loading: false
   })
-  
+
 
   const onSubmit = methods.handleSubmit(data => {
+
     console.log("email", data.email)
     console.log("password", data.password)
 
     AuthService.login(data.email, data.password)
       .then(response => {
         { setIsLoginSuccess(true) }
-        
+
         console.log("response from database", response)
         if (response.data.accessToken) {
           localStorage.setItem("user", JSON.stringify(response.data));
         }
-
+        getuserData(response.data)
         return response.data;
       },
         error => {
@@ -63,7 +64,7 @@ export default function Login() {
     methods.reset()
   })
   if (isLoginSuccess) {
-    return <Navigate to={"/profile"} />
+   return <Navigate to={"/profile"} />
   }
   return (
 

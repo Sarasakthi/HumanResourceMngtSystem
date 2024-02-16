@@ -24,4 +24,6 @@ public interface EmployeeService {
 
 	public Employee deleteEmployee(Integer idEmployee);
 
+	public int addCredentials(Employee employee);
+
 }

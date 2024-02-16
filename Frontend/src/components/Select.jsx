@@ -12,17 +12,18 @@ import { findInputError, isFormInvalid } from '../utils'
 import { useFormContext } from 'react-hook-form'
 import { AnimatePresence, motion } from 'framer-motion'
 import { MdError } from 'react-icons/md'
-import moment from 'moment'
 
-export const Input = ({
+export const Select = ({
     name,
     label,
     type,
     id,
     placeholder,
     validation,
-    dateFormat,
+    multiline,
     className,
+    array
+
 }) => {
     const {
         register,
@@ -42,36 +43,20 @@ export const Input = ({
                     htmlFor={id} >
                     {label}
                 </label>
-
-
-                {dateFormat ? (
-
-                    <input
+                <select
                     className="col-sm-3"
-                        id={id}
-                        type={type}
-                        selected = {null}
-                        //value = {moment(name)}
-                      // value = {name.getValue.get}
-                     
-                        placeholder={placeholder}
-                        {...register(name, validation)}
-                    />
+                    id={id}
+                    {...register(name, validation)}
+                >
+                    {array.map((arrayitems) =>
 
-                ) :
+                    <option value={arrayitems.departmentName ? arrayitems.departmentName :arrayitems.firstname}>
+                        {arrayitems.departmentName ? arrayitems.departmentName :arrayitems.firstname + ` - `  +`${arrayitems.department}` }
+                    </option>
 
-                    <input
-                        className="col-sm-3"
+                    )}
 
-                        id={id}
-                        type={type}
-
-                        placeholder={placeholder}
-                        {...register(name, validation)}
-                    />
-
-                }
-                
+                </select>
             </div>
 
             <AnimatePresence mode="wait" initial={false}  >

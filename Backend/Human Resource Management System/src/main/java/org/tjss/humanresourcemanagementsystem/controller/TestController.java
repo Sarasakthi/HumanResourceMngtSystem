@@ -1,9 +1,11 @@
 package org.tjss.humanresourcemanagementsystem.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -54,76 +56,79 @@ public class TestController {
 		}
 
 	}
-	
+
 	@GetMapping("/departments")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<List<Department>> getAllDepartments() {
 		try {
 			List<Department> depts = new ArrayList<>();
 			depts = employeeService.getAllDepartments();
-			return new ResponseEntity<>(depts,HttpStatus.OK);
+			return new ResponseEntity<>(depts, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
 	}
-	
+
 	@PostMapping("/add")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Employee> addingEmployee(@RequestBody Employee employee) {
-		// @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date date) {
+
 		try {
+			int a = employeeService.addCredentials(employee);
 			Employee emp = employeeService.addingEmployee(employee);
+
 			return new ResponseEntity<>(emp, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+
 	
+
 	@GetMapping("/employees")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<List<Employee>> getAllEmployees() {
 		try {
 			List<Employee> employees = new ArrayList<>();
 			employees = employeeService.getAllEmployees();
-			return new ResponseEntity<>(employees,HttpStatus.OK);
+			return new ResponseEntity<>(employees, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
 	}
-	
-	
+
 	@GetMapping("/search/{searchword}")
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<List<Employee>> getEmployees(@PathVariable("searchword") String searchword ) {
+	public ResponseEntity<List<Employee>> getEmployees(@PathVariable("searchword") String searchword) {
 		try {
 			List<Employee> employees = new ArrayList<>();
 			employees = employeeService.getEmployees(searchword);
-			return new ResponseEntity<>(employees,HttpStatus.OK);
+			return new ResponseEntity<>(employees, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
 	}
-	
-	/*updating employee details */
+
+	/* updating employee details */
 	@PostMapping("/updateEmployee/{idEmployee}")
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity <Employee> updateEmployee(@PathVariable("idEmployee") Integer idEmployee, @RequestBody Employee employee ) 
-		 {
+	public ResponseEntity<Employee> updateEmployee(@PathVariable("idEmployee") Integer idEmployee,
+			@RequestBody Employee employee) {
 		try {
-			Employee emp = employeeService.updateEmployee(employee.department,employee.position,employee.reportingto,idEmployee);
+			Employee emp = employeeService.updateEmployee(employee.department, employee.position, employee.reportingto,
+					idEmployee);
 			return new ResponseEntity<>(emp, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
-	/* soft delete employee*/
+
+	/* soft delete employee */
 	@PostMapping("/deleteEmployee/{idEmployee}")
-	public ResponseEntity <Employee> deleteEmployee(@PathVariable("idEmployee") Integer idEmployee) 
-		 {
+	public ResponseEntity<Employee> deleteEmployee(@PathVariable("idEmployee") Integer idEmployee) {
 		try {
 			Employee emp = employeeService.deleteEmployee(idEmployee);
 			return new ResponseEntity<>(emp, HttpStatus.CREATED);

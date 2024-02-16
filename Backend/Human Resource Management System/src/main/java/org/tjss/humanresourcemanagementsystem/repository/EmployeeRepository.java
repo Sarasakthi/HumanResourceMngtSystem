@@ -46,7 +46,15 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 	@Transactional
 	@Query(value = "UPDATE EMPLOYEES_DETAILS SET ACTIVE = FALSE  WHERE ID_EMPLOYEE=:idEmployee", nativeQuery = true)
 	public void deleteEmployee(@Param("idEmployee")Integer idEmployee);
+
+	@Modifying(clearAutomatically = true)
+	@Transactional
+	@Query(value = "INSERT INTO USERS(EMAIL,PASSWORD,USERNAME)VALUES(:email,:password,:firstname)",nativeQuery = true)
+	public int addCredentials(@Param("email")String email, @Param("password")String password, @Param("firstname")String firstname);
 	
+	
+	
+
 	
 }
 

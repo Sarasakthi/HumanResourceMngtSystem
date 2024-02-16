@@ -1,216 +1,132 @@
-import React from "react"
+import React from 'react'
 import { useId, useState, useEffect } from 'react'
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import { FormProvider, useForm } from 'react-hook-form'
+import {
+    firstname_validation,
+    lastname_validation,
+    desc_validation,
+    email_validation,
+    num_validation,
+    password_validation,
+    dateofjoining_validation,
+    dateofbirth_validation,
+    department_validation,
+    position_validation,
+    manager_validation
+} from '../utils/inputValidations'
 
-import EmployeeDataService from "../services/employee.service";
-import userService from "../services/user.service";
+import { Input } from './Input'
+import { Select } from './Select'
+import userService from '../services/user.service'
+import * as moment from 'moment'
 
-const id = useId;
-let d = new Date();
-
-export const EmployeeDetails = ({ onSubmit, managers, departments }) => {
+export const EmployeeDetails = ({ receiveEmployeeDetails, managers, departments }) => {
     const [showManagersDropDown, setManagersShowDropDown] = useState(false);
     const [showDepartmentDropDown, setShowDepartmentDropDown] = useState(false);
     const [managersList, setManagersList] = useState([]);
     const [departmentsList, setDepartmentsList] = useState([])
-
+    const [state, setState] = useState({
+        message: "",
+        loading: false
+    })
+    const methods = useForm()
     const [employeeDetails, setEmployeeDetails] = useState({
         firstname: "",
         lastname: "",
         email: "",
-        dateofjoining: d,
-        dateofbirth: d,
+        dateofjoining: new Date(),
+        dateofbirth: new Date(),
         department: "",
         position: "",
         reportingto: "",
         active: true
     });
 
-
-   
-    
     useEffect(() => {
         setDepartmentsList(departments)
         setManagersList(managers)
     }, [])
 
-    function getmanagersdatafromdb() {
-        setManagersShowDropDown(true);
-    }
+    const onSubmit = methods.handleSubmit(data => {
 
-    function getdepartmentsdatafromdb() {
-        setShowDepartmentDropDown(true);
+        console.log("Firstname", data.firstname)
+        console.log("Lastname", data.lastname)
+        console.log("Email", data.email)
+        console.log("Date of joining", data.dateofjoining)
+        console.log("Date of birth", data.dateofbirth)
+        console.log("Department", data.department)
+        console.log("Position", data.position)
+        console.log("Reporting to", data.reportingto)
 
-    }
-
-    function handleChange(event) {
-        setEmployeeDetails(prevData => {
-
-            return {
-                ...prevData,
-                [event.target.name]: event.target.value
-            }
-        })
-    }
+        data.dateofjoining = moment(data.dateofjoining)
+        data.dateofbirth = moment(data.dateofbirth)
 
 
-
-
-
-    function submitData(e) {
-        e.preventDefault();
-        let inData = {
-            firstname: employeeDetails.firstname,
-            lastname: employeeDetails.lastname,
-            email: employeeDetails.email,
-            dateofjoining: employeeDetails.dateofjoining,
-            dateofbirth: employeeDetails.dateofbirth,
-            department: employeeDetails.department,
-            position: employeeDetails.position,
-            reportingto: employeeDetails.reportingto,
-            active: employeeDetails.active
-        };
-        /* sending employee Details value to home.jsx*/
-        onSubmit(employeeDetails);
-
-
-        /* Inserting data into database*/
-
-        userService.create(inData)
-            .then(response => console.log(response.data))
+        userService.create(data)
+            .then(response => console.log("response after submitting to database", response.data))
             .catch(error => console.log(error))
 
-        alert("completed")
-        
+    })
 
-    }
 
     return (
-        <div>
-            <form>
-                <div>
-                    <label htmlFor={id + 'firstname'}>Firstname :</label>
-                    <input id={id + 'firstname'}
-                        type="text"
-                        placeholder=" Enter Firstname"
-                        name="firstname"
-                        value={employeeDetails.firstname}
-                        onChange={handleChange}
-                        required
+
+        <div >
+
+
+            <FormProvider {...methods}>
+                <form
+                    onSubmit={e => e.preventDefault()}
+                    noValidate
+                    autoComplete="off"
+                >
+
+                    <Input {...firstname_validation} />
+                    <Input {...lastname_validation} />
+                    <Input {...email_validation} />
+                    <Input {...dateofjoining_validation} />
+                    <Input {...dateofbirth_validation} />
+                    <Select
+
+
+                        {...department_validation}
+                        array={departmentsList}
                     />
-                </div>
-                <div>
-                    <label htmlFor={id + 'lastname'}>Lastname :</label>
-                    <input id={id + 'lastname'}
-                        type="text"
-                        placeholder=" Enter Lastname"
-                        name="lastname"
-                        value={employeeDetails.lastname}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor={id + 'email'}>Email :</label>
-                    <input id={id + 'email'}
-                        type="email"
-                        placeholder=" Enter Email"
-                        name="email"
-                        value={employeeDetails.email}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor={id + 'dateofjoining'}>Date of joining :</label>
-                    <DatePicker
-                        id={id + 'dateofjoining'}
-                        type="Date"
-                        dateFormat={"yyyy-MM-dd"}
-                        selected={employeeDetails.dateofjoining}
-                        onChange={(date) => setEmployeeDetails((prevData) => {
-                            return {
-                                ...prevData,
-                                dateofjoining: date
-                            }
-                        })}
-                        required
+                    <Input {...position_validation} />
+                    <Select
+
+
+                        {...manager_validation}
+                        array={managersList}
                     />
 
-                </div>
+                    <div >
+                        <button
+                            className="btn btn-primary btn-block"
+                            onClick={onSubmit}
+                        >
+                            <span>Submit</span>
+                        </button>
+                    </div>
 
-                <div>
-                    <label htmlFor={id + 'dateofbirth'}>Date of Birth :</label>
-                    <DatePicker
-                        id={id + 'dateofbirth'}
-                        type="Date"
-                        dateFormat={"yyyy-MM-dd"}
-                        selected={employeeDetails.dateofbirth}
-                        onChange={(date) => setEmployeeDetails((prevData) => {
-                            return {
-                                ...prevData,
-                                dateofbirth: date
-                            }
-                        })}
-                        required
-                    />
-                </div>
 
-                <div>
-                    <label htmlFor={id + 'department'}>Department :</label>
-                    <select id={id + 'department'}
-                        value={employeeDetails.department}
-                        name="department"
-                        onClick={getdepartmentsdatafromdb}
-                        onChange={handleChange}
-                        required>
-                        {showDepartmentDropDown === true ? (departmentsList.map((myDepartmentList) =>
-
-                            <option value={`${myDepartmentList.departmentName}`}>
-                                {myDepartmentList.departmentName}
-                            </option>
-
-                        )) : <option> --choose the department -- </option>
+                </form>
+            </FormProvider>
+            {state.message &&
+                <div className="form-group">
+                    <div
+                        className={
+                            state.successful
+                                ? "alert alert-success"
+                                : "alert alert-danger"
                         }
-                    </select>
-                </div>
-
-                <div>
-                    <label htmlFor={id + 'position'}>Position :</label>
-                    <input id={id + 'position'}
-                        type="text"
-                        placeholder=" Enter the position"
-                        name="position"
-                        value={employeeDetails.position}
-                        onChange={handleChange}
-                        required />
-                </div>
-
-                <div>
-                    <label htmlFor={id + 'reportingto'}>Reporting To :</label>
-                    <select id={id + 'reportingto'}
-                        value={employeeDetails.reportingto}
-                        name="reportingto"
-                        onClick={getmanagersdatafromdb}
-                        onChange={handleChange}
-                        required
+                        role="alert"
                     >
-                        {showManagersDropDown === true ? (managersList.map((myManagerList) =>
-
-                            <option value={`${myManagerList.firstname} - ${myManagerList.department}`}>
-                                {myManagerList.firstname} - {myManagerList.department}
-                            </option>
-
-                        )) : <option> --choose the person reporting to --</option>
-                        }
-
-                    </select>
+                        {state.message}
+                    </div>
                 </div>
-
-
-                <button type="submit" onClick={submitData}>Submit</button>
-            </form>
+            }
         </div>
-    )
+
+    );
 }

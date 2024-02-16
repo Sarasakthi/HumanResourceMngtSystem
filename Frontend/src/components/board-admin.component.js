@@ -9,6 +9,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import userService from '../services/user.service';
 
 
+
 let d = new Date();
 let data;
 export default function Home() {
@@ -31,30 +32,30 @@ export default function Home() {
   //getting data from employee details - child component
   const getData = (data) => {
     console.log("Displaying from home page - Add employee", data);
-    
+
   }
 
 
   const fetchInfo = () => {
     userService.getAdminBoard("manager")
-        .then(response => {
-            console.log("Response - managers", response)
-            setManagersList(response.data)
-        })
-        .catch(error => console.error('data not loaded', error))
+      .then(response => {
+        console.log("Response - managers", response)
+        setManagersList(response.data)
+      })
+      .catch(error => console.error('data not loaded', error))
     userService.getAllDepartments()
-        .then(response => {
-            console.log("Response - departments", response)
-            setDepartmentsList(response.data)
-        })
-        .catch(error => console.error('data not loaded', error))
-}
+      .then(response => {
+        console.log("Response - departments", response)
+        setDepartmentsList(response.data)
+      })
+      .catch(error => console.error('data not loaded', error))
+  }
 
 
-useEffect(() => {
-  fetchInfo()
+  useEffect(() => {
+    fetchInfo()
 
-}, []);
+  }, []);
   return (
     <div className="App">
       <h1>Human Resource Management System</h1>
@@ -71,18 +72,18 @@ useEffect(() => {
         <div>
           {isShowEmployeeDetails &&
             <EmployeeDetails
-            managers = {managersList}
-            departments = {departmentsList}
-              onSubmit={getData}
+              managers={managersList}
+              departments={departmentsList}
+              receiveEmployeeDetails={getData}
             />}
         </div>
         <div>
           {isShowSerchDetails &&
             <SearchEmployee
               managers={managersList}
-              departments = {departmentsList} />}
+              departments={departmentsList} />}
         </div>
-
+        
       </div>
     </div>
   )

@@ -35,6 +35,7 @@ export default function Home() {
 
 
   const fetchInfo = () => {
+    
     EmployeeDataService.get("manager")
         .then(response => {
             console.log("Response", response)

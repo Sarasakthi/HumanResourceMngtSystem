@@ -8,10 +8,10 @@ import AuthService from "./services/auth.service";
 import { Login } from "./components/login.component";
 import Register from "./components/register.component";
 import Home from "./components/home.component";
-import Profile from "./components/profile.component";
-import BoardUser from "./components/board-user.component";
+import { Profile } from "./components/profile.component";
+import { BoardUser } from "./components/board-user.component";
 import BoardModerator from "./components/board-moderator.component";
-import BoardAdmin from "./components/board-admin.component";
+import {BoardAdmin} from "./components/board-admin.component";
 
 // import AuthVerify from "./common/auth-verify";
 import EventBus from "./common/EventBus";
@@ -58,13 +58,28 @@ export default function App() {
     }
 
     const handleNavBar = (data) => {
-       
+
         setCurrentUser(data)
         setShowAdminBoard(data.roles.includes("ROLE_ADMIN"))
         setShowModeratorBoard(data.roles.includes("ROLE_MODERATOR"))
         setShowUserBoard(data.roles.includes("ROLE_USER"))
     }
- 
+    const [currentId, setCurrentId] = useState(0)
+    function receiveIdEmployee(data) {
+        setCurrentId(data)
+    }
+const[skills,setSkills] = useState({
+    idEmployee : "",
+    skills : ""
+})
+    function submitToHRApproval(data){
+        setSkills(()=> ({
+            idEmployee : data.idEmployee,
+            skills: data.skills
+        }))
+        console.log("idEmployee from app.ja",data.idEmployee)
+        console.log("skills  from app.ja",data.skills)
+    }
     return (
         <div>
             <nav className="navbar navbar-expand navbar-dark bg-dark">
@@ -138,10 +153,12 @@ export default function App() {
                     <Route path="/home" element={<Home />} />
                     <Route path="/login" element={<Login getuserData={handleNavBar} />} />
                     <Route path="/register" element={<Register />} />
-                    <Route path="/profile" element={<Profile />} />
-                    <Route path="/user" element={<BoardUser />} />
+                    <Route path="/profile" element={<Profile id={receiveIdEmployee} />} />
+                    <Route path="/user" element={<BoardUser currentEmployeeId={currentId}
+                                                            submitRequestToHR = {submitToHRApproval} />} />
                     <Route path="/mod" element={<BoardModerator />} />
-                    <Route path="/admin" element={<BoardAdmin />} />
+                    <Route path="/admin" element={<BoardAdmin 
+                                                    pendingApproval = {skills}/>} />
                 </Routes>
             </div>
 

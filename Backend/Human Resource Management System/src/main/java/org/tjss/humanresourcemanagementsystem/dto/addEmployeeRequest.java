@@ -1,4 +1,4 @@
-package org.tjss.humanresourcemanagementsystem.dto;
+/*package org.tjss.humanresourcemanagementsystem.dto;
 
 import lombok.Data;
 
@@ -15,3 +15,4 @@ public class addEmployeeRequest {
 
 
 }
+*/

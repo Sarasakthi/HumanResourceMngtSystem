@@ -80,6 +80,42 @@ export const password_validation = {
   },
 }
 
+export const new_password_validation = {
+  name: 'newPassword',
+  label: 'New Password',
+  type: 'password',
+  id: 'newPassword',
+  placeholder: 'Type new password ...',
+  validation: {
+    required: {
+      value: true,
+      message: 'required',
+    },
+    minLength: {
+      value: 6,
+      message: 'min 6 characters',
+    },
+  },
+}
+
+export const confirm_Password_validation = {
+  name: 'confirmpassword',
+  label: 'Confirm Password',
+  type: 'password',
+  id: 'confirmpassword',
+  placeholder: 'confirm new password should be same as new password',
+  validation: {
+    required: {
+      value: true,
+      message: 'required',
+    },
+    minLength: {
+      value: 6,
+      message: 'min 6 characters',
+    },
+  },
+}
+
 export const num_validation = {
   name: 'num',
   label: 'number',
@@ -119,11 +155,11 @@ export const dateofjoining_validation = {
   type: 'date',
   id: 'dateofjoining',
   placeholder: 'Type date of joining',
- dateformat : true,
+  dateformat: true,
   validation: {
     required: {
-    
-      value:true,
+
+      value: true,
       message: 'required',
     },
     pattern: {
@@ -154,15 +190,15 @@ export const dateofbirth_validation = {
 }
 
 export const department_validation = {
-  name : 'department',
- label:'Department',
- id:'department',
+  name: 'department',
+  label: 'Department',
+  id: 'department',
   validation: {
     required: {
       value: true,
       message: 'required',
     },
-    
+
   },
 }
 
@@ -186,14 +222,43 @@ export const position_validation = {
 }
 
 export const manager_validation = {
-  name : 'reportingto',
- label:'Reporting to',
- id:'reportingto',
+  name: 'reportingto',
+  label: 'Reporting to',
+  id: 'reportingto',
   validation: {
     required: {
       value: true,
       message: 'required',
     },
-    
+
   },
+}
+
+export const skills_validation = {
+
+  checkbox: true,
+  type: 'checkbox',
+  validation: {
+    required: {
+      // value: true,
+      message: 'required',
+    },
+
+  }
+}
+
+export const file_validation = {
+  name: 'file',
+  label: 'document',
+  type: 'file',
+  id: 'document',
+  placeholder: 'Attach Document',
+  validation: {
+    required: {
+      value: true,
+      message: 'required',
+    },
+
+  },
+
 }

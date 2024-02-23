@@ -7,25 +7,37 @@ import SearchEmployee from './searchEmployee'
 import EmployeeDataService from "../services/employee.service";
 import "bootstrap/dist/css/bootstrap.min.css";
 import userService from '../services/user.service';
-
+import {HRApproval} from "./HRApproval"
 
 
 let d = new Date();
 let data;
-export default function Home() {
+export const BoardAdmin = ({ pendingApproval }) => {
+  console.log("Pending approval in adminBoard", pendingApproval.idEmployee)
+
   const [isShowEmployeeDetails, setIsShowEmployeeDetails] = useState(false);
   const [isShowSerchDetails, setIsShowSerchDetails] = useState(false);
+  const [isShowHRApproval,setIsShowHRApproval] = useState(false);
   const [managersList, setManagersList] = useState([]);
   const [departmentsList, setDepartmentsList] = useState([])
+ 
 
-
+  
   function showEmployeeDetails() {
     setIsShowEmployeeDetails(true);
     setIsShowSerchDetails(false);
+    setIsShowHRApproval(false);
   }
 
   function showSearch() {
     setIsShowSerchDetails(true);
+    setIsShowEmployeeDetails(false);
+    setIsShowHRApproval(false);
+  }
+
+  function showHRApproval(){
+    setIsShowHRApproval(true);
+    setIsShowSerchDetails(false);
     setIsShowEmployeeDetails(false);
   }
 
@@ -54,8 +66,14 @@ export default function Home() {
 
   useEffect(() => {
     fetchInfo()
-
+   /* setSkills(() => ({
+      idEmployee: pendingApproval.idEmployee,
+      skills: pendingApproval.skills
+    }))*/
   }, []);
+
+ // console.log("idEmployee in ADMIN", skills)
+// console.log("skills in ADMIN", skills.skills)
   return (
     <div className="App">
       <h1>Human Resource Management System</h1>
@@ -68,7 +86,7 @@ export default function Home() {
         <button onClick={showSearch}>Search Employee</button>
 
         <button onClick={showEmployeeDetails}>Add Employee</button>
-        <button>HR Approval</button>
+        <button onClick = {showHRApproval}>HR Approval</button>
         <div>
           {isShowEmployeeDetails &&
             <EmployeeDetails
@@ -83,7 +101,14 @@ export default function Home() {
               managers={managersList}
               departments={departmentsList} />}
         </div>
-        
+        <div>
+          {isShowHRApproval &&
+          <HRApproval 
+          />
+
+          }
+        </div>
+
       </div>
     </div>
   )

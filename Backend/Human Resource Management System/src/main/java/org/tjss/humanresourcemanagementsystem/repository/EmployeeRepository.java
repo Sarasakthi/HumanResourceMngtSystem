@@ -2,6 +2,7 @@ package org.tjss.humanresourcemanagementsystem.repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -45,13 +46,29 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 	@Modifying
 	@Transactional
 	@Query(value = "UPDATE EMPLOYEES_DETAILS SET ACTIVE = FALSE  WHERE ID_EMPLOYEE=:idEmployee", nativeQuery = true)
-	public void deleteEmployee(@Param("idEmployee")Integer idEmployee);
+	public int deleteEmployee(@Param("idEmployee")Integer idEmployee);
 
 	@Modifying(clearAutomatically = true)
 	@Transactional
 	@Query(value = "INSERT INTO USERS(EMAIL,PASSWORD,USERNAME)VALUES(:email,:password,:firstname)",nativeQuery = true)
 	public int addCredentials(@Param("email")String email, @Param("password")String password, @Param("firstname")String firstname);
+
 	
+	@Query(value = "SELECT * FROM EMPLOYEES_DETAILS WHERE EMAIL =?1", nativeQuery = true)
+	public Employee findByEmail(String email);
+
+	@Query(value = "SELECT * FROM EMPLOYEES_DETAILS WHERE EMAIL =?1", nativeQuery = true)
+	public Employee findEmployee(String email);
+
+	
+	
+	/*
+	@Modifying
+	@Transactional
+	@Query(value = "INSERT INTO TEMP_SKILLS (ID_EMPLOYEE,SKILLS)  VALUES (:idEmployee,:skills)", nativeQuery = true)
+	//@Query(value = "UPDATE TEMP_SKILLS SET SKILLS = :skills  WHERE ID_EMPLOYEE=:idEmployee", nativeQuery = true)
+	public int insertSkills(@Param("idEmployee")Integer idEmployee ,@Param("skills")Set<String> skills);
+*/
 	
 	
 

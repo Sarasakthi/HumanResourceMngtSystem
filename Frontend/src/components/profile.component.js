@@ -2,7 +2,7 @@ import React, { Component, useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import AuthService from "../services/auth.service";
 
-export default function Profile() {
+export const Profile = ( {id}) => {
 
   const [redirect, setRedirect] = useState(null);
   const [userready, setUserready] = useState(redirect ? false : true);
@@ -12,7 +12,9 @@ export default function Profile() {
     email: "",
     roles: [],
     accessToken: "",
-    tokenType: ""
+    tokenType: "",
+    firstname:"",
+    lastname :""
   })
 
 
@@ -26,12 +28,23 @@ export default function Profile() {
       email:  AuthService.getCurrentUser().email,
       roles:  AuthService.getCurrentUser().roles,
       accessToken:  AuthService.getCurrentUser().accessToken,
-      tokenType:  AuthService.getCurrentUser().tokenType
+      tokenType:  AuthService.getCurrentUser().tokenType,
+      firstname :  AuthService.getCurrentUser().emp.firstname,
+      lastname :  AuthService.getCurrentUser().emp.lastname,
+      dateofbirth :  AuthService.getCurrentUser().emp.dateofbirth,
+      dateofjoining :  AuthService.getCurrentUser().emp.dateofjoining,
+      department :  AuthService.getCurrentUser().emp.department,
+      position :  AuthService.getCurrentUser().emp.position,
+      reportingto :  AuthService.getCurrentUser().emp.reportingto
     }))
-
+    
   }, [])
 
+ if(currentUser){
+  console.log("current employee id within profile",AuthService.getCurrentUser().id)
+  id(currentUser.id)
  
+ }
  
   
   if (!currentUser) {
@@ -49,24 +62,53 @@ export default function Profile() {
         <div>
           <header className="jumbotron">
             <h3>
-              <strong>{currentUser.username}</strong> Profile
+              <strong> Profile</strong>
             </h3>
           </header>
-          <p>
+          <div style={{display:"none"}}>
             <strong>Token:</strong>{" "}
-            {currentUser.accessToken.substring(0, 20)} ...{" "}
-            {currentUser.accessToken.substr(currentUser.accessToken.length - 20)}
-          </p>
+            {currentUser.accessToken}
+          </div>
           <p>
             <strong>Id:</strong>{" "}
             {currentUser.id}
           </p>
           <p>
+            <strong>Firstname:</strong>{" "}
+            {currentUser.firstname}
+          </p>
+          <p>
+            <strong>Lastname:</strong>{" "}
+            {currentUser.lastname}
+          </p>
+          <p>
             <strong>Email:</strong>{" "}
             {currentUser.email}
           </p>
-          <strong>Authorities:</strong>
-          <ul>
+          <p>
+            <strong>Date of birth:</strong>{" "}
+            {currentUser.dateofbirth}
+          </p>
+          <p>
+            <strong>Date of joining:</strong>{" "}
+            {currentUser.dateofjoining}
+          </p>
+          <p>
+            <strong>Department:</strong>{" "}
+            {currentUser.department}
+          </p>
+          <p>
+            <strong>Position:</strong>{" "}
+            {currentUser.position}
+          </p>
+          <p>
+            <strong>Reporting to:</strong>{" "}
+            {currentUser.reportingto}
+          </p>
+
+
+          <strong style={{display:"none"}}>Authorities:</strong>
+          <ul style={{display:"none"}}>
             {currentUser.roles &&
               currentUser.roles.map((role, index) => <li key={index}>{role}</li>)}
           </ul>

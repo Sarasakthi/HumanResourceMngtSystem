@@ -1,24 +1,37 @@
 package org.tjss.humanresourcemanagementsystem.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.tjss.humanresourcemanagementsystem.entity.Department;
 import org.tjss.humanresourcemanagementsystem.entity.Employee;
+import org.tjss.humanresourcemanagementsystem.entity.ImageData;
+import org.tjss.humanresourcemanagementsystem.entity.Technology;
+//import org.tjss.humanresourcemanagementsystem.entity.TempSkills;
+import org.tjss.humanresourcemanagementsystem.payload.request.SkillsRequest;
+import org.tjss.humanresourcemanagementsystem.repository.EmployeeRepository;
 import org.tjss.humanresourcemanagementsystem.service.EmployeeService;
+
+import io.jsonwebtoken.lang.Arrays;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -28,48 +41,43 @@ public class EmployeeController {
 	@Autowired
 	EmployeeService employeeService;
 
-	/*@PostMapping("/add")
-	public ResponseEntity<Employee> addingEmployee(@RequestBody Employee employee) {
-		// @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date date) {
+	@GetMapping("/getTechnologies")
+	@PreAuthorize("hasRole('USER')")
+	public ResponseEntity<List<Technology>> getAlltechnologies() {
 		try {
-			Employee emp = employeeService.addingEmployee(employee);
-			return new ResponseEntity<>(emp, HttpStatus.CREATED);
-		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-
-	@GetMapping("/managers/{position}")
-	public ResponseEntity<List<Employee>> getAllManagers(@PathVariable("position") String position ) {
-		try {
-			List<Employee> employees = new ArrayList<>();
-			employees = employeeService.getAllManagers(position);
-			return new ResponseEntity<>(employees,HttpStatus.OK);
+			List<Technology> techs = new ArrayList<>();
+			techs = employeeService.getAllTechnologies();
+			System.out.println("Techs from DB" + techs);
+			return new ResponseEntity<>(techs, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
 	}
-	
-	
-	@GetMapping("/departments")
-	public ResponseEntity<List<Department>> getAllDepartments() {
+
+	@PostMapping("/submitDocument")
+	@PreAuthorize("hasRole('USER')")
+	public ResponseEntity<?> submitDocumentToHR(@RequestParam("File")MultipartFile file)  {
 		try {
-			List<Department> depts = new ArrayList<>();
-			depts = employeeService.getAllDepartments();
-			return new ResponseEntity<>(depts,HttpStatus.OK);
+			ImageData uploadedImage = employeeService.uploadImage(file);
+			System.out.println("uploadImage" + uploadedImage);
+			return ResponseEntity.status(HttpStatus.OK)
+					.body(uploadedImage);
+			
+			
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
 	}
 	
-	@GetMapping("/employees")
-	public ResponseEntity<List<Employee>> getAllEmployees() {
+	@PostMapping("/submitSkills")
+	@PreAuthorize("hasRole('USER')")
+	public ResponseEntity<?> submitSkillsToHR(@RequestBody SkillsRequest skillsRequest)  {
 		try {
-			List<Employee> employees = new ArrayList<>();
-			employees = employeeService.getAllEmployees();
-			return new ResponseEntity<>(employees,HttpStatus.OK);
+						
+			Employee empl = employeeService.submitSkillsToHR(skillsRequest.getIdEmployee(), skillsRequest.getSkills(),skillsRequest.getImageName());
+			return new ResponseEntity<>(empl, HttpStatus.OK); 
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -77,55 +85,51 @@ public class EmployeeController {
 	}
 	
 	
-	@GetMapping("/search/{searchword}")
-	public ResponseEntity<List<Employee>> getEmployees(@PathVariable("searchword") String searchword ) {
+	@GetMapping("/downloadImage/{fileName}")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<?> getImageFromDB(@PathVariable String fileName)  {
 		try {
-			List<Employee> employees = new ArrayList<>();
-			employees = employeeService.getEmployees(searchword);
-			return new ResponseEntity<>(employees,HttpStatus.OK);
+			byte[] imageData=employeeService.downloadImage(fileName);
+			return ResponseEntity.status(HttpStatus.OK)
+					//.contentType(MediaType.valueOf("image/png"))
+					.contentType(MediaType.valueOf("plain/text"))
+					.body(imageData);
+
+		
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
-	}*/
+	}
 
-	/*Using check box to find array of employees */
+	
+	@GetMapping("/getPendingApproval")
+	@PreAuthorize("hasRole('USER')")
+	public ResponseEntity<List<Employee>> getSkillsToApprove() {
+		try {
+
+			List<Employee> empl = employeeService.getSkillsToApprove();
+			return new ResponseEntity<>(empl, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+	}
+
+	/* Using check box to find array of employees */
+	//We haven't used
 	@GetMapping("/searchid/{idEmployees}")
 	public ResponseEntity<List<Employee>> getSelectedEmployees(@PathVariable Integer[] idEmployees) {
 		try {
 			List<Employee> employees = new ArrayList<>();
 			employees = employeeService.getSelectedEmployees(idEmployees);
-			return new ResponseEntity<>(employees,HttpStatus.OK);
+			return new ResponseEntity<>(employees, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
 	}
 
-	/*updating employee details */
-	/*@PostMapping("/updateEmployee/{idEmployee}")
-	public ResponseEntity <Employee> updateEmployee(@PathVariable("idEmployee") Integer idEmployee, @RequestBody Employee employee ) 
-		 {
-		try {
-			Employee emp = employeeService.updateEmployee(employee.department,employee.position,employee.reportingto,idEmployee);
-			return new ResponseEntity<>(emp, HttpStatus.CREATED);
-		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}*/
 	
-	/* soft delete employee*/
-/*	@PostMapping("/deleteEmployee/{idEmployee}")
-	public ResponseEntity <Employee> deleteEmployee(@PathVariable("idEmployee") Integer idEmployee) 
-		 {
-		try {
-			Employee emp = employeeService.deleteEmployee(idEmployee);
-			return new ResponseEntity<>(emp, HttpStatus.CREATED);
-		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}*/
 
 }
-
-

@@ -140,14 +140,14 @@ export default function SearchEmployee(props) {
     const handleDeleteRows = (targetIndex) => {
         console.log("delete selected employee", employees[targetIndex].idEmployee)
 
-        userService.delete(employees[targetIndex].idEmployee)
+        userService.deleteEmployee(employees[targetIndex].idEmployee)
             .then(response => {
-                console.log("deleted employee",response)
+                console.log("deleted employee", response.data)
                 setEmployees(employees.filter((_, idx) => idx !== targetIndex))
             })
-            // .then(setEmployees(employees.filter((_, idx) => idx !== targetIndex)))  // we are not focussing about the data of the array, just need only the index
-           .catch(error => console.log("Error while deleting", error))                                    // so we are using _ here
-    };
+            // .then(response => setEmployees(employees.filter((_, idx) => idx !== targetIndex)))  // we are not focussing about the data of the array, just need only the index
+            .catch(error => console.log("Error while deleting", error))                                    // so we are using _ here
+    }
 
     const handleModal = (index) => {
         setRowToEdit(index);
@@ -256,6 +256,7 @@ export default function SearchEmployee(props) {
 
                                             </td>
                                             <td>
+
 
                                                 {new Date(myEmployeeList.dateofjoining).toLocaleDateString()}
 

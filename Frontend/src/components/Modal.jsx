@@ -87,13 +87,14 @@ export const Modal = ({ closeModal, onSubmit, defaultValue, managers, department
     }
 
     return (
-        <>
-            <div className='modal-container'>
+       
+            <div
+                className="modal-container"
                 onClick={(e) => {
-                    if (e.target.className === "modal-container")
-                        closeModal();
+                    if (e.target.className === "modal-container") {closeModal()};
                 }}
-                <div className='modal-body'>
+            >
+                <div className="modal-body">
                     <form>
                         <div className='form-group'>
                             <label htmlFor="{id + 'ID'}">ID</label>
@@ -109,7 +110,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue, managers, department
                             <input id="{id + 'FIRSTNAME'}"
                                 name="firstname"
                                 value={updateEmployees.firstname}
-                                onChange={handleChange} readOnly disabled/>
+                                onChange={handleChange} readOnly disabled />
 
                         </div>
 
@@ -118,7 +119,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue, managers, department
                             <input id="{id + 'LASTNAME'}"
                                 name="lastname"
                                 value={updateEmployees.lastname}
-                                onChange={handleChange} readOnly disabled/>
+                                onChange={handleChange} readOnly disabled />
 
                         </div>
 
@@ -226,7 +227,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue, managers, department
                             {`Please include: ${errors}`}
                         </div>
                         }
-                        <button type="submit" className='btn-modal'
+                        <button type="submit" className="btn"
                             onClick={handleSubmit}>
                             Submit
                         </button>
@@ -234,10 +235,10 @@ export const Modal = ({ closeModal, onSubmit, defaultValue, managers, department
                 </div>
             </div>
 
-        </>
+        
 
-    )
-}
+    );
+};
 
 // showIcon
 //toggleCalendarOnIconClick

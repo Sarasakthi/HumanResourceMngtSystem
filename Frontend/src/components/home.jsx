@@ -1,4 +1,4 @@
-
+/*
 import * as React from 'react'
 import { useState, useEffect } from 'react';
 import './home.css';
@@ -86,4 +86,4 @@ useEffect(() => {
       </div>
     </div>
   )
-}
+}*/

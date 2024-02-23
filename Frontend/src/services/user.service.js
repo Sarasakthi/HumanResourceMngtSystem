@@ -2,6 +2,7 @@ import axios from 'axios';
 import authHeader from './auth-header';
 
 const API_URL = 'http://localhost:8080/api/test/';
+const API_URL_tech = 'http://localhost:8080/api/';
 
 class UserService {
   getPublicContent() {
@@ -31,6 +32,10 @@ create(data){
   return axios.post(API_URL + 'add', data,{ headers: authHeader() });
 }
 
+passwordUpdate(data){
+  return axios.post(API_URL + 'updatePassword', data);
+}
+
 
 
 getAllEmployees() {
@@ -45,9 +50,36 @@ update(idEmployee,data){
   return axios.post(API_URL + 'updateEmployee/' + `${idEmployee}`,data, { headers: authHeader() });
 }
 
-delete(idEmployee){
-  return axios.post(API_URL + 'deleteEmployee/' + `${idEmployee}`, { headers: authHeader() });
+deleteEmployee(idEmployee){
+  return axios.post(API_URL + 'delete/' + `${idEmployee}`, { headers: authHeader() });
 }
+
+
+getTechnology(){
+  return axios.get(API_URL_tech + 'getTechnologies', { headers: authHeader() });
+}
+
+submitDocumentToHR(data){
+  return axios.post(API_URL_tech + 'submitDocument',data, { headers:  authHeader(),                                                                      
+                                                                      "Content-Type" : "multipart/form-data",
+                                                                      
+                                                                    });
+}
+
+
+
+submitSkiilsToHR(data){
+  return axios.post(API_URL_tech + 'submitSkills',data, { headers: authHeader() });
+}
+
+skillsFromDBForHRApproval(){
+  return axios.get(API_URL + 'getPendingApproval', { headers: authHeader() });
+}
+
+verifyingEmpSkills(imageName){
+  return axios.get(API_URL_tech + 'downloadImage/'+ `${imageName}`,{responseType : 'arraybuffer', headers: authHeader(), Accept : 'application/json' });
+}
+
 }
 
 export default new UserService();

@@ -38,7 +38,7 @@ public interface EmployeeService {
 
 	public List<Technology> getAllTechnologies();
 
-	public Employee submitSkillsToHR(Integer idEmployee,Set<String> skills, String imageName);
+	public Employee submitSkillsToHR(Integer idEmployee,Set<String> skills, Integer imageId);
 
 	public List<Employee> getSkillsToApprove();
 	

@@ -18,7 +18,7 @@ export const BoardUser = ({ currentEmployeeId, submitRequestToHR }) => {
   const [skills, setSkills] = useState({
     idEmployee: "",
     skills: "",
-    imageName: ""
+    imageId: ""
   })
   const [selectedFile, setSelectedFile] = useState("")
   const methods = useForm()
@@ -66,11 +66,17 @@ export const BoardUser = ({ currentEmployeeId, submitRequestToHR }) => {
         selectedFile);
       console.log("selectedFile", selectedFile);
 
-      console.log("selecteFile.name - skills.imageName", selectedFile.name)
-      setSkills((prevData) => ({
-        ...prevData,
-        imageName: selectedFile.name
-      }))
+      userService.submitDocumentToHR(formData)
+        .then(response => {
+          console.log("response after doc submission  to DB", response)
+          setSkills((prevData) => ({
+            ...prevData,
+           imageId : response.data.id
+          }))
+        })
+        .catch(error => console.log(error))
+     // console.log("selecteFile.name - skills.imageName", selectedFile.name)
+      
       setUpload(true);
     }
   }
@@ -88,7 +94,7 @@ export const BoardUser = ({ currentEmployeeId, submitRequestToHR }) => {
 
   // };
   console.log("idEmployee from skills", skills.idEmployee)
-  console.log("imageName after submitted to DB", skills.imageName)
+  console.log("imageId after submitted to DB", skills.imageId)
 
   let selectedValues = []
   const onSubmit = methods.handleSubmit(data => {
@@ -116,7 +122,7 @@ export const BoardUser = ({ currentEmployeeId, submitRequestToHR }) => {
 
     if (skills.skills.length === 0) { alert("Please choose Technology!") }
 
-    else if (skills.imageName === "" && !upload) { alert("Please choose supporting document and" + toUnicodeVariant('CLICK UPLOAD!', 'bold sans', 'bold')) }
+    else if (skills.imageId === "" && !upload) { alert("Please choose supporting document and" + toUnicodeVariant('CLICK UPLOAD!', 'bold sans', 'bold')) }
 
     {
       upload &&

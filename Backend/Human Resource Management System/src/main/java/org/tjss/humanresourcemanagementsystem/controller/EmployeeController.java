@@ -60,7 +60,7 @@ public class EmployeeController {
 	public ResponseEntity<?> submitDocumentToHR(@RequestParam("File")MultipartFile file)  {
 		try {
 			ImageData uploadedImage = employeeService.uploadImage(file);
-			System.out.println("uploadImage" + uploadedImage);
+			System.out.println("uploadedImage" + uploadedImage);
 			return ResponseEntity.status(HttpStatus.OK)
 					.body(uploadedImage);
 			
@@ -76,7 +76,7 @@ public class EmployeeController {
 	public ResponseEntity<?> submitSkillsToHR(@RequestBody SkillsRequest skillsRequest)  {
 		try {
 						
-			Employee empl = employeeService.submitSkillsToHR(skillsRequest.getIdEmployee(), skillsRequest.getSkills(),skillsRequest.getImageName());
+			Employee empl = employeeService.submitSkillsToHR(skillsRequest.getIdEmployee(), skillsRequest.getSkills(),skillsRequest.getImageId());
 			return new ResponseEntity<>(empl, HttpStatus.OK); 
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

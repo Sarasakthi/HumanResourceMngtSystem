@@ -12,13 +12,13 @@ public class SkillsRequest {
 	private Set<String> skills;
 	
 	@NotBlank
-	private String imageName;
+	private Integer imageId;
 
-	public SkillsRequest(@NotBlank Integer idEmployee, @NotBlank Set<String> skills, @NotBlank String imageName) {
+	public SkillsRequest(@NotBlank Integer idEmployee, @NotBlank Set<String> skills, @NotBlank Integer imageId) {
 		super();
 		this.idEmployee = idEmployee;
 		this.skills = skills;
-		this.imageName = imageName;
+		this.imageId = imageId;
 	}
 
 	public Integer getIdEmployee() {
@@ -37,13 +37,15 @@ public class SkillsRequest {
 		this.skills = skills;
 	}
 
-	public String getImageName() {
-		return imageName;
+	public Integer getImageId() {
+		return imageId;
 	}
 
-	public void setImageName(String imageName) {
-		this.imageName = imageName;
+	public void setImageId(Integer imageId) {
+		this.imageId = imageId;
 	}
+
+	
 	
 
 	}

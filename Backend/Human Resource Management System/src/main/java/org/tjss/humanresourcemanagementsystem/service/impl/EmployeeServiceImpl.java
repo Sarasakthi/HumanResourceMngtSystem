@@ -135,7 +135,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return tech;
 	}
 
-	@Override
+	/*@Override
 	public Employee submitSkillsToHR( Integer idEmployee,Set<String>skills, String imageName) {
 		//int returnValue = employeeRepository.insertSkills(emp.getIdEmployee(),emp.getSkills());
 		Employee empl = employeeRepository.findEmployee(idEmployee);
@@ -144,6 +144,26 @@ public class EmployeeServiceImpl implements EmployeeService {
 		empl.setImageName(imageName);
 		Employee empSkills = employeeRepository.save(empl);
 		return empSkills;
+	}*/
+	@Override
+	public Employee submitSkillsToHR( Integer idEmployee,Set<String>skills, Integer imageId) {
+		//int returnValue = employeeRepository.insertSkills(emp.getIdEmployee(),emp.getSkills());
+		Employee empl = employeeRepository.findEmployee(idEmployee);
+		if(empl.getSkills().size()== 0) {
+			empl.setSkills(skills);
+			empl.setImageId(idEmployee);
+			return  employeeRepository.save(empl);
+			
+		}
+		else {
+			empl.getSkills().addAll(skills); 
+			empl.setImageId(imageId);
+			return employeeRepository.save(empl);
+			//include imageName also as Set<String> images as like Set<String> Skills in employee.java. 
+			//So that emp can submit mulitiple files 
+			//after that try to update employee_details table only skills and imageName hare
+		}
+		
 	}
 
 	@Override

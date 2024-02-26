@@ -53,9 +53,12 @@ public class Employee {
 	@CollectionTable(name = "temp_skills",
 	joinColumns = @JoinColumn(name = "id_employee"))
 	private Set<String> skills;
+	//private Set<Boolean> approveSkills;
 	
-	@Column(name = "image_name")
-	private String imageName;
+	
+	
+	@Column(name = "image_ID")
+	private Integer imageId;
 	
 
 	public Employee(Integer idEmployee, Set<String> skills) {
@@ -87,7 +90,7 @@ public class Employee {
 
 	public Employee(Integer idEmployee, String firstname, String lastname, String email, Date dateofjoining,
 			Date dateofbirth, String department, String position, String reportingto, boolean active,
-			Set<String> skills, String imageName) {
+			Set<String> skills, Integer imageId) {
 		super();
 		this.idEmployee = idEmployee;
 		this.firstname = firstname;
@@ -100,7 +103,7 @@ public class Employee {
 		this.reportingto = reportingto;
 		this.active = active;
 		this.skills = skills;
-		this.imageName = imageName;
+		this.imageId = imageId;
 	}
 	
 

@@ -72,14 +72,17 @@ submitSkiilsToHR(data){
   return axios.post(API_URL_tech + 'submitSkills',data, { headers: authHeader() });
 }
 
-skillsFromDBForHRApproval(){
+approvalPending(){
   return axios.get(API_URL + 'getPendingApproval', { headers: authHeader() });
 }
 
 verifyingEmpSkills(imageName){
-  return axios.get(API_URL_tech + 'downloadImage/'+ `${imageName}`,{responseType : 'arraybuffer', headers: authHeader(), Accept : 'application/json' });
+  return axios.get(API_URL + 'downloadImage/'+ `${imageName}`,{responseType : 'arraybuffer', headers: authHeader(), Accept : 'application/json' });
 }
 
+gettingImageNames(idImages){
+  return axios.get(API_URL + 'getImageNames/'+ `${idImages}`, { headers: authHeader() });
+}
 }
 
 export default new UserService();

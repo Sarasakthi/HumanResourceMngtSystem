@@ -150,15 +150,19 @@ public class EmployeeServiceImpl implements EmployeeService {
 		//int returnValue = employeeRepository.insertSkills(emp.getIdEmployee(),emp.getSkills());
 		Employee empl = employeeRepository.findEmployee(idEmployee);
 		if(empl.getSkills().size()== 0) {
-			empl.setSkills(skills);
-			empl.setImageId(idEmployee);
-			return  employeeRepository.save(empl);
+		
+		Employee emp = new Employee(empl.getIdEmployee(),empl.getFirstname(),empl.getLastname(),empl.getEmail(),empl.getDateofjoining(),empl.getDateofbirth(),empl.department,empl.getPosition(),empl.getReportingto(),true,skills,imageId,false);
+			
+			return  employeeRepository.save(emp);
 			
 		}
 		else {
-			empl.getSkills().addAll(skills); 
-			empl.setImageId(imageId);
-			return employeeRepository.save(empl);
+			boolean  newSkills = empl.getSkills().addAll(skills);
+			System.out.println("Employee skills" + empl.getSkills());
+			
+			Employee emp = new Employee(empl.getIdEmployee(),empl.getFirstname(),empl.getLastname(),empl.getEmail(),empl.getDateofjoining(),empl.getDateofbirth(),empl.department,empl.getPosition(),empl.getReportingto(),true,empl.getSkills(),imageId,false);
+			
+			return employeeRepository.save(emp);
 			//include imageName also as Set<String> images as like Set<String> Skills in employee.java. 
 			//So that emp can submit mulitiple files 
 			//after that try to update employee_details table only skills and imageName hare
@@ -178,7 +182,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         ImageData imageData = storagerepository.save(ImageData.builder()
                 .name(file.getOriginalFilename())
                 .type(file.getContentType())
-                .imageData(ImageUtils.compressImage(file.getBytes())).build());
+                .imageData(ImageUtils.compressImage(file.getBytes()))
+                .approveImage(false).build());
+        		
        /* if (imageData != null) {
             return "file uploaded successfully : " + file.getOriginalFilename();
         }
@@ -192,6 +198,12 @@ public class EmployeeServiceImpl implements EmployeeService {
         byte[] images=ImageUtils.decompressImage(dbImageData.get().getImageData());
         return images;
     }
+
+	@Override
+	public List<ImageData> getSelectedImages(Integer[] idImages) {
+		List<ImageData> images = storagerepository.findById(idImages);
+		return images;
+	}
 	/*@Override
 	public int submitSkillsToHR(String[] skills, String email) {
 		int returnValue = tempSkillsRepository.save(skills,email);

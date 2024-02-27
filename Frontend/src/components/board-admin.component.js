@@ -20,6 +20,8 @@ export const BoardAdmin = ({ pendingApproval }) => {
   const [isShowHRApproval,setIsShowHRApproval] = useState(false);
   const [managersList, setManagersList] = useState([]);
   const [departmentsList, setDepartmentsList] = useState([])
+ // const[skillsEmployeeList,setSkillsEmployeeList] = useState([]);
+  const [state, setState] = useState([])
  
 
   
@@ -61,8 +63,21 @@ export const BoardAdmin = ({ pendingApproval }) => {
         setDepartmentsList(response.data)
       })
       .catch(error => console.error('data not loaded', error))
-  }
+      userService.approvalPending()
+      .then(response => {
+        console.log("all employee details from db", response)
+        setState(response.data.filter(gettingValues))
 
+      })
+      .catch(error => console.log(error))
+
+  }
+  function gettingValues(item) {
+    
+    return (item.skills.length != 0)
+  }
+  console.log("state from hrapproval", state)
+  console.log("state.length", state.length)
 
   useEffect(() => {
     fetchInfo()
@@ -104,7 +119,7 @@ export const BoardAdmin = ({ pendingApproval }) => {
         <div>
           {isShowHRApproval &&
           <HRApproval 
-          />
+          skillsEmployee = {state}/>
 
           }
         </div>

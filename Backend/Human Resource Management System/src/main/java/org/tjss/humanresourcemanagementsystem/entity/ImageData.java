@@ -28,4 +28,6 @@ import lombok.NoArgsConstructor;
 	    @Lob
 	    @Column(name = "imagedata",length = 1000)
 	    private byte[] imageData;
+	    
+	    private boolean approveImage;
 }

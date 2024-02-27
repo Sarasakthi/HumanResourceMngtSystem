@@ -4,49 +4,60 @@ import userService from '../services/user.service';
 import { Routes, Route, Link } from "react-router-dom";
 import { Document } from './document';
 
-export const HRApproval = () => {
-
+export const HRApproval = (skillsEmployee) => {
+  console.log("skillsEmployee", skillsEmployee.skillsEmployee)
   const [state, setState] = useState([])
+  const [findImageNames, setFindImageNames] = useState(true);
   const [empSkills, setEmpSkills] = useState(false)
+  const [imageId, setImageId] = useState([])
+  const [images, setImages] = useState([])
 
   useEffect(() => {
-    userService.skillsFromDBForHRApproval()
-      .then(response => {
-        console.log("all employee details from db", response)
-        setState(response.data.filter(gettingValues))
-
-      })
-      .catch(error => console.log(error))
-
+    setState(skillsEmployee.skillsEmployee)
   }, [])
 
-
-  function gettingValues(item) {
-    return (item.skills.length != 0)
+ 
+  if (state.length > 0 && (empSkills == false)) {
+    { state.map((item) => imageId.push(item.imageId)) }
+    setEmpSkills(true);
   }
-  console.log("state from hrapproval", state)
+
+
+  console.log("Image Id Array", imageId)
+  if (state.length > 0 && findImageNames == true) {
+    userService.gettingImageNames(imageId)
+      .then(response => {
+        console.log(response)
+        setImages(response.data)
+      })
+      .catch(error => console.log(error))
+    setFindImageNames(false)
+  }
+  console.log("Final image table from DB", images)
+
+  
 
   function onButtonClick(index) {
-    console.log("Finding corrct index",state[index].idEmployee)
-    console.log("Finding corrct index",state[index].imageName)
-    userService.verifyingEmpSkills(state[index].imageName)
+    console.log("Finding corrct index", images[index].id)
+    console.log("Finding corrct imageName", images[index].name)
+    userService.verifyingEmpSkills(images[index].name)
       .then((response) => {
-        console.log("response from DB",response)
+        console.log("response from DB", response)
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement('a')
         link.href = url;
-       link.setAttribute('download',`${state[index].imageName}`);  //name of the file after downloaded in local system
-       
+        link.setAttribute('download', `${images[index].name}`);  //name of the file after downloaded in local system
+
         document.body.appendChild(link);
         link.click();
-       //setEmpSkills(true);
-        })
+        //setEmpSkills(true);
+      })
       .catch(error => console.log(error))
   }
-  function acceptAlert(){
+  function acceptAlert() {
     alert("Skills accepted!")
   }
-  function denyAlert(){
+  function denyAlert() {
     alert("Skills denyed!")
   }
   return (
@@ -65,6 +76,7 @@ export const HRApproval = () => {
                   <th>idEmployee</th>
                   <th>Firstname</th>
                   <th>Lastname</th>
+                 
                   <th>Document</th>
                   <th>Actions</th>
 
@@ -73,6 +85,7 @@ export const HRApproval = () => {
               </thead>
               <tbody className=" table table-stripped  table-hover">
                 {state.map((myEmployeeList, index) =>
+               
                   <tr key={index}>
 
                     <td>
@@ -91,18 +104,19 @@ export const HRApproval = () => {
 
                     </td>
 
-                    <td>{myEmployeeList.skills}</td>
+                   
 
                     <td onClick={() => onButtonClick(index)}>
-                     <Link to = "">
-                        {myEmployeeList.imageName}
-                        </Link>
+                     
+                      <Link to="">
+                        download
+                      </Link>
                     </td>
 
                     <td>
-<Link to = "/admin" onClick = {acceptAlert}>Accept</Link>
+                      <Link to="/admin" onClick={acceptAlert}>Accept</Link>
 
-<Link to ="/admin" onClick = {denyAlert}>Deny</Link>
+                      <Link to="/admin" onClick={denyAlert}>Deny</Link>
                     </td>
 
 

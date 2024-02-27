@@ -85,22 +85,7 @@ public class EmployeeController {
 	}
 	
 	
-	@GetMapping("/downloadImage/{fileName}")
-	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<?> getImageFromDB(@PathVariable String fileName)  {
-		try {
-			byte[] imageData=employeeService.downloadImage(fileName);
-			return ResponseEntity.status(HttpStatus.OK)
-					//.contentType(MediaType.valueOf("image/png"))
-					.contentType(MediaType.valueOf("plain/text"))
-					.body(imageData);
-
-		
-		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-
-	}
+	
 
 	
 	@GetMapping("/getPendingApproval")
@@ -130,6 +115,8 @@ public class EmployeeController {
 
 	}
 
+	
+	
 	
 
 }

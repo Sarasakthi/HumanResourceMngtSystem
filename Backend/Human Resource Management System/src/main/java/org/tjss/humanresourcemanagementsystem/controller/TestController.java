@@ -9,6 +9,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.tjss.humanresourcemanagementsystem.entity.Department;
 import org.tjss.humanresourcemanagementsystem.entity.ERole;
 import org.tjss.humanresourcemanagementsystem.entity.Employee;
+import org.tjss.humanresourcemanagementsystem.entity.ImageData;
 import org.tjss.humanresourcemanagementsystem.entity.Role;
 import org.tjss.humanresourcemanagementsystem.entity.User;
 import org.tjss.humanresourcemanagementsystem.payload.request.SignupRequest;
@@ -298,6 +300,36 @@ public class TestController {
 
 			List<Employee> empl = employeeService.getSkillsToApprove();
 			return new ResponseEntity<>(empl, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+	}
+	
+	@GetMapping("/getImageNames/{idImages}")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<List<ImageData>> gettingImageNames(@PathVariable Integer[] idImages) {
+		try {
+			List<ImageData> images = new ArrayList<>();
+			images = employeeService.getSelectedImages(idImages);
+			return new ResponseEntity<>(images, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+	}
+	
+	@GetMapping("/downloadImage/{fileName}")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<?> getImageFromDB(@PathVariable String fileName)  {
+		try {
+			byte[] imageData=employeeService.downloadImage(fileName);
+			return ResponseEntity.status(HttpStatus.OK)
+					//.contentType(MediaType.valueOf("image/png"))
+					.contentType(MediaType.valueOf("plain/text"))
+					.body(imageData);
+
+		
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}

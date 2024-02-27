@@ -46,6 +46,8 @@ public interface EmployeeService {
 	 
 	 public byte[] downloadImage(String fileName);
 
+	public List<ImageData> getSelectedImages(Integer[] idImages);
+
 //	public int submitSkillsToHR(String[] skills, String email);
 
 	//public List<TempSkills> testinsertedvalue(String email);

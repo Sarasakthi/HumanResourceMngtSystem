@@ -7,13 +7,13 @@ import org.tjss.humanresourcemanagementsystem.entity.Employee;
 public class JwtResponse {
   private String token;
   private String type = "Bearer";
-  private Long id;
+  private Integer id;
   private String username;
   private String email;
   private List<String> roles;
   private Employee emp;
 
-  public JwtResponse(String token,  Long id, String username, String email, List<String> roles,
+  public JwtResponse(String token,  Integer id, String username, String email, List<String> roles,
 		Employee emp) {
 	super();
 	this.token = token;
@@ -27,7 +27,7 @@ public class JwtResponse {
 
 
 
-public JwtResponse(String accessToken, Long id, String username, String email, List<String> roles) {
+public JwtResponse(String accessToken, Integer id, String username, String email, List<String> roles) {
     this.token = accessToken;
     this.id = id;
     this.username = username;
@@ -51,11 +51,11 @@ public JwtResponse(String accessToken, Long id, String username, String email, L
     this.type = tokenType;
   }
 
-  public Long getId() {
+  public Integer getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(Integer id) {
     this.id = id;
   }
 

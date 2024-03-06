@@ -74,7 +74,18 @@ export const BoardAdmin = ({ pendingApproval }) => {
   }
   function gettingValues(item) {
     
-    return (item.skills.length != 0)
+    /*if (item.skillsApproveStatus.length != 0){
+      for (let x = 0; x < item.skillsApproveStatus.length; x++) {
+        if(item.skillsApproveStatus[x] == false) {
+          return (item.skillsApproveStatus.length != 0)
+        }
+
+        
+      }*/
+
+      return ((item.skills.length != 0) && (item.skillsApproveStatus != true));
+     
+    
   }
   console.log("state from hrapproval", state)
   console.log("state.length", state.length)

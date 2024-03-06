@@ -1,4 +1,4 @@
-package org.tjss.humanresourcemanagementsystem.controller;
+/*package org.tjss.humanresourcemanagementsystem.controller;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,3 +39,4 @@ public class RequestParamController {
 	               "Article doesnot exists");
 	}
 }
+*/

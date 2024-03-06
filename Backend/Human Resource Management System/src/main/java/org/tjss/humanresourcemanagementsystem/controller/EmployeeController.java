@@ -26,6 +26,7 @@ import org.tjss.humanresourcemanagementsystem.entity.Department;
 import org.tjss.humanresourcemanagementsystem.entity.Employee;
 import org.tjss.humanresourcemanagementsystem.entity.ImageData;
 import org.tjss.humanresourcemanagementsystem.entity.Technology;
+import org.tjss.humanresourcemanagementsystem.entity.User;
 //import org.tjss.humanresourcemanagementsystem.entity.TempSkills;
 import org.tjss.humanresourcemanagementsystem.payload.request.SkillsRequest;
 import org.tjss.humanresourcemanagementsystem.repository.EmployeeRepository;
@@ -75,7 +76,7 @@ public class EmployeeController {
 	@PreAuthorize("hasRole('USER')")
 	public ResponseEntity<?> submitSkillsToHR(@RequestBody SkillsRequest skillsRequest)  {
 		try {
-						
+				System.out.println("Entered into controller to submit skills");		
 			Employee empl = employeeService.submitSkillsToHR(skillsRequest.getIdEmployee(), skillsRequest.getSkills(),skillsRequest.getImageId());
 			return new ResponseEntity<>(empl, HttpStatus.OK); 
 		} catch (Exception e) {
@@ -116,7 +117,43 @@ public class EmployeeController {
 	}
 
 	
-	
-	
+/*	@GetMapping("/skillsApproved/{idEmployee}")
+	@PreAuthorize("hasRole('USER')")
+	public ResponseEntity<Employee> getSkillsToDisplay(@PathVariable("idEmployee")Integer idEmployee) {
+		try {
 
+			Employee empl = employeeService.getSkillsToDisplay(idEmployee);
+			return new ResponseEntity<>(empl, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+	}*/
+	
+	@GetMapping("/waitingForApproval/{idEmployee}")
+	@PreAuthorize("hasRole('USER')")
+	public ResponseEntity<Employee> waitingMessage(@PathVariable("idEmployee")Integer idEmployee) {
+		try {
+System.out.println("idEmployee"+idEmployee);
+			Employee empl = employeeService.waitingMessage(idEmployee);
+			return new ResponseEntity<>(empl, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+	}
+
+	@GetMapping("/userProfileSkills/{idEmployee}")
+	@PreAuthorize("hasRole('USER')")
+	public ResponseEntity <User> getPermanentSkillsToDisplayInUserProfile(@PathVariable("idEmployee")Integer idEmployee) {
+		try {
+
+			User user = employeeService.getPermanentSkillsToDisplay(idEmployee);
+			return new ResponseEntity<>(user, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+	}
+	
 }

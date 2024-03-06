@@ -116,6 +116,7 @@ const[skills,setSkills] = useState({
                             </Link>
                         </li>
                     )}
+                    
                 </div>
 
                 {currentUser ?
@@ -167,29 +168,3 @@ const[skills,setSkills] = useState({
     );
 }
 
-
-/*-------------------------------------------------------------------
-|  🐼 React FC App
-|
-|  🐯 Purpose: RENDERS REACT APP
-|
-|  🐸 Returns:  JSX
-*-------------------------------------------------------------------*/
-/*
-import React from 'react'
-import { Form } from './Form'
-import "bootstrap/dist/css/bootstrap.min.css";
-
-export default function App() {
-    return (
-        <div>
-            <Form />
-        </div>
-    )
-}
-*/
-/*  <li className="nav-item">
-                            <Link to={"/register"} className="nav-link">
-                                Sign Up
-                            </Link>
-                        </li>*/

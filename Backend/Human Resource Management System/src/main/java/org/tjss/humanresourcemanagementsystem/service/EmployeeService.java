@@ -11,6 +11,7 @@ import org.tjss.humanresourcemanagementsystem.entity.Employee;
 import org.tjss.humanresourcemanagementsystem.entity.ImageData;
 import org.tjss.humanresourcemanagementsystem.entity.Technology;
 //import org.tjss.humanresourcemanagementsystem.entity.TempSkills;
+import org.tjss.humanresourcemanagementsystem.entity.User;
 
 public interface EmployeeService {
 
@@ -47,6 +48,24 @@ public interface EmployeeService {
 	 public byte[] downloadImage(String fileName);
 
 	public List<ImageData> getSelectedImages(Integer[] idImages);
+
+	public Employee getEmployee(Integer idEmployee);
+
+	public int approveSubmittedDocument(Integer imageId);
+
+	public int approveSkills(Integer idEmployee);
+
+	//public Employee getSkillsToDisplay(Integer idEmployee);
+
+	public Employee waitingMessage(Integer idEmployee);
+
+	public User updatePermanentSkills( Employee employee);
+
+	public Optional<ImageData> checkImageUpdate(Integer imageId);
+
+	public User getPermanentSkillsToDisplay(Integer idEmployee);
+
+   public int denySubmittedDocument(Integer idEmployee);
 
 //	public int submitSkillsToHR(String[] skills, String email);
 

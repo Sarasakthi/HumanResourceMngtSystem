@@ -12,7 +12,7 @@ import org.tjss.humanresourcemanagementsystem.entity.User;
 
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Integer> {
 	
 	@Query(value = "SELECT * FROM USERS WHERE EMAIL = ?1", nativeQuery = true)
 	Optional<User> findByUsername(String username);
@@ -27,5 +27,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	public int updatePassword(@Param("newpassword")String newpassword, @Param("email")String email);
 	
 	
-	
+	@Query(value = "SELECT * FROM USERS WHERE ID = ?1", nativeQuery = true)
+	User findUser(Integer id);
 }

@@ -40,8 +40,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 	public void updateEmployee(@Param("department")String department,@Param("position")String position,@Param("reporting_to")String reporting_to, @Param("idEmployee")Integer idEmployee);
 
 	
-	@Query(value = "SELECT * FROM EMPLOYEES_DETAILS WHERE ID_EMPLOYEE =?1", nativeQuery = true)
-	public Employee findEmployee(Integer idEmployee);
+	@Query(value = "SELECT * FROM EMPLOYEES_DETAILS WHERE ID_EMPLOYEE=:idEmployee AND ACTIVE = TRUE", nativeQuery = true)
+	public Employee findEmployeeById(@Param("idEmployee")Integer idEmployee);
 
 	@Modifying
 	@Transactional
@@ -60,6 +60,47 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 	@Query(value = "SELECT * FROM EMPLOYEES_DETAILS WHERE EMAIL =?1", nativeQuery = true)
 	public Employee findEmployee(String email);
 
+	@Modifying
+	@Transactional
+	@Query(value = "UPDATE EMPLOYEES_DETAILS SET SKILLS_APPROVE_STATUS = TRUE  WHERE ID_EMPLOYEE=:idEmployee", nativeQuery = true)
+	public int approveSkills(@Param("idEmployee")Integer idEmployee);
+
+	//@Query(value = "SELECT * FROM EMPLOYEES_DETAILS WHERE ACTIVE = TRUE and skills_approve_status = FALSE", nativeQuery = true)
+	@Query(value = "SELECT * FROM EMPLOYEES_DETAILS  WHERE ACTIVE = TRUE ", nativeQuery = true)
+	public List<Employee> findEmployeesToApproveDocAndSkills();
+
+	@Query(value = "SELECT * FROM EMPLOYEES_DETAILS WHERE SKILLS_APPROVE = TRUE AND ID_EMPLOYEE=:idEmployee AND ACTIVE = TRUE", nativeQuery = true)
+	public Employee getSkillsToDispaly(@Param("idEmployee")Integer idEmployee);
+
+	@Modifying
+	@Transactional
+	@Query(value = "Delete from temp_skills where ID_EMPLOYEE=:idEmployee", nativeQuery = true)
+	public void deleteSkills(@Param("idEmployee")Integer idEmployee);
+
+	@Modifying(clearAutomatically = true)
+	@Transactional
+	@Query(value = "INSERT INTO employees_details(id_employee, skills, skills_approve_status)VALUES(:idEmployee,:skills,TRUE)",nativeQuery = true)
+	public int insertSkills (@Param("idEmployee")Integer idEmployee, @Param("skills")Set<String> skills);
+
+	@Modifying(clearAutomatically = true)
+	@Transactional
+	//@Query(value = "UPDATE EMPLOYEES_DETAILS e SET e.SKILLS_APPROVE_STATUS=:approval WHERE e.ID_EMPLOYEE=:idEmployee", nativeQuery = true)
+	//public void updatePermanentSkills(@Param("approval")List<Boolean> approval, @Param("idEmployee")Integer idEmployee);
+	@Query(value = "UPDATE EMPLOYEES_DETAILS e SET e.SKILLS_APPROVE_STATUS = true WHERE e.ID_EMPLOYEE=:idEmployee", nativeQuery = true)
+	public void updatePermanentSkills(@Param("idEmployee")Integer idEmployee);
+
+	@Modifying(clearAutomatically = true)
+	@Transactional
+	@Query(value = "UPDATE EMPLOYEES_DETAILS  SET  DENY_APPROVAL= true WHERE ID_EMPLOYEE=:idEmployee", nativeQuery = true)
+	public int updateDenyStatus(Integer idEmployee);
+
+
+
+	/*@Modifying(clearAutomatically = true)
+	@Transactional
+	@Query(value = "INSERT INTO PERMANENT_SKILLS(ID_EMPLOYEE,PERMANENT_SKILLS)VALUES(:idEmployee,:permanentSkills)",nativeQuery = true)
+	public Employee insertPermanentSkills(@Param("idEmployee")Integer idEmployee, @Param("permanentSkills")Set<String> permanentSkills);
+*/
 	
 	
 	/*

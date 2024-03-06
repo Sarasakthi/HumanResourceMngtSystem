@@ -5,19 +5,25 @@ import { Routes, Route, Link } from "react-router-dom";
 import { Document } from './document';
 
 export const HRApproval = (skillsEmployee) => {
-  console.log("skillsEmployee", skillsEmployee.skillsEmployee)
-  const [state, setState] = useState([])
+  console.log("skillsEmployee", skillsEmployee);
+  console.log("skillsEmployee.skillsEmployee", skillsEmployee.skillsEmployee)
+
+  const [state, setState] = useState(skillsEmployee.skillsEmployee)
   const [findImageNames, setFindImageNames] = useState(true);
   const [empSkills, setEmpSkills] = useState(false)
   const [imageId, setImageId] = useState([])
   const [images, setImages] = useState([])
-
+  const [showEmployees, setShowEmployees] = useState(true);
+  console.log("Printing state", state)
   useEffect(() => {
-    setState(skillsEmployee.skillsEmployee)
-  }, [])
 
- 
+    show()
+  }, [state])
+
+
   if (state.length > 0 && (empSkills == false)) {
+
+    (state.length > 0) ? setShowEmployees(true) : setShowEmployees(false)
     { state.map((item) => imageId.push(item.imageId)) }
     setEmpSkills(true);
   }
@@ -35,7 +41,7 @@ export const HRApproval = (skillsEmployee) => {
   }
   console.log("Final image table from DB", images)
 
-  
+
 
   function onButtonClick(index) {
     console.log("Finding corrct index", images[index].id)
@@ -54,91 +60,125 @@ export const HRApproval = (skillsEmployee) => {
       })
       .catch(error => console.log(error))
   }
-  function acceptAlert() {
+  function acceptAlert(targetIndex) {
+
+    console.log("idEmployee for approval", state[targetIndex].idEmployee)
+
+    userService.approveDocAndSkills(state[targetIndex].idEmployee)
+      .then(response => {
+        console.log("Returning user after approval - now the user have permanent skills", response.data)
+
+        setState(state.filter((_, idx) => idx != targetIndex))
+
+      }
+      )
+      .catch(error => console.log(error.request))
     alert("Skills accepted!")
+
+
   }
-  function denyAlert() {
+  function denyAlert(targetIndex) {
+    console.log("idEmployee for deny", state[targetIndex].idEmployee)
+    userService.denyDocAndSkills(state[targetIndex].idEmployee)
+      .then(response => {
+        console.log("Returning user after denyed skills", response.data)
+
+        setState(state.filter((_, idx) => idx != targetIndex))
+
+      }
+      )
+      .catch(error => console.log(error.request))
     alert("Skills denyed!")
+  }
+  function show() {
+    (state.length == 0) ? setShowEmployees(false) : setShowEmployees(true);
   }
   return (
 
     <>
-      <div className="table-wrapper">
+      {showEmployees ?
+        <div>
+          <div className="table-wrapper">
 
 
 
-        <div className="container">
-          <div className="col align-self-center">
-            <table className="table table-bordered">
-              <thead className="table thead-dark">
-                <tr>
+            <div className="container">
+              <div className="col align-self-center">
+                <table className="table table-bordered">
+                  <thead className="table thead-dark">
+                    <tr>
 
-                  <th>idEmployee</th>
-                  <th>Firstname</th>
-                  <th>Lastname</th>
-                 
-                  <th>Document</th>
-                  <th>Actions</th>
+                      <th>idEmployee</th>
+                      <th>Firstname</th>
+                      <th>Lastname</th>
+
+                      <th>Document</th>
+                      <th>Actions</th>
 
 
-                </tr>
-              </thead>
-              <tbody className=" table table-stripped  table-hover">
-                {state.map((myEmployeeList, index) =>
-               
-                  <tr key={index}>
+                    </tr>
+                  </thead>
+                  <tbody className=" table table-stripped  table-hover">
 
-                    <td>
 
-                      {myEmployeeList.idEmployee}
+                    {state.map((myEmployeeList, index) =>
 
-                    </td>
-                    <td>
+                      <tr key={index}>
 
-                      {myEmployeeList.firstname}
+                        <td>
 
-                    </td>
-                    <td>
+                          {myEmployeeList.idEmployee}
 
-                      {myEmployeeList.lastname}
+                        </td>
+                        <td>
 
-                    </td>
+                          {myEmployeeList.firstname}
 
-                   
+                        </td>
+                        <td>
 
-                    <td onClick={() => onButtonClick(index)}>
-                     
-                      <Link to="">
-                        download
-                      </Link>
-                    </td>
+                          {myEmployeeList.lastname}
 
-                    <td>
-                      <Link to="/admin" onClick={acceptAlert}>Accept</Link>
-
-                      <Link to="/admin" onClick={denyAlert}>Deny</Link>
-                    </td>
+                        </td>
 
 
 
-                  </tr>
+                        <td onClick={() => onButtonClick(index)}>
 
-                )
-                }
-              </tbody>
+                          <Link to="">
+                            download
+                          </Link>
+                        </td>
+
+                        <td>
+                          <Link to="/admin" onClick={() => acceptAlert(index)}>Accept</Link>
+
+                          <Link to="/admin" onClick={() => denyAlert(index)}>Deny</Link>
+                        </td>
+
+                      </tr>
 
 
+                    )}
 
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div >
 
-            </table>
+          <div>
+            <Routes>
+              <Route path="/download" element={<Document
+              />} />
+            </Routes>
           </div>
-        </div></div>
-      <div>
-        <Routes>
-          <Route path="/download" element={<Document
-          />} />
-        </Routes>
-      </div>
+        </div>
+        :
+        <div>
+          <h3>No employee submitted skills for approval!</h3>
+        </div>
+      }
     </>
   )
 }

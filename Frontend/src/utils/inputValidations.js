@@ -21,6 +21,7 @@ export const firstname_validation = {
       value: 30,
       message: '30 characters max',
     },
+   
   },
 
 }

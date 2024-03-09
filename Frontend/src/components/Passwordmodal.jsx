@@ -42,7 +42,8 @@ export const Passwordmodal = ({ closeModal, receivePassword,email }) => {
             <div className='modal-body' >
                 <FormProvider {...methods}>
                     <form>
-                    <Input {...dateofbirth_validation} />
+                    <Input {...dateofbirth_validation}
+                    autoFocus= "autoFocus" />
                         <Input {...new_password_validation} />
 
                       

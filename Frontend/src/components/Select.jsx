@@ -16,13 +16,13 @@ import { MdError } from 'react-icons/md'
 export const Select = ({
     name,
     label,
-    type,
     id,
-    placeholder,
     validation,
-    multiline,
-    className,
-    array
+    array,
+    inputClassName,
+    rowLabel,
+    columnLabel1,
+    columnLabel2
 
 }) => {
     const {
@@ -33,18 +33,18 @@ export const Select = ({
     const inputErrors = findInputError(errors, name)
     const isInvalid = isFormInvalid(inputErrors)
 
-    //const input_tailwind =
-    // 'p-5 font-medium rounded-md w-full border border-slate-300 placeholder:opacity-60'
 
     return (
         <div>
-            <div className="row mb-2">
-                <label className="col-sm-2 col-form-label"
+            
+            <div className={rowLabel}>
+                <label className={ columnLabel1}
                     htmlFor={id} >
                     {label}
                 </label>
+                <div className={columnLabel2 }>
                 <select
-                    className="col-sm-3"
+                   className={inputClassName}
                     id={id}
                     {...register(name, validation)}
                 >
@@ -57,6 +57,7 @@ export const Select = ({
                     )}
 
                 </select>
+                </div>
             </div>
 
             <AnimatePresence mode="wait" initial={false}  >
@@ -67,7 +68,7 @@ export const Select = ({
                     />
                 )}
             </AnimatePresence>
-
+            
         </div>
     )
 }

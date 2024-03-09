@@ -2,8 +2,9 @@ import React, { Component, useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import AuthService from "../services/auth.service";
 import UserService from "../services/user.service";
+import "./profile.component.css";
 
-export const Profile = ({id}) => {
+export const Profile = ({ id }) => {
 
   const [redirect, setRedirect] = useState(null);
   const [userready, setUserready] = useState(redirect ? false : true);
@@ -53,7 +54,7 @@ export const Profile = ({id}) => {
   if (currentUser) {
     console.log("current employee id within profile", AuthService.getCurrentUser().id)
     id(currentUser.id);
-}
+  }
 
 
   if (!currentUser) {
@@ -66,69 +67,84 @@ export const Profile = ({id}) => {
   }
 
   return (
-    <div className="container">
-      {userready ?
-        <div>
-          <header className="jumbotron">
-            <h3>
-              <strong> Profile</strong>
-            </h3>
-          </header>
-          <div style={{ display: "none" }}>
-            <strong>Token:</strong>{" "}
-            {currentUser.accessToken}
-          </div>
-          <p>
-            <strong>Id:</strong>{" "}
-            {currentUser.id}
-          </p>
-          <p>
-            <strong>Firstname:</strong>{" "}
-            {currentUser.firstname}
-          </p>
-          <p>
-            <strong>Lastname:</strong>{" "}
-            {currentUser.lastname}
-          </p>
-          <p>
-            <strong>Email:</strong>{" "}
-            {currentUser.email}
-          </p>
-          <p>
-            <strong>Date of birth:</strong>{" "}
-            {currentUser.dateofbirth}
-          </p>
-          <p>
-            <strong>Date of joining:</strong>{" "}
-            {currentUser.dateofjoining}
-          </p>
-          <p>
-            <strong>Department:</strong>{" "}
-            {currentUser.department}
-          </p>
-          <p>
-            <strong>Position:</strong>{" "}
-            {currentUser.position}
-          </p>
-          <p>
-            <strong>Reporting to:</strong>{" "}
-            {currentUser.reportingto}
-          </p>
-          {skills.length > 0  &&
-            <p>
-              <strong>Technologies:</strong>
-              <ul >
-                {skills.map((list, index) => <li key={index}>{list}</li>)}
+    <>
+      <div className="profile">
+        <div className="container">
+          {userready ?
 
-              </ul>
-            </p>
+            <div>
+              <header className="jumbotron">
+                <h3>
+                  <strong> Profile</strong>
+                </h3>
+              </header>
+
+              <div className="profilelist">
+
+                <div style={{ display: "none" }}>
+                  <strong>Token:</strong>{" "}
+                  {currentUser.accessToken}
+                </div>
+
+                <p>
+                  <strong>Id:</strong>{" "}
+                  {currentUser.id}
+                </p>
+                <p>
+                  <strong>Firstname:</strong>{" "}
+                  {currentUser.firstname}
+                </p>
+                <p>
+                  <strong>Lastname:</strong>{" "}
+                  {currentUser.lastname}
+                </p>
+                <p>
+                  <strong>Email:</strong>{" "}
+                  {currentUser.email}
+                </p>
+                <p>
+                  <strong>Date of birth:</strong>{" "}
+                  {new Date(currentUser.dateofbirth).toLocaleDateString()}
+                </p>
+                <p>
+                  <strong>Date of joining:</strong>{" "}
+                  {new Date(currentUser.dateofjoining).toLocaleDateString()}
+                </p>
+                <p>
+                  <strong>Department:</strong>{" "}
+                  {currentUser.department}
+                </p>
+                <p>
+                  <strong>Position:</strong>{" "}
+                  {currentUser.position}
+                </p>
+                <p>
+                  <strong>Reporting to:</strong>{" "}
+                  {currentUser.reportingto}
+                </p>
+                {skills.length > 0 &&
+                  <p>
+                    <strong>Technologies:</strong>
+                    <ul >
+                      {skills.map((list, index) => <li key={index}>{list}</li>)}
+
+                    </ul>
+                  </p>
+                }
+                <strong style={{ display: "none" }}>Authorities:</strong>
+                <ul style={{ display: "none" }}>
+                  {currentUser.roles &&
+                    currentUser.roles.map((role, index) => <li key={index}>{role}</li>)}
+                </ul>
+              </div>
+            </div> : null
+
           }
-          <strong style={{ display: "none" }}>Authorities:</strong>
-          <ul style={{ display: "none" }}>
-            {currentUser.roles &&
-              currentUser.roles.map((role, index) => <li key={index}>{role}</li>)}
-          </ul>
-        </div> : null}
-    </div>
+
+        </div>
+      </div>
+
+
+    </>
   );
 }

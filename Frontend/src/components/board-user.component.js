@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { Component, useEffect, useState, useRef } from "react";
 import { FormProvider, useForm } from 'react-hook-form'
 import UserService from "../services/user.service";
 import EventBus from "../common/EventBus";
@@ -27,7 +27,7 @@ export const BoardUser = ({ currentEmployeeId, submitRequestToHR }) => {
     message: "",
     loading: false
   })
-
+  const fileInputRef = useRef();
   const [technologies, setTechnologies] = useState([]);
   const [showSkills, setShowSkills] = useState(false)
   const [isSendDataToDB, setIsSendDataToDB] = useState(false)
@@ -36,13 +36,16 @@ export const BoardUser = ({ currentEmployeeId, submitRequestToHR }) => {
   const [approvalPending, setApprovalPending] = useState(false);
   const [startFilter, setStartFilter] = useState(false);
   const [skillsDenyed, setSkillsDenyed] = useState(false);
-
   const [waitinfForApproval, setWaitingForApproval] = useState(false);
+  const [fileUpload, setFileUpload] = useState(false);
+
   useEffect(() => {
     setSkills((prevData) => ({
       ...prevData,
       idEmployee: AuthService.getCurrentUser().id
     }))
+
+
 
     UserService.getTechnology()
       .then(response => {
@@ -79,17 +82,22 @@ export const BoardUser = ({ currentEmployeeId, submitRequestToHR }) => {
 
     setStartFilter(true);
   },
-    []
+    [selectedFile]
   )
 
   console.log("approved Skills", approvedSkills)
 
   const onFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
-
+    setFileUpload(true);
   };
 
-
+  const handleRemoveFile = () => {
+    // Clear the selected file when the remove button is clicked
+    setSelectedFile("");
+    setFileUpload(false);
+    fileInputRef.current.value = '';
+  };
   const onFileUpload = () => {
     if (selectedFile == "") {
       alert("Please attach supporting document!")
@@ -167,24 +175,11 @@ export const BoardUser = ({ currentEmployeeId, submitRequestToHR }) => {
   console.log("technologies - 1 ", technologies)
   console.log("permanent skills - 2", approvedSkills)
 
-  /*if(startFilter == true){
-    function sendSkills(){
-setTechnologies(technologies.filter(filterApprovedSkills))
-//setStartFilter(false);
-}
 
-
-
-
-  function filterApprovedSkills(item){
-    console.log("item",item);
-return item != approvedSkills;
-  }
-*/
   console.log("technology afer filter", technologies)
   return (
     <>
-
+<div className="skillpage">
       {approvalPending &&
         <div><h3> You recently send your request to HR. Please wait for the approval!. </h3> </div>
       }
@@ -215,13 +210,24 @@ return item != approvedSkills;
                     />
                     <div>
                       <label htmlFor="img">
-                        Add supporting Docement
+                        Supporting Docement :
                         <input
                           type="file"
                           id="img"
                           onChange={onFileChange}
+                          ref={fileInputRef}
+                          defaultValue="" // Set an empty value to avoid "No file selected"
                         />
                       </label>
+
+                      {/*    {selectedFile ? (
+                        <span>{selectedFile.name} <button onClick={handleRemoveFile}>Remove</button></span>
+                      ) : (
+                        <span>No file selected</span>
+                      )} 
+                      */}
+                      { selectedFile && <div><p> File attached successfully! </p>
+                      <button onClick={handleRemoveFile}>Remove</button> </div>}
                       <button onClick={onFileUpload}>Upload</button>
                     </div>
 
@@ -248,46 +254,11 @@ return item != approvedSkills;
         </div>
 
       }
-
+</div>
     </>
   );
 }
 
 
-/*  UserService.getUserBoard().then(
-      response => {
-        setState({
-          content: response.data
-        });
-      },
-      error => {
-        setState({
-          content:
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString()
-        });
-
-        if (error.response && error.response.status === 401) {
-          EventBus.dispatch("logout");
-        }
-      }
-    ); */
 
 
-/*    {state.message &&
-      <div className="form-group">
-        <div
-          className={
-            state.successful
-              ? "alert alert-success"
-              : "alert alert-danger"
-          }
-          role="alert"
-        >
-          {state.message}
-        </div>
-      </div>
-    } */

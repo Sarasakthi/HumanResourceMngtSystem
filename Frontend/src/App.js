@@ -11,7 +11,7 @@ import Home from "./components/home.component";
 import { Profile } from "./components/profile.component";
 import { BoardUser } from "./components/board-user.component";
 import BoardModerator from "./components/board-moderator.component";
-import {BoardAdmin} from "./components/board-admin.component";
+import { BoardAdmin } from "./components/board-admin.component";
 
 // import AuthVerify from "./common/auth-verify";
 import EventBus from "./common/EventBus";
@@ -68,21 +68,21 @@ export default function App() {
     function receiveIdEmployee(data) {
         setCurrentId(data)
     }
-const[skills,setSkills] = useState({
-    idEmployee : "",
-    skills : ""
-})
-    function submitToHRApproval(data){
-        setSkills(()=> ({
-            idEmployee : data.idEmployee,
+    const [skills, setSkills] = useState({
+        idEmployee: "",
+        skills: ""
+    })
+    function submitToHRApproval(data) {
+        setSkills(() => ({
+            idEmployee: data.idEmployee,
             skills: data.skills
         }))
-        console.log("idEmployee from app.ja",data.idEmployee)
-        console.log("skills  from app.ja",data.skills)
+        console.log("idEmployee from app.ja", data.idEmployee)
+        console.log("skills  from app.ja", data.skills)
     }
     return (
         <div>
-            <nav className="navbar navbar-expand navbar-dark bg-dark">
+            <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
                 <Link to={"/"} className="navbar-brand">
                     TJSS
                 </Link>
@@ -92,6 +92,8 @@ const[skills,setSkills] = useState({
                             Home
                         </Link>
                     </li>
+
+
 
                     {showModeratorBoard && (
                         <li className="nav-item">
@@ -112,13 +114,14 @@ const[skills,setSkills] = useState({
                     {showUserBoard && (
                         <li className="nav-item">
                             <Link to={"/user"} className="nav-link">
-                                User
+                                Skills
                             </Link>
                         </li>
                     )}
-                    
-                </div>
 
+
+
+                </div>
                 {currentUser ?
                     (<div className="navbar-nav ml-auto">
                         <li className="nav-item">
@@ -156,10 +159,10 @@ const[skills,setSkills] = useState({
                     <Route path="/register" element={<Register />} />
                     <Route path="/profile" element={<Profile id={receiveIdEmployee} />} />
                     <Route path="/user" element={<BoardUser currentEmployeeId={currentId}
-                                                            submitRequestToHR = {submitToHRApproval} />} />
+                        submitRequestToHR={submitToHRApproval} />} />
                     <Route path="/mod" element={<BoardModerator />} />
-                    <Route path="/admin" element={<BoardAdmin 
-                                                    pendingApproval = {skills}/>} />
+                    <Route path="/admin" element={<BoardAdmin
+                        pendingApproval={skills} />} />
                 </Routes>
             </div>
 

@@ -3,7 +3,7 @@ import userService from '../services/user.service';
 //import { Link } from "react-router-dom";
 import { Routes, Route, Link } from "react-router-dom";
 import { Document } from './document';
-
+import "./HRApproval.css";
 export const HRApproval = (skillsEmployee) => {
   console.log("skillsEmployee", skillsEmployee);
   console.log("skillsEmployee.skillsEmployee", skillsEmployee.skillsEmployee)
@@ -96,6 +96,7 @@ export const HRApproval = (skillsEmployee) => {
   return (
 
     <>
+    <div className='skill-emp'>
       {showEmployees ?
         <div>
           <div className="table-wrapper">
@@ -104,7 +105,7 @@ export const HRApproval = (skillsEmployee) => {
 
             <div className="container">
               <div className="col align-self-center">
-                <table className="table table-bordered">
+                <table className="table ">
                   <thead className="table thead-dark">
                     <tr>
 
@@ -151,9 +152,11 @@ export const HRApproval = (skillsEmployee) => {
                         </td>
 
                         <td>
-                          <Link to="/admin" onClick={() => acceptAlert(index)}>Accept</Link>
+                        <span className="actions">
+                          <Link to="/admin"  className = "accept-link" onClick={() => acceptAlert(index)}>Accept</Link>
 
-                          <Link to="/admin" onClick={() => denyAlert(index)}>Deny</Link>
+                          <Link to="/admin" className = "deny-link" onClick={() => denyAlert(index)}>Deny</Link>
+                          </span>
                         </td>
 
                       </tr>
@@ -165,7 +168,7 @@ export const HRApproval = (skillsEmployee) => {
                 </table>
               </div>
             </div>
-          </div >
+          </div>
 
           <div>
             <Routes>
@@ -175,10 +178,12 @@ export const HRApproval = (skillsEmployee) => {
           </div>
         </div>
         :
-        <div>
-          <h3>No employee submitted skills for approval!</h3>
+        <div className='message'>
+          <h3><span className='noemployee'>No employee submitted skills for approval!</span></h3>
         </div>
+
       }
+      </div>
     </>
   )
 }

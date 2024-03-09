@@ -6,7 +6,10 @@ import "react-datepicker/dist/react-datepicker.css";
 import { DateTime } from 'luxon';
 
 let d = new Date();
-export const Modal = ({ closeModal, onSubmit, defaultValue, managers, departments }) => {
+export const Modal = ({ value, onSubmit, defaultValue, managers, departments }) => {
+    console.log("value", value);
+    console.log("reached modal");
+    console.log("dafault value", defaultValue)
 
     const [updateEmployees, setUpdateEmployees] = useState(defaultValue || {
         idEmployee: "",
@@ -26,12 +29,35 @@ export const Modal = ({ closeModal, onSubmit, defaultValue, managers, department
     const [departmentsList, setDepartmentsList] = useState([])
     const [showManagersDropDown, setManagersShowDropDown] = useState(false);
     const [showDepartmentDropDown, setShowDepartmentDropDown] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
+
+
+
+    // console.log("modal - 1 ", isModalOpen)
     useEffect(() => {
         setDepartmentsList(departments)
         setManagersList(managers)
-    }, [])
 
+        openModal();
+
+        // Clean up the modal when the component is unmounted
+        return () => {
+            document.body.classList.remove('modal-open');
+        };
+    }, [])
+    // console.log("modal - 2 ", isModalOpen)
+
+
+    const openModal = () => {
+        setIsModalOpen(true);
+        document.body.classList.add('modal-open');
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        document.body.classList.remove('modal-open');
+    };
     let joiningDate = new Date(updateEmployees.dateofjoining)
 
     let birthDate = new Date(updateEmployees.dateofbirth)
@@ -74,7 +100,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue, managers, department
             return;
         }
         onSubmit(updateEmployees);
-        closeModal();
+        //closeModal();
     }
 
     function getmanagersdatafromdb() {
@@ -86,55 +112,91 @@ export const Modal = ({ closeModal, onSubmit, defaultValue, managers, department
 
     }
 
+    function handleModal() {
+        //    setIsModalOpen(false);
+
+    }
+    // console.log("modal value in modal.jsx", isModalOpen)
+
     return (
-       
-            <div
-                className="modal-container"
-                onClick={(e) => {
-                    if (e.target.className === "modal-container") {closeModal()};
-                }}
-            >
-                <div className="modal-body">
-                    <form>
-                        <div className='form-group'>
-                            <label htmlFor="{id + 'ID'}">ID</label>
-                            <input id="{id + 'ID'}"
+        <>
+
+
+            {isModalOpen && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <span className="close-button" onClick={closeModal}>&times;</span>
+                        <div className='modal-title'>
+                        <h2>Update employee</h2>
+                        </div>
+                        <div className='modal-scrollable-content'>
+                        <form>
+                            <div className='fields'>
+                           
+                       
+                    <div className='form-group'>
+                        
+                        <label htmlFor="{id + 'ID'}">ID
+                        
+                        
+                            <input 
+                                id="{id + 'ID'}"
                                 name="idEmployee"
                                 value={updateEmployees.idEmployee}
                                 onChange={handleChange} readOnly disabled />
+                                </label>
+                                </div>
+                             
+                  
 
-                        </div>
-
-                        <div className='form-group'>
-                            <label htmlFor="{id + 'FIRSTNAME'}">Firstname</label>
+                  
+                    <div className='form-group'>
+                        <label  htmlFor="{id + 'FIRSTNAME'}">Firstname:
+                       
+                       
                             <input id="{id + 'FIRSTNAME'}"
                                 name="firstname"
                                 value={updateEmployees.firstname}
-                                onChange={handleChange} readOnly disabled />
-
+                                onChange={handleChange} readOnly disabled /></label>
                         </div>
+                        
 
-                        <div className='form-group'>
-                            <label htmlFor="{id + 'LASTNAME'}">Lastname</label>
+                   
+
+
+                  
+                    <div className='form-group'>
+                        <label htmlFor="{id + 'LASTNAME'}">Lastname:
+                      
+                       
                             <input id="{id + 'LASTNAME'}"
                                 name="lastname"
                                 value={updateEmployees.lastname}
-                                onChange={handleChange} readOnly disabled />
+                                onChange={handleChange} readOnly disabled /></label>
+                       
+                      
+                    </div>
 
-                        </div>
 
-                        <div className='form-group'>
-                            <label htmlFor="{id + 'email'}">Email</label>
+                   
+                    <div className='form-group'>
+                        <label  htmlFor="{id + 'email'}">Email:
+                      
+                       
                             <input id="{id + 'email'}"
                                 name="email"
                                 value={updateEmployees.email}
-                                onChange={handleChange} readOnly disabled />
+                                onChange={handleChange} readOnly disabled /></label>
+                        
+                       
+                    </div>
 
-                        </div>
 
-
-                        <div className='form-group'>
-                            <label htmlFor={id + 'dateofjoining'}>Date of joining :</label>
+                  
+                    <div className='form-group'>
+                        <label htmlFor={id + 'dateofjoining'}>Date of joining :
+                       
+                       
                             <DatePicker
                                 placeholderText="Date of joining"
                                 id={id + 'dateofjoining'}
@@ -148,12 +210,16 @@ export const Modal = ({ closeModal, onSubmit, defaultValue, managers, department
                                     }
                                 })}
                                 readOnly disabled
-                            />
+                            /> </label>
+                       
+                       
+                    </div>
 
-                        </div>
 
-                        <div className='form-group'>
-                            <label htmlFor={id + 'dateofbirth'}>Date of Birth :</label>
+                   
+                    <div className='form-group'>
+                        <label htmlFor={id + 'dateofbirth'}>Date of Birth :
+                        
                             <DatePicker
                                 placeholderText="Date of birth"
                                 id={id + 'dateofbirth'}
@@ -167,12 +233,15 @@ export const Modal = ({ closeModal, onSubmit, defaultValue, managers, department
                                     }
                                 })}
                                 readOnly disabled
-                            />
+                            /></label>
+                       
+                    </div>
 
-                        </div>
 
-                        <div className='form-group'>
-                            <label htmlFor={id + 'department'}>Department :</label>
+                   
+                    <div className='form-group'>
+                        <label  htmlFor={id + 'department'}>Department:
+                       
                             <select id={id + 'department'}
                                 value={updateEmployees.department}
                                 name="department"
@@ -187,22 +256,31 @@ export const Modal = ({ closeModal, onSubmit, defaultValue, managers, department
 
                                 )) : <option> {updateEmployees.department}</option>
                                 }
-                            </select>
-                        </div>
+                            </select></label>
+                        
+                    </div>
 
-                        <div className='form-group'>
-                            <label htmlFor={id + 'position'}>Position :</label>
+
+                   
+                    <div className='form-group'>
+                        <label htmlFor={id + 'position'}>Position:
+                       
+                       
                             <input id={id + 'position'}
                                 type="text"
                                 placeholder=" Enter the position"
                                 name="position"
                                 value={updateEmployees.position}
                                 onChange={handleChange}
-                                required />
-                        </div>
+                                required /></label>
+                       
+                    </div>
 
-                        <div className='form-group'>
-                            <label htmlFor={id + 'reportingto'}>Reporting To :</label>
+
+                    
+                    <div className='form-group'>
+                        <label  htmlFor={id + 'reportingto'}>Reporting To:
+                       
                             <select id={id + 'reportingto'}
                                 value={updateEmployees.reportingto}
                                 name="reportingto"
@@ -219,26 +297,48 @@ export const Modal = ({ closeModal, onSubmit, defaultValue, managers, department
                                 )) : <option> {updateEmployees.reportingto}</option>
                                 }
 
-                            </select>
-                        </div>
+                            </select></label>
+                        
+                    </div>
 
 
-                        {errors && <div className="error">
-                            {`Please include: ${errors}`}
-                        </div>
-                        }
-                        <button type="submit" className="btn"
-                            onClick={handleSubmit}>
-                            Submit
-                        </button>
-                    </form>
+                    {errors && <div className="error">
+                        {`Please include: ${errors}`}
+                    </div>
+                    }
+                    <button type="submit" className="btn btn-primary"
+                        onClick={handleSubmit}>
+                        Submit
+                    </button>
+                    </div>
+                </form>
                 </div>
-            </div>
+                    </div>
+                </div>
+            )
+            }
+        </>
+    )
+}
 
-        
 
-    );
-};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // showIcon
 //toggleCalendarOnIconClick

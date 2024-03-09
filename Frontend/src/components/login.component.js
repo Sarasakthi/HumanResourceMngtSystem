@@ -16,8 +16,10 @@ import { BsFillCheckSquareFill } from 'react-icons/bs'
 import { withRouter } from '../common/with-router';
 import { Passwordmodal } from "./Passwordmodal";
 import * as moment from 'moment'
-
-
+import 'bootstrap/dist/css/bootstrap.min.css'
+import Logo from '../images/TJSS Logo.png'
+import HomePicture from "../images/homepicture.jpg"
+import "./login.component.css"
 
 
 
@@ -30,15 +32,15 @@ export const Login = ({ getuserData }) => {
 
   const updatePassword = (data) => {
     console.log("password from modal", data.newPassword)
-    console.log("DOB from modal",data.dateofbirth)
+    console.log("DOB from modal", data.dateofbirth)
     console.log("email to DB", data.email)
-   
+
     userService.passwordUpdate(data)
-    .then(response => console.log(response))
-    .catch(error => console.log(error))
-    
+      .then(response => console.log(response))
+      .catch(error => console.log(error))
+
   }
-   
+
   const methods = useForm()
 
   const [isLoginSuccess, setIsLoginSuccess] = useState(false);
@@ -57,7 +59,7 @@ export const Login = ({ getuserData }) => {
       ...prevData,
       email: data.email
     }))
-   if (data.password === "newemployee") {
+    if (data.password === "newemployee") {
       setModalOpen(true);
     }
     else
@@ -96,70 +98,100 @@ export const Login = ({ getuserData }) => {
   })
 
 
-   if (isLoginSuccess) {
+  if (isLoginSuccess) {
     return <Navigate to={"/profile"} />        //Edit this to move to profile after completed password
-   }
+  }
   return (
+    <>
+      <div className="row">
+        <div className="column">
+          <div className="column1">
+            <div className="col-10">
+              <div className="image">
+                <img
+                  src={Logo}
+                  alt="profile-img"
+                  className="profile-img-card"
+                />
+              </div>
+              <FormProvider {...methods}>
+                <form
+                  onSubmit={e => e.preventDefault()}
+                  noValidate
+                  autoComplete="off"
+                >
+                  <div className="emailField">
+                    <Input {...email_validation}
+                      autoFocus="autoFocus"
+                      rowLabel="form-group row"
+                      columnLabel1="col-sm-2 col-form-label"
+                      columnLabel2="col-sm-10"
+                      inputClassName="form-control" />
+                  </div>
+                  <div className="passwordField">
+                    <Input {...password_validation}
+                      rowLabel="form-group row"
+                      columnLabel1="col-sm-2 col-form-label"
+                      columnLabel2="col-sm-10"
+                      inputClassName="form-control" />
+                  </div>
 
-    <div >
-      <img
-        src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-        alt="profile-img"
-        className="profile-img-card"
-      />
-
-      <FormProvider {...methods}>
-        <form
-          onSubmit={e => e.preventDefault()}
-          noValidate
-          autoComplete="off"
-        >
-
-          <Input {...email_validation} />
-          <Input {...password_validation} />
-
-          <div >
-            <button
-              className="btn btn-primary btn-block"
-              onClick={onSubmit}
-            >
-              <span>Login</span>
-            </button>
-          </div>
+                  <div className="submitButton">
+                    <button
+                      className="btn btn-primary btn-block"
+                      onClick={onSubmit}
+                    >
+                      <span>Login</span>
+                    </button>
+                  </div>
 
 
-        </form>
-      </FormProvider>
-      {state.message &&
-        <div className="form-group">
-          <div
-            className={
-              state.successful
-                ? "alert alert-success"
-                : "alert alert-danger"
-            }
-            role="alert"
-          >
-            {state.message}
+                </form>
+              </FormProvider>
+              {state.message &&
+                <div className="form-group">
+                  <div
+                    className={
+                      state.successful
+                        ? "alert alert-success"
+                        : "alert alert-danger"
+                    }
+                    role="alert"
+                  >
+                    {state.message}
+                  </div>
+                </div>
+              }
+
+              {
+                modalopen &&
+                <Passwordmodal
+                  closeModal={() => {
+                    setModalOpen(false)
+
+
+                  }}
+                  receivePassword={updatePassword}
+                  email={credential.email} />
+              }
+
+
+            </div>
           </div>
         </div>
-      }
-
-      {
-        modalopen &&
-        <Passwordmodal
-          closeModal={() => {
-            setModalOpen(false)
-           
-
-          }}
-          receivePassword={updatePassword}
-          email = {credential.email} />
-      }
-
-
-    </div>
-
+        <div className="column">
+          <div className="column2">
+            <div className="col-2">
+              <img
+                src={HomePicture}
+                alt="profile-img"
+                className="profile-img-home"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
 

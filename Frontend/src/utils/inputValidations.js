@@ -1,16 +1,11 @@
-/*-------------------------------------------------------------------
-|  🐼 Input Validators 
-|
-|  🐯 Purpose: THIS FILE CONTAINS ALL THE VALIDATORS OBJECTS
-|
-|  🐸 Returns:  -
-*-------------------------------------------------------------------*/
+
 import * as moment from 'moment'
 export const firstname_validation = {
   name: 'firstname',
   label: 'Firstname',
   type: 'text',
   id: 'firstname',
+ 
   placeholder: 'Type Firstname ...',
   validation: {
     required: {
@@ -136,7 +131,7 @@ export const email_validation = {
   label: 'Email',
   type: 'email',
   id: 'email',
-  placeholder: 'Type email address',
+  placeholder: 'Type email address...',
   validation: {
     required: {
       value: true,

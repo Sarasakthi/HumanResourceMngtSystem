@@ -30,7 +30,29 @@
 
 .delete-btn{
     color: #e10d05;
+    background-color: yellow;
+    margin-right: 15px;
+    margin-left: 5px;
+}
+.edit-btn{
+  margin-left: 25px;
+ 
 }
 
-
-
+.search{
+  padding-top: 280px;
+  width: 25%;
+  margin: 0 auto;
+}
+.radioandbutton,.findbutton{
+ 
+  display: inline;
+}
+.employeetable{
+  padding-top: 20px;
+ 
+}
+th,td{
+  text-align: center;
+  vertical-align: middle;
+}

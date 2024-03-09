@@ -42,29 +42,37 @@ export const Input = ({
     validation,
     checkbox,
     dateFormat,
-    className,
+
     array,
     skills,
     reset,
-   sendState
+    sendState,
+    autoFocus,
+   
+    inputClassName,
+    
+    rowLabel,
+    columnLabel1,
+    columnLabel2
+   
 }) => {
     const { register, formState: { errors },
         setValue, getValues } = useFormContext();
 
 
-const[resetValue, setResetValue] = useState(false)
+    const [resetValue, setResetValue] = useState(false)
     const handleChange = (e) => {
         const fieldName = e.target.name;
         const fieldValue = e.target.value;
 
-        console.log("reset.successful - 1 : ",reset )
-        reset= false;
-        console.log("reset.successful - 2 : ",reset )
-        
+        console.log("reset.successful - 1 : ", reset)
+        reset = false;
+        console.log("reset.successful - 2 : ", reset)
+
         // Update the form value using setValue
         setValue(fieldName, fieldValue);
         //sendState(resetValue)
-       
+
 
         //onChange(resetValue)
         // Log the changes to the console
@@ -74,8 +82,8 @@ const[resetValue, setResetValue] = useState(false)
 
 
     const handleSetState = () => {
-        console.log("printing reset value",resetValue)
-       // sendState(resetValue)
+        console.log("printing reset value", resetValue)
+        // sendState(resetValue)
     }
     const inputErrors = findInputError(errors, name)
     const isInvalid = isFormInvalid(inputErrors)
@@ -101,22 +109,21 @@ const[resetValue, setResetValue] = useState(false)
         , [skills])
 
     console.log("Final Technolody names", technologyName);
-    
-// {/*  tried to change state.successful = false in employeeDetatils.jsx but using onClick and onChange we can set and get values of input fields only, not any other state or elements */}
+
+    // {/*  tried to change state.successful = false in employeeDetatils.jsx but using onClick and onChange we can set and get values of input fields only, not any other state or elements */}
     return (
         <>
-            <div className="row mb-2">
+            <div >
 
-                {dateFormat ? <div>
-                    <label className="col-sm-2 col-form-label"
+                {dateFormat ? 
+                <div className={rowLabel}>
+                    <label className={ columnLabel1} 
                         htmlFor={id} >
-
                         {label}
-
                     </label>
-
+                    <div className={columnLabel2 }>
                     <input
-                        className="col-sm-3"
+                        className={inputClassName}
                         id={id}
                         type={type}
                         selected={null}
@@ -126,6 +133,7 @@ const[resetValue, setResetValue] = useState(false)
                         onClick={handleSetState}
                     />
                 </div>
+                </div>
                     :
                     <div>
                         {
@@ -133,14 +141,14 @@ const[resetValue, setResetValue] = useState(false)
 
                                 <div >
                                     {technologyName.map((arrayitems) =>
-                                        <label className="col-sm-2 col-form-label"
-
+                                        <label
+                                            
                                             htmlFor={arrayitems}
                                         >
                                             {arrayitems}
                                             <input
                                                 key={arrayitems.index}
-                                                className="col-sm-3"
+                                                className={inputClassName}
 
                                                 id={arrayitems}
                                                 type={type}
@@ -148,7 +156,7 @@ const[resetValue, setResetValue] = useState(false)
                                                 value={arrayitems}
                                                 {...register(arrayitems, validation)}
                                                 onChange={handleChange}
-                                                onClick={handleSetState} 
+                                                onClick={handleSetState}
 
                                             />
                                         </label>
@@ -156,23 +164,30 @@ const[resetValue, setResetValue] = useState(false)
                                     )}
                                 </div>
                                 :
-                                <div>
-                                    <label className="col-sm-2 col-form-label"
+
+
+
+                                <div className={rowLabel}>
+                                    <label className={ columnLabel1}
                                         htmlFor={id} >
                                         {label}
                                     </label>
-                                    <input
-                                        className="col-sm-3"
+                                    <div className={columnLabel2 }>
+                                        <input
 
-                                        id={id}
-                                        type={type}
+                                            className={inputClassName}
+                                            id={id}
+                                            type={type}
 
-                                        placeholder={placeholder}
-                                        {...register(name, validation)}
-                                        onChange={handleChange}
-                                        onClick={handleSetState}
-                                    />
+                                            placeholder={placeholder}
+                                            {...register(name, validation)}
+                                            autoFocus={autoFocus}
+                                            onChange={handleChange}
+                                            onClick={handleSetState}
+                                        />
+                                    </div>
                                 </div>
+
                         }
                     </div>
                 }

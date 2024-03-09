@@ -1,0 +1,49 @@
+.skill-emp {
+    padding-top: 300px;
+
+}
+
+.actions {
+    display: flex;
+
+}
+
+.actions svg {
+    cursor: pointer;
+}
+
+.deny-link {
+    color: #e10d05;
+
+    /*  margin-right: 15px;
+    margin-left: 5px;*/
+}
+
+.accept-link {
+    /* margin-left: 25px;*/
+
+}
+
+.message {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+h3 {
+    margin: 0;
+    text-align: center;
+}
+
+.noemployee {
+
+    background-color: #e10d05;
+    /*text-align: center;*/
+    font-weight: bold;
+    color: white;
+    padding: 10px;
+    display: inline-block;
+
+}

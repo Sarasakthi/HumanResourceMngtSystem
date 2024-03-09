@@ -1,0 +1,54 @@
+.head {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #fff; 
+    z-index: 1000; /* Set a higher z-index to ensure it's above other elements */
+   /* box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); */
+
+}
+
+h1 {
+    margin: 0;
+    text-align: center;
+}
+
+.header {
+  /*  background-color: #e10d05;
+    font-weight: bold;
+    color: white;*/
+   
+    padding: 80px 30px 50px 30px;
+    display: inline-block;
+
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+}
+
+.buttons button {
+    
+   /* margin: 15px 15px 30px 15px;*/
+   margin-top: 180px;
+   margin-right: 15px;
+   margin-left: 15px;
+   margin-bottom: 30px;
+    
+}
+.buttons-fixed {
+    position: fixed;
+    top: 20px; /* Adjust the top position as needed */
+    left: 0;
+    width: 100%;
+   background-color: #fff; 
+    z-index: 999; /* Set a z-index lower than the header to ensure buttons are below it */
+   box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1); /*  Add a box shadow for a visual separation */
+  }

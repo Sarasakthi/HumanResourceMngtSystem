@@ -7,26 +7,24 @@ import AuthService from "./services/auth.service";
 
 import { Login } from "./components/login.component";
 import Register from "./components/register.component";
-import Home from "./components/home.component";
+import { Home } from "./components/home.component";
 import { Profile } from "./components/profile.component";
 import { BoardUser } from "./components/board-user.component";
-import BoardModerator from "./components/board-moderator.component";
+/*import BoardModerator from "./components/board-moderator.component";*/
 import { BoardAdmin } from "./components/board-admin.component";
+import { Services } from "./components/Services";
+import { Contact } from "./components/Contact";
+
 
 // import AuthVerify from "./common/auth-verify";
 import EventBus from "./common/EventBus";
 
 export default function App() {
 
-    /* const [state, setState] = useState({
-         showAdminBoard: false,
-         showModeratorBoard: false,
-         showUserBoard: false,
-         currentUser: undefined
-     })*/
+
 
     const [showAdminBoard, setShowAdminBoard] = useState(false)
-    const [showModeratorBoard, setShowModeratorBoard] = useState(false)
+    //const [showModeratorBoard, setShowModeratorBoard] = useState(false)
     const [showUserBoard, setShowUserBoard] = useState(false)
     const [currentUser, setCurrentUser] = useState(undefined)
     useEffect(() => {
@@ -34,14 +32,9 @@ export default function App() {
         if (user) {
             setCurrentUser(user)
             setShowAdminBoard(user.roles.includes("ROLE_ADMIN"))
-            setShowModeratorBoard(user.roles.includes("ROLE_MODERATOR"))
+            //setShowModeratorBoard(user.roles.includes("ROLE_MODERATOR"))
             setShowUserBoard(user.roles.includes("ROLE_USER"))
-            /* setState({
-                 currentUser: user,
-                 showUserBoard: user.roles.includes("ROLE_USER"),
-                 showAdminBoard: user.roles.includes("ROLE_ADMIN"),
-                 showModeratorBoard: user.roles.includes("ROLE_MODERATOR")
-             })*/
+
         }
 
         //  EventBus.on("logout", () => { logOut() })
@@ -53,7 +46,7 @@ export default function App() {
         AuthService.logout()
         setCurrentUser(undefined)
         setShowAdminBoard(false)
-        setShowModeratorBoard(false)
+        //setShowModeratorBoard(false)
         setShowUserBoard(false)
     }
 
@@ -61,7 +54,7 @@ export default function App() {
 
         setCurrentUser(data)
         setShowAdminBoard(data.roles.includes("ROLE_ADMIN"))
-        setShowModeratorBoard(data.roles.includes("ROLE_MODERATOR"))
+        //setShowModeratorBoard(data.roles.includes("ROLE_MODERATOR"))
         setShowUserBoard(data.roles.includes("ROLE_USER"))
     }
     const [currentId, setCurrentId] = useState(0)
@@ -82,75 +75,89 @@ export default function App() {
     }
     return (
         <div>
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-                <Link to={"/"} className="navbar-brand">
-                    TJSS
-                </Link>
-                <div className="navbar-nav mr-auto">
-                    <li className="nav-item">
-                        <Link to={"/home"} className="nav-link">
-                            Home
+            <nav className="navbar  navbar-expand-lg navbar-dark bg-dark fixed-top"> {/* fixed-top */}
+
+                <div className="collapse navbar-collapse">
+                    {!currentUser && (
+                        <Link to={"/"} className="navbar-brand">
+                            TJSS
                         </Link>
-                    </li>
-
-
-
-                    {showModeratorBoard && (
-                        <li className="nav-item">
-                            <Link to={"/mod"} className="nav-link">
-                                Moderator Board
-                            </Link>
-                        </li>
                     )}
-
-                    {showAdminBoard && (
-                        <li className="nav-item">
-                            <Link to={"/admin"} className="nav-link">
-                                Admin Board
-                            </Link>
-                        </li>
-                    )}
-
-                    {showUserBoard && (
-                        <li className="nav-item">
-                            <Link to={"/user"} className="nav-link">
-                                Skills
-                            </Link>
-                        </li>
-                    )}
+                    <ul className="navbar-nav mr-auto">
+                        {!currentUser && (
+                            <li className="nav-item">
+                                <Link to={"/home"} className="nav-link">
+                                    Home
+                                </Link>
+                            </li>
+                        )}
 
 
 
+
+                        {currentUser && (
+                            <li className="nav-item">
+                                <Link to={"/profile"} className="nav-link">
+                                    {currentUser.username}
+                                </Link>
+                            </li>
+                        )}
+                        {showAdminBoard && (
+                            <li className="nav-item">
+                                <Link to={"/admin"} className="nav-link">
+                                    Admin Board
+                                </Link>
+                            </li>
+                        )}
+
+                        {showUserBoard && (
+                            <li className="nav-item">
+                                <Link to={"/user"} className="nav-link">
+                                    Skills
+                                </Link>
+                            </li>
+                        )}
+
+
+                        {currentUser && (
+                            <li className="nav-item">
+                                <a href="/login" className="nav-link" onClick={logOut}>
+                                    LogOut
+                                </a>
+                            </li>
+                        )}
+
+                        {!currentUser && (
+                            <li className="nav-item">
+                                <Link to={"/login"} className="nav-link">
+                                    Login
+                                </Link>
+                            </li>
+                        )}
+
+                        {/*  <ul className="navbar-nav ml-auto">*/}
+                        {!currentUser && (
+                            <li className="nav-item">
+                                <Link to={"/services"} className="nav-link">
+                                    Services
+                                </Link>
+                            </li>
+                        )}
+                        {!currentUser && (
+                            <li className="nav-item">
+                                <Link to={"/contact"} className="nav-link">
+                                    Contact us
+                                </Link>
+                            </li>
+                        )}
+                        {/*  </ul>*/}
+                    </ul>
                 </div>
-                {currentUser ?
-                    (<div className="navbar-nav ml-auto">
-                        <li className="nav-item">
-                            <Link to={"/profile"} className="nav-link">
-                                {currentUser.username}
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <a href="/login" className="nav-link" onClick={logOut}>
-                                LogOut
-                            </a>
-                        </li>
-                    </div>)
-                    :
-
-                    (<div className="navbar-nav ml-auto">
-                        <li className="nav-item">
-                            <Link to={"/login"} className="nav-link">
-
-                                Login
-                            </Link>
-                        </li>
-
-                    </div>)
-                }
-
-
-
             </nav>
+
+
+
+
             <div className="container mt-3">
                 <Routes>
                     <Route path="/" element={<Home />} />
@@ -160,12 +167,14 @@ export default function App() {
                     <Route path="/profile" element={<Profile id={receiveIdEmployee} />} />
                     <Route path="/user" element={<BoardUser currentEmployeeId={currentId}
                         submitRequestToHR={submitToHRApproval} />} />
-                    <Route path="/mod" element={<BoardModerator />} />
+                    {/*   <Route path="/mod" element={<BoardModerator />} />*/}
                     <Route path="/admin" element={<BoardAdmin
                         pendingApproval={skills} />} />
+
+                    <Route path="/services" element={<Services />} />
+                    <Route path="/contact" element={<Contact />} />
                 </Routes>
             </div>
-
 
         </div>
     );

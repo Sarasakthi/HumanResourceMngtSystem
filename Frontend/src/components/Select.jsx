@@ -22,7 +22,6 @@ export const Select = ({
     inputClassName,
     rowLabel,
     columnLabel1,
-    columnLabel2
 
 }) => {
     const {
@@ -36,29 +35,32 @@ export const Select = ({
 
     return (
         <div>
-            
+
             <div className={rowLabel}>
-                <label className={ columnLabel1}
-                    htmlFor={id} >
-                    {label}
-                </label>
-                <div className={columnLabel2 }>
-                <select
-                   className={inputClassName}
-                    id={id}
-                    {...register(name, validation)}
-                >
-                    {array.map((arrayitems) =>
+                <div className={columnLabel1}>
+                    <label
+                        htmlFor={id} 
+                        style={{ marginLeft: '0px' }}>
+                        {label}
+                    </label>
+                    {/*  <div className={columnLabel2 }> */}
+                    <select
+                        className={inputClassName}
+                        id={id}
+                        {...register(name, validation)}
+                    >
+                        {array.map((arrayitems) =>
 
-                    <option value={arrayitems.departmentName ? arrayitems.departmentName :arrayitems.firstname}>
-                        {arrayitems.departmentName ? arrayitems.departmentName :arrayitems.firstname + ` - `  +`${arrayitems.department}` }
-                    </option>
+                            <option value={arrayitems.departmentName ? arrayitems.departmentName : arrayitems.firstname + ` - ` + `${arrayitems.department}`}>
+                                {arrayitems.departmentName ? arrayitems.departmentName : arrayitems.firstname + ` - ` + `${arrayitems.department}`}
+                            </option>
 
-                    )}
+                        )}
 
-                </select>
+                    </select>
                 </div>
             </div>
+            {/* </div> */}
 
             <AnimatePresence mode="wait" initial={false}  >
                 {isInvalid && (
@@ -68,7 +70,7 @@ export const Select = ({
                     />
                 )}
             </AnimatePresence>
-            
+
         </div>
     )
 }

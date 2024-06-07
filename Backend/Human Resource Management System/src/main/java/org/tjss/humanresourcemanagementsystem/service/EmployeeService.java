@@ -67,6 +67,10 @@ public interface EmployeeService {
 
    public int denySubmittedDocument(Integer idEmployee);
 
+	public int deleteUploadedImage(String name);
+
+	Optional<ImageData> findImageNameAlreadyExistsOrNot(MultipartFile file);
+
 //	public int submitSkillsToHR(String[] skills, String email);
 
 	//public List<TempSkills> testinsertedvalue(String email);

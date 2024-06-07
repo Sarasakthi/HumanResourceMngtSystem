@@ -1,3 +1,72 @@
-.skillpage{
+.skillpage {
     padding-top: 70px;
+   /* min-width: 426px;*/
+    max-width:50%;
+    text-align: center;
+    margin: 0 auto;
 }
+
+.skillContainer {
+    text-align: left;
+}
+
+.skillheading {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.show-skills {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+  .fileSuccess{
+    color: green;
+  }
+  .uploadFailure{
+    font-weight: bold;
+    color:red;
+  }
+
+  .upload-Failure{
+    padding-right: 10px;
+  }
+#uploadButton {
+    background-color: blue;
+    color: white;
+    padding: 7px;
+    border-radius: 5px;
+}
+
+#removeButton {
+    background-color: red;
+    color: white;
+    padding: 7px;
+    border-radius: 5px;
+}
+.empSkillSubmit{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.reSubmit{
+    font-weight: bold;
+}
+.yesButton,.notNowButton{
+    color: white;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 5px;
+}
+.yesButton {
+    background-color: green;
+    margin-right: 20px;
+  }
+  
+  .notNowButton {
+    background-color: red;
+  }

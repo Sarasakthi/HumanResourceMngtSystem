@@ -13,116 +13,113 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "users", 
-    uniqueConstraints = { 
-      @UniqueConstraint(columnNames = "username"),
-      @UniqueConstraint(columnNames = "email") 
-    })
+@Table(name = "users",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "username"),
+                @UniqueConstraint(columnNames = "email")
+        })
 public class User {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-  @NotBlank
-  @Size(max = 30)
-  private String username;
+    @NotBlank
+    @Size(max = 30)
+    private String username;
 
-  @NotBlank
-  @Size(max = 50)
-  @Email
-  private String email;
+    @NotBlank
+    @Size(max = 50)
+    @Email
+    private String email;
 
-  @JsonProperty(access = Access.WRITE_ONLY)
-  @NotBlank
-  @Size(max = 120)
-  private String password;
+    @JsonProperty(access = Access.WRITE_ONLY)
+    @NotBlank
+    @Size(max = 120)
+    private String password;
 
-  @ManyToMany(fetch = FetchType.LAZY)
-  @JoinTable(  name = "user_roles", 
-        joinColumns = @JoinColumn(name = "user_id"), 
-        inverseJoinColumns = @JoinColumn(name = "role_id"))
-  private Set<Role> roles = new HashSet<>();
-  
-  @ElementCollection
-	@CollectionTable(name = "permanent_skills",
-	joinColumns = @JoinColumn(name = "id"))
-	private Set<String> permanentSkills;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
-  public User() {
-  }
+    @ElementCollection
+    @CollectionTable(name = "permanent_skills",
+            joinColumns = @JoinColumn(name = "id"))
+    private Set<String> permanentSkills;
 
-  public User(String username, String email, String password) {
-    this.username = username;
-    this.email = email;
-    this.password = password;
-  }
-  
-  
+    public User() {
+    }
 
-  public User(Integer id, @NotBlank @Size(max = 30) String username, @NotBlank @Size(max = 50) @Email String email,
-		@NotBlank @Size(max = 120) String password, Set<Role> roles, Set<String> permanentSkills) {
-	super();
-	this.id = id;
-	this.username = username;
-	this.email = email;
-	this.password = password;
-	this.roles = roles;
-	this.permanentSkills = permanentSkills;
-}
+    public User(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
 
-public Integer getId() {
-    return id;
-  }
 
-  public void setId(Integer id) {
-    this.id = id;
-  }
+    public User(Integer id, @NotBlank @Size(max = 30) String username, @NotBlank @Size(max = 50) @Email String email,
+                @NotBlank @Size(max = 120) String password, Set<Role> roles, Set<String> permanentSkills) {
+        super();
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+        this.permanentSkills = permanentSkills;
+    }
 
-  public String getUsername() {
-    return username;
-  }
+    public Integer getId() {
+        return id;
+    }
 
-  public void setUsername(String username) {
-    this.username = username;
-  }
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-  public String getEmail() {
-    return email;
-  }
+    public String getUsername() {
+        return username;
+    }
 
-  public void setEmail(String email) {
-    this.email = email;
-  }
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-  public String getPassword() {
-    return password;
-  }
+    public String getEmail() {
+        return email;
+    }
 
-  public void setPassword(String password) {
-    this.password = password;
-  }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-  public Set<Role> getRoles() {
-    return roles;
-  }
+    public String getPassword() {
+        return password;
+    }
 
-  public void setRoles(Set<Role> roles) {
-    this.roles = roles;
-  }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-public Set<String> getPermanentSkills() {
-	return permanentSkills;
-}
+    public Set<Role> getRoles() {
+        return roles;
+    }
 
-public void setPermanentSkills(Set<String> permanentSkills) {
-	this.permanentSkills = permanentSkills;
-}
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 
-@Override
-public String toString() {
-	return "User [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password + ", roles="
-			+ roles + ", permanentSkills=" + permanentSkills + "]";
-}
-  
-  
+    public Set<String> getPermanentSkills() {
+        return permanentSkills;
+    }
+
+    public void setPermanentSkills(Set<String> permanentSkills) {
+        this.permanentSkills = permanentSkills;
+    }
+
+    @Override
+    public String toString() {
+        return "User [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password + ", roles="
+                + roles + ", permanentSkills=" + permanentSkills + "]";
+    }
 }

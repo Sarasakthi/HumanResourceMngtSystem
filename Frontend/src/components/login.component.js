@@ -14,12 +14,12 @@ import {
 import { GrMail } from 'react-icons/gr'
 import { BsFillCheckSquareFill } from 'react-icons/bs'
 import { withRouter } from '../common/with-router';
-import { Passwordmodal } from "./Passwordmodal";
 import * as moment from 'moment'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Logo from '../images/TJSS Logo.png'
 import HomePicture from "../images/homepicture.jpg"
 import "./login.component.css"
+import { Modal } from './Modal';
 
 
 
@@ -28,19 +28,6 @@ export const Login = ({ getuserData }) => {
   const [credential, setCredential] = useState({
     email: ""
   })
-
-
-  const updatePassword = (data) => {
-    console.log("password from modal", data.newPassword)
-    console.log("DOB from modal", data.dateofbirth)
-    console.log("email to DB", data.email)
-
-    userService.passwordUpdate(data)
-      .then(response => console.log(response))
-      .catch(error => console.log(error))
-
-  }
-
   const methods = useForm()
 
   const [isLoginSuccess, setIsLoginSuccess] = useState(false);
@@ -49,6 +36,16 @@ export const Login = ({ getuserData }) => {
     loading: false
   })
   const [modalopen, setModalOpen] = useState(false);
+  const [passwordModalOpen, setPasswordModalOpen] = useState(false);
+
+  const updatePassword = (data) => {
+    console.log("password from modal", data.newPassword)
+    console.log("DOB from modal", data.dateofbirth)
+    console.log("email to DB", data.email)
+
+   
+
+  }
 
   const onSubmit = methods.handleSubmit(data => {
 
@@ -60,7 +57,9 @@ export const Login = ({ getuserData }) => {
       email: data.email
     }))
     if (data.password === "newemployee") {
-      setModalOpen(true);
+      setPasswordModalOpen(true);
+     
+    
     }
     else
 
@@ -103,10 +102,12 @@ export const Login = ({ getuserData }) => {
   }
   return (
     <>
+    <div id="login-component" className={passwordModalOpen ? "inactive" : ""}>
+    <div className="container">
       <div className="row">
-        <div className="column">
+        <div className="col">
           <div className="column1">
-            <div className="col-10">
+         {/*   <div className="">  */}  {/* used this classname col-10*/}
               <div className="image">
                 <img
                   src={Logo}
@@ -163,34 +164,40 @@ export const Login = ({ getuserData }) => {
                 </div>
               }
 
-              {
-                modalopen &&
-                <Passwordmodal
-                  closeModal={() => {
-                    setModalOpen(false)
+              
 
 
-                  }}
-                  receivePassword={updatePassword}
-                  email={credential.email} />
-              }
-
-
-            </div>
+         {/*   </div>*/}
           </div>
         </div>
-        <div className="column">
-          <div className="column2">
-            <div className="col-2">
+        <div className="col">
+         {/* <div className="column2"> */}
+            <div className="homepage-image">{/*used this classname col-2 */}
               <img
                 src={HomePicture}
                 alt="profile-img"
                 className="profile-img-home"
               />
             </div>
-          </div>
+         {/* </div>*/}
         </div>
-      </div>
+        </div>
+    </div>
+    </div>
+        {
+                passwordModalOpen &&
+                <Modal
+                  closeModal={() => {
+                    setPasswordModalOpen(false)
+                  }}
+                  onClose={() => {
+                    setPasswordModalOpen(false)
+                  }}
+                  isPasswordOpen = {passwordModalOpen}
+                  receivePassword={updatePassword}
+                  email={credential.email} />
+              }
+      
     </>
   );
 }

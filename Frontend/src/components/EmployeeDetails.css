@@ -1,17 +1,21 @@
 .employeeDetail {
-    padding-top: 280px;
-    padding-left: 80px;
-   width: 45%;
-   margin: 0 auto;
-    
+  /* display: block;*/
+   padding-top: 270px;
+   width: 40%;
+   margin: 0 auto;  /* to bring content center*/
+   
 }
-.firstname{
-   text-align: center;
+
+.employeeDetail label{
+   padding-left: 0px;
+   font-weight: bold;
 }
-.dateofbirth{
-   padding-top: 5px;
-   }
-   .dateofbirth{
-      padding-top: 5px;
-   }
-  
+
+
+.department select{
+   border: 1px solid black;
+}
+.reportingto select{
+   border: 1px solid black;
+}
+

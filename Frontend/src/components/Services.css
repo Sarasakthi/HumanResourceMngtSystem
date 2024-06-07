@@ -1,0 +1,49 @@
+.serviceMain{
+
+    margin-top: 150px;
+    
+    
+}
+.services{
+    border-radius: 25px;
+    background-color:burlywood;
+}
+.secondColumn,.thirdColumn{
+    padding-top:20px;
+    padding-right:20px;
+    
+
+}
+.firstColumn{
+    background-color: lightgray;
+    border-radius: 25px;
+}
+.serviceColumn,.platformColumn{
+    padding-bottom:-5px;
+    margin-bottom: -15px;
+}
+.cloud,.appDev,.analytics,.salesforce,.dynamics,.sharePoint,.devOps,.drupal,.emergingTech,.remoteAsset{
+    cursor: pointer;
+    padding: 20px;
+}
+
+.cloud.clicked,.appDev.clicked,.analytics.clicked,.salesforce.clicked,.dynamics.clicked,.sharePoint.clicked,.devOps.clicked,.drupal.clicked,.emergingTech.clicked,.remoteAsset.clicked {
+    border-radius: 15px;
+    background-color: lightblue; /* Set the background color when clicked */
+}
+.lineUnderService{
+    color: red;
+    width: 10%;
+    padding-top: 0px;
+    margin-top: 0px;
+    
+}
+.cloud.clicked,.appDev.clicked,.analytics.clicked,.salesforce.clicked,.dynamics.clicked,.sharePoint.clicked,.devOps.clicked,.drupal.clicked,.emergingTech.clicked,.remoteAsset.clicked .angleBracket{
+   display: flex;
+   align-items: center;
+   justify-content:space-between; 
+}
+.angleBracket{
+    float: right;
+    font-size: 1.5rem;
+}

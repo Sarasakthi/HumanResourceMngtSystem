@@ -26,6 +26,11 @@ public interface StorageRepository extends JpaRepository<ImageData,Integer>{
 
 	@Query(value = "SELECT * FROM IMAGE_DATA WHERE ID=:imageId  AND APPROVE_IMAGE = FALSE", nativeQuery = true)
 	ImageData findByIdForWaitingMessage(@Param("imageId")Integer imageId);
+
+	@Modifying
+	@Transactional
+	@Query(value = "DELETE FROM IMAGE_DATA WHERE name =:name", nativeQuery = true)
+	int deleteImage(String name);
 }
 
 

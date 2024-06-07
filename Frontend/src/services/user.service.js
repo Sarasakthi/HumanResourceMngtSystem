@@ -62,9 +62,12 @@ class UserService {
 
   submitDocumentToHR(data) {
     return axios.post(API_URL_tech + 'submitDocument', data, {
-      headers: authHeader(),
-      "Content-Type": "multipart/form-data",
-
+      // timeout: 2000,
+      headers: {
+        ...authHeader(),
+        'Content-Type': 'multipart/form-data'
+      },
+      credentials: 'include'
     });
   }
 
@@ -86,35 +89,40 @@ class UserService {
     return axios.get(API_URL + 'getImageNames/' + `${idImages}`, { headers: authHeader() });
   }
 
- 
+
   approveDocAndSkills(idEmployee) {
     return axios.post(API_URL + 'approve/' + `${idEmployee}`, {
-      headers: authHeader(), 
-      credentials:'include',
-     // 'Content-Type': 'application/json', Accept: 'application/json'
+      headers: authHeader(),
+      credentials: 'include',
+      // 'Content-Type': 'application/json', Accept: 'application/json'
     },);
   }
 
 
   denyDocAndSkills(idEmployee) {
     return axios.post(API_URL + 'denyApproval/' + `${idEmployee}`, {
-      headers: authHeader(), 
-      credentials:'include',
-     // 'Content-Type': 'application/json', Accept: 'application/json'
+      headers: authHeader(),
+      credentials: 'include',
+      // 'Content-Type': 'application/json', Accept: 'application/json'
     },);
   }
 
-/*showSkills(idEmployee){
-  return axios.get(API_URL_tech + 'skillsApproved/' + `${idEmployee}`, { headers: authHeader() });
-}*/
+  /*showSkills(idEmployee){
+    return axios.get(API_URL_tech + 'skillsApproved/' + `${idEmployee}`, { headers: authHeader() });
+  }*/
 
-approvalWaiting(idEmployee){
-  return axios.get(API_URL_tech + 'waitingForApproval/' + `${idEmployee}`, { headers: authHeader() });
-}
+  approvalWaiting(idEmployee) {
+    return axios.get(API_URL_tech + 'waitingForApproval/' + `${idEmployee}`, { headers: authHeader() });
+  }
 
-skillsToShowInUserProfile(idEmployee){
-  return axios.get(API_URL_tech + 'userProfileSkills/' + `${idEmployee}`, { headers: authHeader() });
-}
+  skillsToShowInUserProfile(idEmployee) {
+    return axios.get(API_URL_tech + 'userProfileSkills/' + `${idEmployee}`, { headers: authHeader() });
+  }
+
+  removeUploadedImage(name){
+    return axios.post(API_URL_tech + 'deleteImage/' + `${name}`, { headers: authHeader() });
+  }
+
 }
 
 export default new UserService();

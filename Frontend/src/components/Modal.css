@@ -1,125 +1,298 @@
-* {
-  overflow-x: initial !important;
- 
-}
-.modal-overlay {
+.modal-container {
   position: fixed;
+  margin-top: 500px;
   top: 0;
-  left: 0;
-  width: 100%;
-  height: 70%;
-  /* background: rgba(0, 0, 0, 0.5);*/
+  width: 50%;
+  left: 50%;
+  /* Position the left edge of the modal at the horizontal center */
+  transform: translate(-50%, -50%);
+  /* Translate the modal -50% of its own width and height */
+  min-width: 455px;
+  max-width: 26%;  /* this is for update and delete modal */
+ 
+  z-index: 15000;
+  max-height: 70%;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 990;
-  overflow: auto;
+  background-color: lightslategray;
+  border-radius: 8px;
+
 }
 
 .modal-content {
-  position: relative;
+
   background: beige;
-  padding: 30px;
-  margin-top: 525px;
-  margin-left: 40px;
-  margin-bottom: 40px;
-  border-radius: 8px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
   text-align: center;
-  max-height: 70vh;
-  max-width: 25%;
-  overflow-y: auto; /* Enable scrolling within the modal content */
-overflow-x: hidden;
+  border-radius: 5px;
+
+
+  /*position: relative;*/
+  /* padding: 30px;*/
+  /* margin-top: 525px;*/
+  /*margin-left: 40px;*/
+  /*margin-bottom: 40px;*/
+  /* max-height: 70vh;*/
+  /* max-width: 25%;*/
+  /* overflow-y: auto;*/
+  /* Enable scrolling within the modal content */
+  /* overflow-x: hidden;*/
+}
+
+.titleandbutton,
+.titleandbuttondeletemod,
+.titleandbuttonpasswordmod {
+
+  display: inline;
+
+
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.form-group input {
+  border: 1px solid black;
+  border-radius: 0.3rem;
+  padding: 0.3rem;
+  font-size: 1rem;
+}
+
+.form-group label {
+  margin-bottom: 0.2rem;
+}
+
+
+.modal-title {
+  margin-left: 25px;
 }
 
 .close-button {
-  position: absolute;
-  top: 20px;
-  right: 10px;
+  float: right;
+  font-size: 2rem;
   cursor: pointer;
-  font-size: 25px;
   color: #333;
+  margin-right: 13px;
+
 }
 
-body.modal-open {
-  overflow: hidden;
+
+h2 {
+  margin-top: 20px;
+  margin-bottom: 15px;
+
 }
 
 .modal-scrollable-content {
-
-   margin-top: 40px; /* Adjust based on the height of the fixed title */
- /* margin-bottom: 20px; *//* Add padding to the bottom */
-  /* Customize the styles for the scrollable area within the modal */
- /* max-height: calc(70vh - 80px); *//* Adjust as needed */
   overflow-y: auto;
-}
-
-.modal-title {
-  position: fixed;
- 
-  top: 1;
-  left: 50%;
-  margin-left: 20px;
-  transform: translateX(-50%);
-  z-index: 1500;
-  /* Place the title above the modal content */
-  width: 25%;
-  /* Ensure full width */
-  background: beige;
-  /* Match background color */
-  padding: 20px;
-  /* Match padding of modal content */
-  /* box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); */
-  /* Match box shadow of modal content */
-  box-sizing: border-box;
-  /* Include padding and border in width/height calculations */
+  margin-top: 25px;
 
 }
 
-.fields {
-  padding-top: 50px;
-  display: flex;
-  flex-direction: column;
- /* align-items:baseline;*/
+.form-group label {
+  float: left;
+  margin-left: 15px;
+}
+
+.departmentmod select {
+  width: 300px;
+}
+
+.reportingtomod select {
+  width: 300px;
+}
+
+.idmod label {
+  margin-right: 112px;
+}
+
+.idmod input {
+  margin-right: 13px;
+  /*padding-left: 57px;*/
+  padding-right: 107px;
+}
+
+.firstnamemod label {
+  margin-right: 50px;
+}
+
+.firstnamemod input {
+  margin-right: 8px;
+  /* padding-left: 58px;*/
+  padding-right: 108px;
+}
+
+.lastnamemod label {
+  margin-right: 47px;
+}
+
+.lastnamemod input {
+  margin-right: 2px;
+  /*padding-left: 66px;*/
+  padding-right: 107px;
+}
+
+.emailmod label {
+  margin-right: 75px;
+}
+
+.emailmod input {
+  margin-right: 3px;
+  /*padding-left: 60px;*/
+  padding-right: 108px;
+}
+
+.dateofjoiningmod label {}
+
+.dateofjoiningmod input {
+  /* padding-left: 54px;*/
+  padding-right: 108px;
+}
+
+.dateofbirthmod label {
+  margin-right: 15px;
+}
+
+.dateofbirthmod input {
+  /*  padding-left: 55px;*/
+  padding-right: 110px;
+}
+
+.departmentmod label {}
+
+.departmentmod select {
+  /* margin-right:25px;*/
+  margin-right: -25px;
+  padding-top: 4.8px;
+  padding-bottom: 4.8px;
+}
+
+.positionmod label {
+  margin-right: 20px;
+  margin-top: 30px;
+}
+
+
+.positionmod input {
+  margin-top: 30px;
+  margin-left: 35px;
+  /* padding-left: 60px;*/
+  padding-right: 105px;
+}
+
+.reportingtomod label {
+  /* margin-right: 20px;*/
+  margin-top: 5px;
+}
+
+.reportingtomod select {
+  margin-top: 5px;
+  margin-right: -25px;
+  margin-bottom: 20px;
+  padding-top: 4.8px;
+  padding-bottom: 4.8px;
+
 
 }
-/*.formlabel{
-  padding-right :100px;
-  align-items: baseline;
-}
-.form-label-input{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: aqua;
-}*/
 
-.fields{
+.form-group .departmentmod {
+  margin-bottom: -29px;
+}
+
+.form-group .reportingtomod {
+  margin-bottom: -20px;
+}
+
+.form-group input[type="text"] {
   text-align: left;
-  margin-bottom: 5px;
-
- 
-}
-.fields .form-group {
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Center align the form items horizontally */
-}
-.fields .form-group {
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Center align each label-input pair horizontally */
-  margin-bottom: 10px;
 }
 
-.fields .form-group label {
+.subbtn {
+  margin-bottom: 15px;
+  cursor: pointer;
+}
+
+.titleandbuttondeletemod {
+  margin-top: 3px;
+}
+
+.iddeletemod label {
+  margin-left: 100px;
+  padding-top: 4px;
+}
+
+.iddeletemod input {
+  margin-right: 100px;
+}
+
+.confirmbtn {
+  cursor: pointer;
+  margin-right: 30px;
+  background-color: #42a942;
+  border: 1px solid black;
+  border-radius: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 7px;
+  padding-right: 7px;
+
+
+}
+
+.cancelbtn {
+  background-color: #d9534f;
+  cursor: pointer;
+  margin-left: 30px;
+  border: 1px solid black;
+  border-radius: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.iddeletemod {
+  margin-top: 25px;
+}
+
+h4 {
+  background-color: red;
+  color: white;
+}
+
+.dateOfBirthModal {
+  margin-top: 5px;
+}
+
+.dateOfBirthModal label {
   text-align: left;
-  margin-bottom: 5px;
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-bottom: 25px;
 }
 
-.fields .form-group input,
-.fields .form-group select {
-  width: 100%; /* Make input fields and select dropdowns take full width */
-  padding: 3px;
-  box-sizing: border-box;
+.dateOfBirthModal input {
+  margin-left: -40px;
+  margin-right: 15px;
+  margin-bottom: 5px;
+  padding-left: 0px;
+  padding-right: 6.5rem;
+}
+
+.newPasswordModal label {
+  text-align: left;
+  margin-left: 15px;
+  margin-right: -9px;
+  margin-bottom: 0.2rem;
+}
+
+.newPasswordModal input {
+  margin-left: -45px;
+  padding-right: 3rem;
+  padding-left: 0px;
+  padding-top: 0.3rem;
 }

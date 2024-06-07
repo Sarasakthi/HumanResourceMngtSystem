@@ -4,22 +4,48 @@ import userService from '../services/user.service';
 import { Routes, Route, Link } from "react-router-dom";
 import { Document } from './document';
 import "./HRApproval.css";
-export const HRApproval = (skillsEmployee) => {
-  console.log("skillsEmployee", skillsEmployee);
-  console.log("skillsEmployee.skillsEmployee", skillsEmployee.skillsEmployee)
+export const HRApproval = () => {
+  //console.log("skillsEmployee", skillsEmployee);
+  //console.log("skillsEmployee.skillsEmployee", skillsEmployee.skillsEmployee)
 
-  const [state, setState] = useState(skillsEmployee.skillsEmployee)
+  const [state, setState] = useState([])
   const [findImageNames, setFindImageNames] = useState(true);
   const [empSkills, setEmpSkills] = useState(false)
   const [imageId, setImageId] = useState([])
   const [images, setImages] = useState([])
   const [showEmployees, setShowEmployees] = useState(true);
   console.log("Printing state", state)
-  useEffect(() => {
 
+ 
+  useEffect(() => {
+    userService.approvalPending()
+    .then(response => {
+      console.log("all employee details from db", response)
+      setState(response.data.filter(gettingValues))
+
+    })
+    .catch(error => console.log(error))
     show()
   }, [state])
+  
+  function show() {
+    (state.length == 0) ? setShowEmployees(false) : setShowEmployees(true);
+  }
+  function gettingValues(item) {
 
+    /*if (item.skillsApproveStatus.length != 0){
+      for (let x = 0; x < item.skillsApproveStatus.length; x++) {
+        if(item.skillsApproveStatus[x] == false) {
+          return (item.skillsApproveStatus.length != 0)
+        }
+
+        
+      }*/
+
+    return ((item.skills.length != 0) && (item.skillsApproveStatus == false) && (item.denyApproval == null) );
+
+
+  }
 
   if (state.length > 0 && (empSkills == false)) {
 
@@ -90,9 +116,7 @@ export const HRApproval = (skillsEmployee) => {
       .catch(error => console.log(error.request))
     alert("Skills denyed!")
   }
-  function show() {
-    (state.length == 0) ? setShowEmployees(false) : setShowEmployees(true);
-  }
+  
   return (
 
     <>

@@ -1,0 +1,113 @@
+.home-top {
+  display: flex;
+  justify-content: space-between; /* Align children to opposite ends of the container */
+  align-items: center; /* Center vertically */
+}
+
+.navbar-container {
+  margin-top: 60px; 
+}
+.home-head {
+
+    display: block;
+    /* we  mentioned navbar fixed top in App.js , to bring the content of home.component.js below navbar,  should mention display:block, if it isn't mention then it will hide under navbar*/
+    margin-top: 60px;
+    text-align: left;
+    color: maroon;
+    font-size: 3rem;
+}
+
+.firstHeading {
+    padding-bottom: 15px;
+    width: 75%;
+}
+
+.redLine {
+    width: 47%;
+    height: 3px;
+    background-color: red;
+    margin: 20px 0;
+}
+
+
+.home-subhead {
+    font-size: 3rem;
+
+    /*font-weight: 300px;*/
+    /* float: left;/* it will bring the content to the left so next <p> moves to the right*/
+
+}
+
+.subHead-dot {
+
+    color: red;
+    font-size: 3rem;
+}
+
+.subHead-content {
+    font-size: 1.25rem;
+}
+
+.secondHeading {
+    position: relative;
+}
+
+.redLine-2 {
+    width: 25%;
+    background-color: red;
+    height: 3px;
+
+    /* Ensure proper positioning of the HR element */
+    /*margin-bottom: 0; /* Reset bottom margin */
+    float: right;
+    margin: 20px 0;
+
+
+}
+
+.redLine-2 hr {
+    /* these settings will not work if you include in .redLine-2 */
+    /*  margin: 0; /* Reset default margin */
+    border: none;
+    /* Remove default border */
+}
+
+.happyClientImage {
+  
+    position: absolute;
+    left: 0;
+    width: 30%; /* Adjust the width as needed */
+    min-width: 200px; /* Set a minimum width */
+    
+}
+.happyClient-img-home{
+    border-radius: 15px;
+}
+
+.headingsAndContent-2 {
+    position: absolute;
+    right: 0;
+    /*width: 60%;*/
+    width: calc(60% - 10px); /* Subtracting 20px to account for margins or padding */
+ 
+}
+
+.happyClientImage,
+.headingsAndContent-2 {
+    display: inline-block;
+    margin-top: 60px;
+    vertical-align: top;
+
+}
+
+.home-subhead-2 {
+    float: right;
+    font-size: 3rem;
+    margin-bottom: 10px;
+
+}
+
+.subHead-content-2 {
+    float: right;
+    font-size: 1.25rem;
+}

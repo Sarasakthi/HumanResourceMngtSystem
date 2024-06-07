@@ -1,0 +1,14 @@
+.checkboxContainer {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Three columns */
+    gap: 2rem; /* Adjust the gap between checkboxes */
+  }
+
+  .checkboxContainer label{
+    font-size: 1.25rem;
+   
+  }
+
+  .checkboxContainer input{
+    margin-left: 8px;
+  }

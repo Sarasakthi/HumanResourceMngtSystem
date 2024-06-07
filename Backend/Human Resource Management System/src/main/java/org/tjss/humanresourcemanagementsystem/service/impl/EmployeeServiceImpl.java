@@ -288,6 +288,23 @@ public class EmployeeServiceImpl implements EmployeeService {
         return returnValue;
     }
 
+    @Override
+    public int deleteUploadedImage(String name) {
+        System.out.println("reached employee service for delete image");
+        int returnValue = storagerepository.deleteImage(name);
+        System.out.println("returnValue in service" + returnValue);
+        return returnValue;
+    }
+
+    @Override
+    public Optional<ImageData> findImageNameAlreadyExistsOrNot(MultipartFile file) {
+        Optional<ImageData> image = storagerepository.findByName(file.getOriginalFilename());
+        if(image.isEmpty())
+        return Optional.empty();
+        else
+        return image;
+    }
+
 }
 
  /* @Override

@@ -13,15 +13,8 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.tjss.humanresourcemanagementsystem.entity.Department;
 import org.tjss.humanresourcemanagementsystem.entity.Employee;
 import org.tjss.humanresourcemanagementsystem.entity.ImageData;
@@ -29,12 +22,13 @@ import org.tjss.humanresourcemanagementsystem.entity.Technology;
 import org.tjss.humanresourcemanagementsystem.entity.User;
 //import org.tjss.humanresourcemanagementsystem.entity.TempSkills;
 import org.tjss.humanresourcemanagementsystem.payload.request.SkillsRequest;
+import org.tjss.humanresourcemanagementsystem.payload.response.MessageResponse;
 import org.tjss.humanresourcemanagementsystem.repository.EmployeeRepository;
 import org.tjss.humanresourcemanagementsystem.service.EmployeeService;
 
 import io.jsonwebtoken.lang.Arrays;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RestController
 @RequestMapping("/api")
 public class EmployeeController {
@@ -60,12 +54,21 @@ public class EmployeeController {
 	@PreAuthorize("hasRole('USER')")
 	public ResponseEntity<?> submitDocumentToHR(@RequestParam("File")MultipartFile file)  {
 		try {
-			ImageData uploadedImage = employeeService.uploadImage(file);
-			System.out.println("uploadedImage" + uploadedImage);
-			return ResponseEntity.status(HttpStatus.OK)
-					.body(uploadedImage);
-			
-			
+			System.out.println("reached employeeController");
+			Optional<ImageData> image = employeeService.findImageNameAlreadyExistsOrNot(file);
+			if(image.isEmpty() || (image == null)) {
+				System.out.println("Printing image in employee controller" + image);
+
+				ImageData uploadedImage = employeeService.uploadImage(file);
+				System.out.println("uploadedImage" + uploadedImage);
+				System.out.println("Finished upload image");
+				return new ResponseEntity<>(uploadedImage, HttpStatus.OK);
+
+			}
+			else{
+				return ResponseEntity.ok(new MessageResponse("Imagename already exists. Please submit with some other name!"));
+
+			}
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -155,5 +158,19 @@ System.out.println("idEmployee"+idEmployee);
 		}
 
 	}
-	
+
+
+	@PostMapping("/deleteImage/{name}")
+	@PreAuthorize("hasRole('USER')")
+	public ResponseEntity <?> deleteUploadedImage(@PathVariable("name")String name) {
+		try {
+			System.out.println("reached employee controller for deleteImage");
+			 int returnValue = employeeService.deleteUploadedImage(name);
+			System.out.println("return value in controller - " + returnValue);
+			return ResponseEntity.ok(new MessageResponse("Uploaded image deleted"));
+		} catch (Exception e) {
+			return ResponseEntity.ok(new MessageResponse("Uploaded image not deleted!"));
+		}
+
+	}
 }

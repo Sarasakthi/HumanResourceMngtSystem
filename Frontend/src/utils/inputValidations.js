@@ -5,7 +5,7 @@ export const firstname_validation = {
   label: 'Firstname',
   type: 'text',
   id: 'firstname',
- 
+
   placeholder: 'Type Firstname ...',
   validation: {
     required: {
@@ -16,7 +16,7 @@ export const firstname_validation = {
       value: 30,
       message: '30 characters max',
     },
-   
+
   },
 
 }
@@ -45,7 +45,7 @@ export const desc_validation = {
   label: 'description',
   multiline: true,
   id: 'description',
-  placeholder: 'write description ...',
+  placeholder: 'Type message ...',
   validation: {
     required: {
       value: true,
@@ -113,11 +113,11 @@ export const confirm_Password_validation = {
 }
 
 export const num_validation = {
-  name: 'num',
-  label: 'number',
+  name: 'deleteId',
+  label: 'EmployeeId',
   type: 'number',
-  id: 'num',
-  placeholder: 'write a random number',
+  id: 'deleteId',
+  placeholder: 'Type employee ID',
   validation: {
     required: {
       value: true,
@@ -154,17 +154,24 @@ export const dateofjoining_validation = {
   dateformat: true,
   validation: {
     required: {
-
       value: true,
       message: 'required',
     },
     pattern: {
-      value:
-        /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/,
+      value: /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/,
       message: 'not valid',
     },
+    validate: {
+      weekdaysOnly: value => {
+        // Convert the selected date string to a Date object
+        const selectedDate = new Date(value);
+        // Check if the selected date is a weekday (Monday to Friday)
+        const dayOfWeek = selectedDate.getDay();
+        return dayOfWeek >= 1 && dayOfWeek <= 5 ? true : 'Please select a weekday';
+      },
+    },
   },
-}
+};
 
 export const dateofbirth_validation = {
   name: 'dateofbirth',
@@ -248,6 +255,7 @@ export const file_validation = {
   label: 'document',
   type: 'file',
   id: 'document',
+  title: 'File size should be less than 60KB',
   placeholder: 'Attach Document',
   validation: {
     required: {

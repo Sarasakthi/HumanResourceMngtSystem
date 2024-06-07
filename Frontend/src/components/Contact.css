@@ -1,0 +1,46 @@
+.contactMain{
+    margin-top: 150px;
+}
+.firstname-Contact label,.lastname-Contact label,.email-Contact label,.desc-Contact label{
+    
+    display: none;
+}
+.firstname-Contact input,.lastname-Contact input,.email-Contact input,.desc-Contact input{
+    margin-bottom: 35px;
+    border-radius: 0px;
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    border-bottom-width: 1px;
+    border-bottom-style: dotted;
+    border-bottom-width: 1px ;
+}
+.leftColumn{
+    padding-left: 15px;
+    border: 2px solid red;
+}
+.rightColumn{
+    padding-left: 15px;
+    border: 1px solid black;
+}
+
+.contactRightEmail input{
+   
+    border: none;
+    padding-right: 0px;
+    margin-right: -50px;
+}
+.contactRightEmail,.contactRightPhoneNumber {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.contactRightPhoneNumber input{
+    border: none;
+    padding-right: 0px;
+   
+}
+.contactEmailValue input[disabled],
+.contactPhoneNumberValue input[disabled] {
+    background-color: #fff; /* Set background color to white */
+}

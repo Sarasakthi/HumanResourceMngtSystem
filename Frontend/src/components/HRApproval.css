@@ -24,26 +24,27 @@
 
 }
 
-.message {
+/*.message {
     margin: 0;
     padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-
-h3 {
-    margin: 0;
+*/
+.message {
+    display: flex;
     text-align: center;
-}
+    justify-content: center;
+   
+  }
 
 .noemployee {
 
     background-color: #e10d05;
-    /*text-align: center;*/
     font-weight: bold;
     color: white;
     padding: 10px;
-    display: inline-block;
+   
 
 }

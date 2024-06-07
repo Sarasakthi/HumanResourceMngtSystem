@@ -3,7 +3,7 @@ import * as React from 'react'
 import { useState, useEffect } from 'react';
 import './home.css';
 import { EmployeeDetails } from "./EmployeeDetails"
-import SearchEmployee from './searchEmployee'
+import {SearchEmployee} from './searchEmployee'
 import EmployeeDataService from "../services/employee.service";
 import "bootstrap/dist/css/bootstrap.min.css";
 import userService from '../services/user.service';
@@ -23,7 +23,7 @@ export const BoardAdmin = ({ pendingApproval }) => {
   const [departmentsList, setDepartmentsList] = useState([])
   // const[skillsEmployeeList,setSkillsEmployeeList] = useState([]);
   const [state, setState] = useState([])
-
+  const [isClassname, setIsClassname] = useState(false);
 
 
   function showEmployeeDetails() {
@@ -52,7 +52,7 @@ export const BoardAdmin = ({ pendingApproval }) => {
 
 
   const fetchInfo = () => {
-    userService.getAdminBoard("manager")
+   /* userService.getAdminBoard("manager")
       .then(response => {
         console.log("Response - managers", response)
         setManagersList(response.data)
@@ -70,56 +70,58 @@ export const BoardAdmin = ({ pendingApproval }) => {
         setState(response.data.filter(gettingValues))
 
       })
-      .catch(error => console.log(error))
+      .catch(error => console.log(error))*/
 
   }
-  function gettingValues(item) {
-
-    /*if (item.skillsApproveStatus.length != 0){
-      for (let x = 0; x < item.skillsApproveStatus.length; x++) {
-        if(item.skillsApproveStatus[x] == false) {
-          return (item.skillsApproveStatus.length != 0)
-        }
-
-        
-      }*/
-
-    return ((item.skills.length != 0) && (item.skillsApproveStatus != true));
-
-
-  }
-  console.log("state from hrapproval", state)
-  console.log("state.length", state.length)
-
+  
   useEffect(() => {
-    fetchInfo()
-    /* setSkills(() => ({
-       idEmployee: pendingApproval.idEmployee,
-       skills: pendingApproval.skills
-     }))*/
+   // fetchInfo()
+   userService.getAdminBoard("manager")
+      .then(response => {
+        console.log("Response - managers", response)
+        setManagersList(response.data)
+      })
+      .catch(error => console.error('data not loaded', error))
+    userService.getAllDepartments()
+      .then(response => {
+        console.log("Response - departments", response)
+        setDepartmentsList(response.data)
+      })
+      .catch(error => console.error('data not loaded', error))
+   
+
+    
   }, []);
 
   // console.log("idEmployee in ADMIN", skills)
   // console.log("skills in ADMIN", skills.skills)
+  function settingClass() {
+    setIsClassname(true);
+  }
+
+  function resettingClass() {
+    setIsClassname(false);
+  }
   return (
     <>
-      <div className='head'>
-      {/*  <div className="d-flex justify-content-center align-items-center">*/}
+      <div className={isClassname ? "boardAdmin-inactive" : ""}>
+        <div className='head'>
+          {/*  <div className="d-flex justify-content-center align-items-center">*/}
 
           <div className='header'>
             <h1><span className="hrms">Human Resource Management System</span></h1>
           </div>
-       {/* </div>*/}
+          {/* </div>*/}
 
-       </div>
-       <div className='buttons-fixed'>
-        <div className='buttons'>
-          <div className='searchButton'><button onClick={showSearch}><span style={{ fontWeight: 'bold' }}>Search Employee</span></button></div>
-          <div className='addEmployeeButton'><button onClick={showEmployeeDetails}><span style={{ fontWeight: 'bold' }}>Add Employee</span></button></div>
-          <div className='HRApprovalbutton'><button onClick={showHRApproval}><span style={{ fontWeight: 'bold' }}>HR Approval</span></button></div>
         </div>
-     </div>
-
+        <div className='buttons-fixed'>
+          <div className='buttons'>
+            <div className='searchButton'><button onClick={showSearch}><span style={{ fontWeight: 'bold' }}>Search Employee</span></button></div>
+            <div className='addEmployeeButton'><button onClick={showEmployeeDetails}><span style={{ fontWeight: 'bold' }}>Add Employee</span></button></div>
+            <div className='HRApprovalbutton'><button onClick={showHRApproval}><span style={{ fontWeight: 'bold' }}>HR Approval</span></button></div>
+          </div>
+        </div>
+      </div>
       <div className='content'>
         <div>
           {isShowEmployeeDetails &&
@@ -133,12 +135,13 @@ export const BoardAdmin = ({ pendingApproval }) => {
           {isShowSerchDetails &&
             <SearchEmployee
               managers={managersList}
-              departments={departmentsList} />}
+              departments={departmentsList}
+              setDisplay={settingClass}
+              resetDisplay={resettingClass} />}
         </div>
         <div>
           {isShowHRApproval &&
-            <HRApproval
-              skillsEmployee={state} />
+            <HRApproval />
 
           }
         </div>

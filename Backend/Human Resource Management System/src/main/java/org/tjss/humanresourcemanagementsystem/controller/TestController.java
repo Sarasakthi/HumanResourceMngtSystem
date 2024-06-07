@@ -38,7 +38,7 @@ import org.tjss.humanresourcemanagementsystem.service.EmployeeService;
 
 import jakarta.validation.Valid;
 
-//@CrossOrigin(origins = "*", maxAge = 3600)
+
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RestController
 @RequestMapping("/api/test")
@@ -116,12 +116,14 @@ public class TestController {
     public ResponseEntity<?> registerUser(@Valid @RequestBody Employee employee) {
 
         String username = employee.getFirstname();
-        if (userRepository.existsByUsername(employee.getFirstname())) {
+      /*  if (userRepository.existsByUsername(employee.getFirstname())) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: " + username + " is already taken!"));
-        }
+        }*/
 
         if (userRepository.existsByEmail(employee.getEmail())) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
+           // return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
+            System.out.println("Email is already in use!");
+            return ResponseEntity.ok(new MessageResponse("Email is already in use!"));
         }
 
         // Create new user's account
@@ -163,6 +165,7 @@ public class TestController {
         userRepository.save(user);
 
         Employee emp = employeeService.addingEmployee(employee);
+        System.out.println("User registered successfully!");
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
@@ -173,9 +176,9 @@ public class TestController {
     public ResponseEntity<?> registerAdmin(@Valid @RequestBody SignupRequest signUpRequest) {
 
         String username = signUpRequest.getUsername();
-        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+       /* if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: " + username + " is already taken!"));
-        }
+        }*/
 
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
@@ -292,10 +295,12 @@ public class TestController {
 
         if (request.getDateofbirth().compareTo(emp.getDateofbirth()) == 0) {
             returnValue = userRepository.updatePassword(encoder.encode(request.getNewPassword()), request.getEmail());
-            System.out.println("REturn value from Database" + returnValue);
+            System.out.println("Return value from Database" + returnValue);
+            return ResponseEntity.ok(new MessageResponse("Password updated successfully!"));
         }
 
-        return ResponseEntity.ok(new MessageResponse("Password updated successfully!"));
+        else
+            return ResponseEntity.ok(new MessageResponse("Password not updated!"));
     }
 
     @GetMapping("/getPendingApproval")
@@ -304,6 +309,7 @@ public class TestController {
         try {
 
             List<Employee> empl = employeeService.getSkillsToApprove();
+            System.out.println("Printing employees to approve" + empl);
             return new ResponseEntity<>(empl, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -367,7 +373,7 @@ public class TestController {
             System.out.println("inside controller");
             Employee emp = employeeService.getEmployee(idEmployee);
 
-            System.out.println("found employee skills denyed status" + emp.getDenyApproval());
+            System.out.println("found employee skills denyed status - " + emp.getDenyApproval());
             int denyDocAndSkillsReturn = employeeService.denySubmittedDocument(emp.getIdEmployee());
 
             System.out.println("Document Denyed - " + denyDocAndSkillsReturn);

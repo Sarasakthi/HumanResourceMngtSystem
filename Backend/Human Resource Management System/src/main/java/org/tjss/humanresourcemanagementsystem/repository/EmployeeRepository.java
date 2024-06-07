@@ -26,7 +26,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 	public  List<Employee> getEmployees(String searchword);
 	
 	//Finding all the employees
-	@Query(value = "SELECT * FROM EMPLOYEES_DETAILS WHERE ACTIVE = TRUE", nativeQuery = true)
+	@Query(value = "SELECT * FROM EMPLOYEES_DETAILS WHERE ACTIVE = TRUE AND POSITION NOT LIKE '%HR MANAGER%'AND DEPARTMENT NOT LIKE '%GLOBAL MANAGER%'", nativeQuery = true)
 	public List<Employee> findAll();
 
 
@@ -66,7 +66,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 	public int approveSkills(@Param("idEmployee")Integer idEmployee);
 
 	//@Query(value = "SELECT * FROM EMPLOYEES_DETAILS WHERE ACTIVE = TRUE and skills_approve_status = FALSE", nativeQuery = true)
-	@Query(value = "SELECT * FROM EMPLOYEES_DETAILS  WHERE ACTIVE = TRUE ", nativeQuery = true)
+	@Query(value = "SELECT * FROM EMPLOYEES_DETAILS  WHERE ACTIVE = TRUE AND SKILLS_APPROVE_STATUS = FALSE AND DENY_APPROVAL IS NULL", nativeQuery = true)
 	public List<Employee> findEmployeesToApproveDocAndSkills();
 
 	@Query(value = "SELECT * FROM EMPLOYEES_DETAILS WHERE SKILLS_APPROVE = TRUE AND ID_EMPLOYEE=:idEmployee AND ACTIVE = TRUE", nativeQuery = true)
@@ -91,29 +91,28 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 
 	@Modifying(clearAutomatically = true)
 	@Transactional
-	@Query(value = "UPDATE EMPLOYEES_DETAILS  SET  DENY_APPROVAL= true WHERE ID_EMPLOYEE=:idEmployee", nativeQuery = true)
+@Query(value = "UPDATE EMPLOYEES_DETAILS  SET  DENY_APPROVAL= true WHERE ID_EMPLOYEE=:idEmployee", nativeQuery = true)
 	public int updateDenyStatus(Integer idEmployee);
-
-
 
 	/*@Modifying(clearAutomatically = true)
 	@Transactional
-	@Query(value = "INSERT INTO PERMANENT_SKILLS(ID_EMPLOYEE,PERMANENT_SKILLS)VALUES(:idEmployee,:permanentSkills)",nativeQuery = true)
 	public Employee insertPermanentSkills(@Param("idEmployee")Integer idEmployee, @Param("permanentSkills")Set<String> permanentSkills);
+	@Query(value = "INSERT INTO PERMANENT_SKILLS(ID_EMPLOYEE,PERMANENT_SKILLS)VALUES(:idEmployee,:permanentSkills)",nativeQuery = true)
+
+
 */
-	
-	
+
 	/*
-	@Modifying
 	@Transactional
+	@Modifying
 	@Query(value = "INSERT INTO TEMP_SKILLS (ID_EMPLOYEE,SKILLS)  VALUES (:idEmployee,:skills)", nativeQuery = true)
 	//@Query(value = "UPDATE TEMP_SKILLS SET SKILLS = :skills  WHERE ID_EMPLOYEE=:idEmployee", nativeQuery = true)
 	public int insertSkills(@Param("idEmployee")Integer idEmployee ,@Param("skills")Set<String> skills);
 */
-	
-	
 
-	
+
+
+
 }
 
 	

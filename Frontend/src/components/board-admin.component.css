@@ -1,31 +1,30 @@
 .head {
-    margin: 0;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    text-align: center;
+    z-index: 1000; 
     position: fixed;
-    top: 0;
     left: 0;
     width: 100%;
-    background-color: #fff; 
-    z-index: 1000; /* Set a higher z-index to ensure it's above other elements */
-   /* box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); */
-
+    background-color: #fff;
+    
+  /*  padding: 0;*/
+    /*display: flex;*/
+    /*align-items: center;*/
+    /*justify-content: center;*/
+  /*  top: 0;*/
+    /* box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); */
 }
 
-h1 {
+/*h1 {
     margin: 0;
     text-align: center;
-}
+}*/
 
-.header {
-  /*  background-color: #e10d05;
-    font-weight: bold;
-    color: white;*/
+.hrms {
+
+    display: inline-block;
    
     padding: 80px 30px 50px 30px;
-    display: inline-block;
+   
 
 }
 
@@ -44,11 +43,16 @@ h1 {
     
 }
 .buttons-fixed {
-    position: fixed;
+    position: fixed; /* should mention position:fixed or else the content below will get overlap when scrolling up even if the .head's position is mentioned as fixed*/
     top: 20px; /* Adjust the top position as needed */
     left: 0;
     width: 100%;
    background-color: #fff; 
-    z-index: 999; /* Set a z-index lower than the header to ensure buttons are below it */
+    z-index: 999; /* Set a z-index lower than the header to ensure buttons are below it it should be lesss than .head z- index-1000 */
    box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1); /*  Add a box shadow for a visual separation */
+  }
+
+  .boardAdmin-inactive{
+    pointer-events: none; /* Make the component unclickable */
+    opacity: 0.5; /* Optionally reduce the opacity to visually indicate it's inactive */  
   }

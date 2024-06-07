@@ -70,78 +70,179 @@ export const Profile = ({ id }) => {
     <>
       <div className="profile">
         <div className="container">
-          {userready ?
+          {userready &&
 
             <div>
-              <header className="jumbotron">
-                <h3>
-                  <strong> Profile</strong>
-                </h3>
-              </header>
+
+              <h1 className="profileheading">
+                <strong> Profile</strong>
+              </h1>
 
               <div className="profilelist">
 
-                <div style={{ display: "none" }}>
-                  <strong>Token:</strong>{" "}
-                  {currentUser.accessToken}
+                <div className="rowprofile">
+                  <div className="row row-cols-3 mb-3 ">  {/*align-items-start */}
+
+                    <div className="col-sm-5">
+                      <strong>  Id</strong>
+                    </div>
+
+                    <div className="col-sm-1">
+                      :
+                    </div>
+
+                    <div className="col-sm-6">
+                      {currentUser.id}
+                    </div>
+
+                  </div>
+
+                  <div className="row  row-cols-3 mb-3"> {/*align-items-start */}
+
+                    <div className="col-sm-5">
+                      <strong>Firstname</strong>
+                    </div>
+
+                    <div className="col-sm-1">
+                      :
+                    </div>
+
+                    <div className="col-sm-6">
+                      {currentUser.firstname}
+                    </div>
+                  </div>
+
+                  <div className="row  row-cols-3 mb-3"> {/*align-items-start */}
+
+                    <div className="col-sm-5">
+                      <strong>Lastname</strong>
+                    </div>
+
+                    <div className="col-sm-1">
+                      :
+                    </div>
+
+                    <div className="col-sm-6">
+                      {currentUser.lastname}
+                    </div>
+                  </div>
+
+                  <div className="row  row-cols-3 align-items-start mb-3">
+
+                    <div className="col-sm-5">
+                      <strong>Email</strong>
+                    </div>
+
+                    <div className="col-sm-1">
+                      :
+                    </div>
+
+                    <div className="col-sm-6">
+                      {currentUser.email}
+                    </div>
+                  </div>
+
+                  <div className="row  row-cols-3 align-items-start mb-3">
+
+                    <div className="col-sm-5">
+                      <strong>Date of joining</strong>
+                    </div>
+
+                    <div className="col-sm-1">
+                      :
+                    </div>
+
+                    <div className="col-sm-6">
+                      {new Date(currentUser.dateofjoining).toLocaleDateString()}
+                    </div>
+                  </div>
+
+                  <div className="row  row-cols-3 align-items-start mb-3">
+
+                    <div className="col-sm-5">
+                      <strong>Date of birth</strong>
+                    </div>
+
+                    <div className="col-sm-1">
+                      :
+                    </div>
+
+                    <div className="col-sm-6">
+                      {new Date(currentUser.dateofbirth).toLocaleDateString()}
+                    </div>
+                  </div>
+                  <div className="row  row-cols-3 align-items-start mb-3">
+
+                    <div className="col-sm-5">
+                      <strong>Department</strong>
+                    </div>
+
+                    <div className="col-sm-1">
+                      :
+                    </div>
+
+                    <div className="col-sm-6">
+                      {currentUser.department}
+                    </div>
+                  </div>
+                  <div className="row  row-cols-3 align-items-start mb-3">
+
+                    <div className="col-sm-5">
+                      <strong>Position</strong>
+                    </div>
+
+                    <div className="col-sm-1">
+                      :
+                    </div>
+
+                    <div className="col-sm-6">
+                      {currentUser.position}
+                    </div>
+                  </div>
+
+                  <div className="row  row-cols-3 align-items-start mb-3">
+
+                    <div className="col-sm-5">
+                      <strong>Reporting to</strong>
+                    </div>
+
+                    <div className="col-sm-1">
+                      :
+                    </div>
+
+                    <div className="col-sm-6">
+                      {currentUser.reportingto}
+                    </div>
+                  </div>
+
+                  <div className="row  row-cols-3 align-items-start mb-3">
+                    {skills.length > 0 &&
+                      <>
+
+                        <div className="col-sm-5">
+                          <strong>Technologies</strong>
+                        </div>
+
+                        <div className="col-sm-1">
+                          :
+                        </div>
+                        <div className="col-sm-6">
+                          <ul className="techmap"> {skills.map((list, index) => <li key={index}>{list}</li>)}</ul>
+                        </div>
+
+                      </>
+                    }
+                  </div>
+
                 </div>
 
-                <p>
-                  <strong>Id:</strong>{" "}
-                  {currentUser.id}
-                </p>
-                <p>
-                  <strong>Firstname:</strong>{" "}
-                  {currentUser.firstname}
-                </p>
-                <p>
-                  <strong>Lastname:</strong>{" "}
-                  {currentUser.lastname}
-                </p>
-                <p>
-                  <strong>Email:</strong>{" "}
-                  {currentUser.email}
-                </p>
-                <p>
-                  <strong>Date of birth:</strong>{" "}
-                  {new Date(currentUser.dateofbirth).toLocaleDateString()}
-                </p>
-                <p>
-                  <strong>Date of joining:</strong>{" "}
-                  {new Date(currentUser.dateofjoining).toLocaleDateString()}
-                </p>
-                <p>
-                  <strong>Department:</strong>{" "}
-                  {currentUser.department}
-                </p>
-                <p>
-                  <strong>Position:</strong>{" "}
-                  {currentUser.position}
-                </p>
-                <p>
-                  <strong>Reporting to:</strong>{" "}
-                  {currentUser.reportingto}
-                </p>
-                {skills.length > 0 &&
-                  <p>
-                    <strong>Technologies:</strong>
-                    <ul >
-                      {skills.map((list, index) => <li key={index}>{list}</li>)}
 
-                    </ul>
-                  </p>
-                }
-                <strong style={{ display: "none" }}>Authorities:</strong>
-                <ul style={{ display: "none" }}>
-                  {currentUser.roles &&
-                    currentUser.roles.map((role, index) => <li key={index}>{role}</li>)}
-                </ul>
               </div>
-            </div> : null
-
+            </div>
           }
 
         </div>
+
       </div>
 
 
